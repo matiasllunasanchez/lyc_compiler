@@ -1,0 +1,12 @@
+DECVAR
+    a1, b1 : FLOAT
+    variable1 : STRING
+	p1, p2, p3 : FLOAT
+ENDDEC
+
+-/ Realizo una selección /-			
+IF (a <= 30) 
+    b = ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Falta while /-			
