@@ -47,7 +47,6 @@ OR                      "OR"
 NOT                     "NOT"
 WHILE	            	"WHILE"
 ENDWHILE               "ENDWHILE"
-THEN                    "THEN"
 
 CONST_ENT	            CERO | ("-"?({DIGITO_SIN_CERO}.{DIGITO}*))
 CONST_REAL              {CONST_ENT}+ "." {DIGITO}* | {CONST_ENT}* "." {DIGITO}+
@@ -85,7 +84,6 @@ OP_RESTA                "-"
 {ELSE}           { printf("\n ELSE: %s\n",yytext);return ELSE; }
 {ENDWHILE}       { printf("\n ENDWHILE: %s\n",yytext);return ENDWHILE; }
 {STRING}         { printf("\n STRING: %s\n",yytext);return STRING; }   
-{THEN}           { printf("\n THEN: %s\n",yytext);return THEN; } 
 {ENDIF}          { printf("\n ENDIF: %s\n",yytext);return ENDIF; } 
 
 {AND}            { printf("\n AND: %s\n",yytext);return AND; }
