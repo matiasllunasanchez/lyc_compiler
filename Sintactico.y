@@ -103,12 +103,12 @@ factor:
     | CONST_ENT                                         { printf("\n REGLA 40: <factor> --> CONST_ENT \n"); };
 
 comparador:
-    OP_MAY                                              { printf("\n REGLA 41: <comparador> --> OP_MAY \n"); } 
-    | OP_MEN                                            { printf("\n REGLA 42: <comparador> --> OP_MEN \n"); } 
+    OP_MAYOR                                            { printf("\n REGLA 41: <comparador> --> OP_MAYOR \n"); } 
+    | OP_MENOR                                          { printf("\n REGLA 42: <comparador> --> OP_MENOR \n"); } 
     | OP_MENIGU                                         { printf("\n REGLA 43: <comparador> --> OP_MENIGU \n"); } 
     | OP_MAYIGU                                         { printf("\n REGLA 44: <comparador> --> OP_MAYIGU \n"); } 
     | OP_IGUAL                                          { printf("\n REGLA 45: <comparador> --> OP_IGUAL \n"); } 
-    | OP_DIF                                            { printf("\n REGLA 46: <comparador> --> OP_DIF \n"); };
+    | OP_NO_IGUAL                                       { printf("\n REGLA 46: <comparador> --> OP_NO_IGUAL \n"); };
 
 dec:
     dec listavar OP_TIPO tipodato                       { printf("\n REGLA 47: <dec> --> <dec> listavar OP_TIPO COR_A tipodato \n"); } 
