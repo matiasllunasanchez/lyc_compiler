@@ -46,11 +46,11 @@ AND                     "AND"
 OR                      "OR"
 NOT                     "NOT"
 WHILE	            	"WHILE"
-ENDWHILE               "ENDWHILE"
+ENDWHILE                "ENDWHILE"
 
-CONST_ENT	            CERO | ("-"?({DIGITO_SIN_CERO}.{DIGITO}*))
-CONST_REAL              {CONST_ENT}+ "." {DIGITO}* | {CONST_ENT}* "." {DIGITO}+
-CONST_STR               \"{CARACTERES}*\" 
+CONST_ENT	            {CERO}|("-"?({DIGITO_SIN_CERO}.{DIGITO}*))
+CONST_REAL              {CONST_ENT}+.".".{DIGITO}*|{CONST_ENT}*.".".{DIGITO}+
+CONST_STR               [\"{CARACTERES}*\"]
 
 COMENTARIO              -\/{CARACTERES}*\/-
 ID		            	{LETRA}.({LETRA}|{DIGITO})*
@@ -90,11 +90,11 @@ OP_RESTA                "-"
 {OR}             { printf("\n OR: %s\n",yytext);return OR; }
 {NOT}            { printf("\n NOT: %s\n",yytext);return NOT; }
 
-{CONST_ENT}      { printf("\n Constante Entero: %s\n",validarRangoEntero(yytext));return CONST_ENT; }
-{CONST_STR}      { printf("\n Constante String: %s\n",validarRangoString(yytext));return CONST_STR; }
-{CONST_REAL}     { printf("\n Constante Real: %s\n",validarRangoReal(yytext));return CONST_REAL; } 
+{CONST_ENT}      { printf("\n Constante Entero: %s\n", yytext);return CONST_ENT; }
+{CONST_STR}      { printf("\n Constante String: %s\n", yytext);return CONST_STR; }
+{CONST_REAL}     { printf("\n Constante Real: %s\n", yytext);return CONST_REAL; } 
 
-{ID}             { printf("\n ID Variable: %s\n",validarRangoID(yytext));return ID; }
+{ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
 {COMENTARIO}   
