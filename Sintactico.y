@@ -73,9 +73,9 @@ asignacion:
     ID OP_ASIG expresion                                { printf("\n REGLA 21: <asignacion> --> ID OP_ASIG <expresion> \n"); };
 
 condicion:
-    comparacion                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
-    | condicion AND comparacion                         { printf("\n REGLA 23: <condicion> --> <condicion> AND <comparacion> \n"); }
-    | condicion OR comparacion                          { printf("\n REGLA 24: <condicion> --> <condicion> OR <comparacion> \n"); }
+    PAR_A comparacion PAR_C                             { printf("\n REGLA 22: <condicion> --> PAR_A <comparacion> PAR_C \n"); }
+    | PAR_A condicion AND comparacion PAR_C             { printf("\n REGLA 23: <condicion> --> PAR_A <condicion> AND <comparacion> PAR_C \n"); }
+    | PAR_A condicion OR comparacion PAR_C              { printf("\n REGLA 24: <condicion> --> PAR_A <condicion> OR <comparacion> PAR_C \n"); }
     | PAR_A NOT condicion PAR_C AND comparacion         { printf("\n REGLA 25: <condicion> --> PAR_A NOT <condicion> PAR_C <comparacion> \n"); }
     | PAR_A NOT condicion PAR_C OR comparacion          { printf("\n REGLA 26: <condicion> --> PAR_A NOT <condicion> PAR_C <comparacion> \n"); };
 
