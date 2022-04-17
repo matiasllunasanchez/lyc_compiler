@@ -1,13 +1,31 @@
 DECVAR
-    a1, b1 : FLOAT
+    a, b, z, a1, b1 : INTEGER
     variable1 : STRING
 	p1, p2, p3 : FLOAT
 ENDDEC
 
 -/ Realizo una selección /-			
 IF (a <= 30) 
-    b = ”correcto” -/ asignación string /-
+    variable1 := ”correcto” -/ asignación string /-
 ENDIF
+
+-/ Realizo una selección multiple hasta 2 OR /-			
+IF (a <= 30 OR b >= 2) 
+    variable1 := ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Realizo una selección multiple hasta 2 AND /-	
+IF (a <= 30 AND b >= 2) 
+    variable1 := ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Error de tipo de asignacion /-	
+b := ”qwerty” -/ asignación string en tipo integer /-
+
+-/ While /-
+WHILE (a <= 30) 
+    variable1 := ”while correcto” -/ asignación string /-
+ENDWHILE
 
 -/ Así son los comentarios de LyC/-
 
