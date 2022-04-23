@@ -43,6 +43,14 @@ sentencia:
     | condicional                                       { printf("\n REGLA 6: <sentencia> --> <condicional> \n"); }   
     | salida                                            { printf("\n REGLA 7: <sentencia> --> <salida> \n"); }   
     | entrada                                           { printf("\n REGLA 8: <sentencia> --> <entrada> \n"); } 
+    | entre                                             { printf("\n REGLA 81: <sentencia> --> <entre> \n"); }  //BETWEEN
+    | llevar                                            { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }  // TAKE
+
+entre:
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C     { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+
+llevar:
+    TAKE PAR_A OPER PYC CTE PYC COR_A lista COR_C PAR_C                 { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
 
 declaracion:
     DECVAR dec ENDDEC                                   { printf("\n REGLA 10: <declaracion> --> DECVAR <dec> ENDDEC \n"); };    
