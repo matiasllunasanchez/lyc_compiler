@@ -29,7 +29,7 @@ COR_A                   "["
 COR_C                   "]"
 PYC                     ";"
 
-BETWEEEN                "BETWEEEN"
+BETWEEN                "BETWEEN"
 TAKE                    "TAKE"
 WRITE                   "WRITE"
 READ                    "READ"
@@ -74,7 +74,7 @@ OP_RESTA                "-"
 {DECVAR}         { printf("\n DECVAR: %s\n",yytext);return DECVAR; }
 {ENDDEC}         { printf("\n ENDDEC: %s\n",yytext);return ENDDEC; }
 {TAKE}           { printf("\n TAKE: %s\n",yytext);return TAKE; }
-{BETWEEEN}       { printf("\n BETWEEEN: %s\n",yytext);return BETWEEEN; }
+{BETWEEN}       { printf("\n BETWEEN: %s\n",yytext);return BETWEEN; }
 {WRITE}          { printf("\n WRITE: %s\n",yytext);return WRITE; }
 {READ}           { printf("\n READ: %s\n",yytext);return READ; }
 {WHILE}          { printf("\n nWHILE: %s\n",yytext);return WHILE; }

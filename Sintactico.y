@@ -1,5 +1,7 @@
 %{
 #include "y.tab.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int yystopparser=0;
 FILE  *yyin;
@@ -20,6 +22,7 @@ char * yytext;
 %token OP_MAYOR OP_MAYIGU OP_MENOR OP_MENIGU OP_IGUAL OP_NO_IGUAL OP_TIPO
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
+%token COMENTARIO
 
 %token ID CONST_ENT CONST_REAL CONST_STR
 
@@ -52,7 +55,7 @@ entre:
 
 //TAKE
 llevar:
-    TAKE PAR_A oper PYC CTE PYC COR_A listapyc COR_C PAR_C                  { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C                  { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
 
 listapyc:
     factor                                                  { printf("\n REGLA 35: <lista> --> <factor> \n"); }
