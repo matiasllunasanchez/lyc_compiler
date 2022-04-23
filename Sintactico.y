@@ -18,7 +18,7 @@ char * yytext;
 %left OP_MULT OP_DIV
 
 %token OP_MAYOR OP_MAYIGU OP_MENOR OP_MENIGU OP_IGUAL OP_NO_IGUAL OP_TIPO
-%token WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
+%token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
 %token ID CONST_ENT CONST_REAL CONST_STR
@@ -46,11 +46,23 @@ sentencia:
     | entre                                             { printf("\n REGLA 81: <sentencia> --> <entre> \n"); }  //BETWEEN
     | llevar                                            { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }  // TAKE
 
+//BETWEEN
 entre:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C     { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
 
+//TAKE
 llevar:
-    TAKE PAR_A OPER PYC CTE PYC COR_A lista COR_C PAR_C                 { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+    TAKE PAR_A oper PYC CTE PYC COR_A listapyc COR_C PAR_C                  { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+
+listapyc:
+    factor                                                  { printf("\n REGLA 35: <lista> --> <factor> \n"); }
+    | listapyc PYC factor                                   { printf("\n REGLA 36: <lista> --> <lista> COMA <factor> \n"); };
+
+oper:
+    OP_SUMA                                            { printf("\n REGLA 41: <comparador> --> OP_MAYOR \n"); } 
+    | OP_MULT                                          { printf("\n REGLA 42: <comparador> --> OP_MENOR \n"); } 
+
+//FIN TAKE
 
 declaracion:
     DECVAR dec ENDDEC                                   { printf("\n REGLA 10: <declaracion> --> DECVAR <dec> ENDDEC \n"); };    
