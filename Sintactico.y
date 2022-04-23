@@ -94,7 +94,9 @@ salida:
 
 asignacion:
     ID OP_ASIG expresion                                { printf("\n REGLA 21: <asignacion> --> ID OP_ASIG <expresion> \n"); };
+    | ID OP_ASIG CONST_STR                              { printf("\n REGLA 21: <asignacion> --> ID OP_ASIG CONST_STR \n"); };
 
+    
 condicion:
     PAR_A comparacion PAR_C                             { printf("\n REGLA 22: <condicion> --> PAR_A <comparacion> PAR_C \n"); }
     | PAR_A condicion AND comparacion PAR_C             { printf("\n REGLA 23: <condicion> --> PAR_A <condicion> AND <comparacion> PAR_C \n"); }

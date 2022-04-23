@@ -6,7 +6,10 @@ ENDDEC
 
 
 IF (a <= 30) 
-    b = ”correcto” -/ asignación string /-
+    b := "correcto"
 ENDIF
 
+BETWEEN (a , [2 ; a * ( b + 4 ) ] )
+
+TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )	
 			
