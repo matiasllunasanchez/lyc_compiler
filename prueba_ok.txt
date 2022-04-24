@@ -1,5 +1,5 @@
 DECVAR
-    a1, b1 : FLOAT
+    a1, b1 : INTEGER
     variable1 : STRING
 	p1, p2, p3 : FLOAT
 ENDDEC
@@ -13,4 +13,15 @@ ENDIF
 
 BETWEEN (a , [2 ; a * ( b + 4 ) ] )
 
-TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )	
+TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )
+
+-/ cota maxima integer superada /-
+-/ a1 := 32768 /-
+-/ cota minima integer superada /-
+-/ b2 := -32769 /-
+-/ cota maxima float superada /-
+-/ p1 := 3402823000000000000000000000000000000000.0 /-
+-/ cota minima float superada /-
+-/ p2 := 0.000000000000000000000000000000000000001175494 /-
+-/ maxima cantidad de caracteres superada /-
+-/ variable1 := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" /-
