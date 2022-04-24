@@ -116,7 +116,7 @@ OP_RESTA                "-"
 {ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
-{COMENTARIO}     { printf("\n Bloque comentario: %s\n",yytext);}
+{COMENTARIO}     { printf("\n Linea comentario: %s\n",yytext);}
 
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
 {PAR_C}	         { printf("\n Parentesis Cierra: %s\n",yytext);return PAR_C; }
