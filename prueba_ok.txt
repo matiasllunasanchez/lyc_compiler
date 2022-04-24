@@ -1,5 +1,5 @@
 DECVAR
-    a1, b1 : INTEGER
+    a, b, z, a1, b1 : INTEGER
     variable1 : STRING
 	p1, p2, p3 : FLOAT
 ENDDEC
