@@ -2,6 +2,16 @@
 
 #include "y.tab.h"
 
+#define INT_MAX 32767
+#define INT_MIN -32768
+#define FLOAT_MAX 3.402823e+38
+#define FLOAT_MIN 1.175494e-38
+#define STRING_MAX_CHAR 32
+
+void validacion_string();
+void validacion_int();
+void validacion_float();
+
 FILE  *yyin;
 char *yytext;
 int yylex();
@@ -93,14 +103,20 @@ OP_RESTA                "-"
 {OR}             { printf("\n OR: %s\n",yytext);return OR; }
 {NOT}            { printf("\n NOT: %s\n",yytext);return NOT; }
 
-{CONST_ENT}      { printf("\n Constante Entero: %s\n", yytext);return CONST_ENT; }
-{CONST_STR}      { printf("\n Constante String: %s\n", yytext);return CONST_STR; }
-{CONST_REAL}     { printf("\n Constante Real: %s\n", yytext);return CONST_REAL; } 
+{CONST_ENT}      { printf("\n Constante Entero: %s\n", yytext);
+                   validacion_int();
+                   return CONST_ENT; }
+{CONST_STR}      { printf("\n Constante String: %s\n", yytext);
+                   validacion_string();
+                   return CONST_STR; }
+{CONST_REAL}     { printf("\n Constante Real: %s\n", yytext);
+                   validacion_float();
+                   return CONST_REAL; }
 
 {ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
-{COMENTARIO}     { printf("\n Bloque comentario: %s\n",yytext);return COMENTARIO; }
+{COMENTARIO}     { printf("\n Bloque comentario: %s\n",yytext);}
 
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
 {PAR_C}	         { printf("\n Parentesis Cierra: %s\n",yytext);return PAR_C; }
@@ -149,6 +165,33 @@ int main(int argc,char *argv[])
         return 1;
 }
 
- char* yyerror(void){
-     return (char*)printf("Error Lexico en linea %d\n",yylineno) ;
- }
+char* yyerror(void){
+    return (char*)printf("Error Lexico en linea %d\n",yylineno) ;
+}
+
+void validacion_string()
+{
+	if (yyleng > STRING_MAX_CHAR)
+	{
+		printf("Capacidad maxima de caracteres asignados superada en la linea %d\n", yylineno);
+		exit(1);
+	}
+}
+
+void validacion_int()
+{
+	if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
+	{
+		printf("Capacidad maxima de constante entera excedida en la linea %d\n", yylineno);
+		exit(1);
+	}
+}
+
+void validacion_float()
+{
+	if (atof(yytext) < FLOAT_MIN || atof(yytext) > FLOAT_MAX)
+	{
+		printf("Capacidad maxima de constante float excedida en la linea %d\n", yylineno);
+		exit(1);
+	}
+}

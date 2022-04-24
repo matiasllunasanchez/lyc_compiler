@@ -133,7 +133,7 @@ comparador:
     | OP_NO_IGUAL                                       { printf("\n REGLA 46: <comparador> --> OP_NO_IGUAL \n"); };
 
 dec:
-    dec listavar OP_TIPO tipodato                       { printf("\n REGLA 47: <dec> --> <dec> listavar OP_TIPO COR_A tipodato \n"); } 
-    | listavar OP_TIPO tipodato                         { printf("\n REGLA 48: <dec> --> <dec> listavar OP_TIPO COR_A tipodato \n"); };
+    dec listavar OP_TIPO tipodato                       { printf("\n REGLA 47: <dec> --> <dec> listavar OP_TIPO tipodato \n"); }
+    | listavar OP_TIPO tipodato                         { printf("\n REGLA 48: <dec> --> listavar OP_TIPO tipodato \n"); };
 
 %%
