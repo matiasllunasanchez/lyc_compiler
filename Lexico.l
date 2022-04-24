@@ -101,7 +101,7 @@ OP_RESTA                "-"
 {OR}             { printf("\n OR: %s\n",yytext);return OR; }
 {NOT}            { printf("\n NOT: %s\n",yytext);return NOT; }
 
-{CONST_ENT}      { printf("\n Constante Entero: %s\n", yytext);
+{CONST_ENT}      { printf("\n Constante Entera: %s\n", yytext);
                    validacion_int();
                    return CONST_ENT; }
 {CONST_STR}      { printf("\n Constante String: %s\n", yytext);

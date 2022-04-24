@@ -74,7 +74,7 @@ oper:
 //FIN TAKE
 
 declaracion:
-    DECVAR dec ENDDEC                                   { printf("\n REGLA 10: <declaracion> --> DECVAR <dec> ENDDEC \n"); }
+    DECVAR bloque_variables ENDDEC                                   { printf("\n REGLA 10: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
 ;    
 
 listavar:
@@ -89,12 +89,12 @@ tipodato:
 ;
 
 condicional:
-    IF PAR_A condicion PAR_C programa ELSE programa ENDIF           { printf("\n REGLA 16: <condicional> --> IF <condicion> <programa> ELSE <programa> ENDIF\n"); }
-    | IF PAR_A condicion PAR_C programa ENDIF                       { printf("\n REGLA 17: <condicional> --> IF <condicion> <programa> ENDIF \n"); }
+    IF PAR_A condicion PAR_C programa ELSE programa ENDIF           { printf("\n REGLA 16: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
+    | IF PAR_A condicion PAR_C programa ENDIF                       { printf("\n REGLA 17: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
 ;
 
 ciclo:
-    WHILE PAR_A condicion PAR_C programa ENDWHILE       { printf("\n REGLA 18: <ciclo> --> WHILE ID <sentencia> ENDWHILE\n"); }
+    WHILE PAR_A condicion PAR_C programa ENDWHILE       { printf("\n REGLA 18: <ciclo> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
 ;
 
 entrada:
@@ -130,15 +130,15 @@ factor:
 ;
 
 condicion:
-    comparacion                                         { printf("\n REGLA 22: <condicion> --> PAR_A <comparacion> PAR_C \n"); }
-    | condicion AND comparacion                         { printf("\n REGLA 23: <condicion> --> PAR_A <condicion> AND <comparacion> PAR_C \n"); }
-    | condicion OR comparacion                          { printf("\n REGLA 24: <condicion> --> PAR_A <condicion> OR <comparacion> PAR_C \n"); }
+    comparacion                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
+    | condicion AND comparacion                         { printf("\n REGLA 23: <condicion> --> <condicion> AND <comparacion> \n"); }
+    | condicion OR comparacion                          { printf("\n REGLA 24: <condicion> --> <condicion> OR <comparacion> \n"); }
 ;
 
 comparacion:
-   expresion comparador factor                          { printf("\n REGLA 27: <comparacion> --> <expresion> <comparador> <expresion> \n"); }
-   | PAR_A condicion PAR_C                              { printf("\n REGLA NOSE: <comparacion> --> <expresion> <comparador> <expresion> \n"); }
-   | NOT condicion                                      { printf("\n REGLA 25: <condicion> --> PAR_A NOT <condicion> PAR_C <comparacion> \n"); }
+   expresion comparador factor                          { printf("\n REGLA 27: <comparacion> --> <expresion> <comparador> <factor> \n"); }
+   | PAR_A condicion PAR_C                              { printf("\n REGLA NOSE: <comparacion> --> PAR_A <condicion> PAR_C\n"); }
+   | NOT condicion                                      { printf("\n REGLA 25: <condicion> -->  NOT <condicion> \n"); }
 ;
 
 comparador:
@@ -150,9 +150,9 @@ comparador:
     | OP_NO_IGUAL                                       { printf("\n REGLA 46: <comparador> --> OP_NO_IGUAL \n"); }
 ;
 
-dec:
-    dec listavar OP_TIPO tipodato                       { printf("\n REGLA 47: <dec> --> <dec> listavar OP_TIPO tipodato \n"); }
-    | listavar OP_TIPO tipodato                         { printf("\n REGLA 48: <dec> --> listavar OP_TIPO tipodato \n"); }
+bloque_variables:
+    bloque_variables listavar OP_TIPO tipodato                       { printf("\n REGLA 47: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n"); }
+    | listavar OP_TIPO tipodato                         { printf("\n REGLA 48: <bloque_variables> --> listavar OP_TIPO tipodato \n"); }
 ;
 
 %%
