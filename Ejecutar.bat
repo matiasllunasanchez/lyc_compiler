@@ -1,6 +1,6 @@
-SET "flex_path=E:\GnuWin32\bin\flex"
-SET "bison_path=E:\GnuWin32\bin\bison"
-SET "mingw_gcc_path=E:\MinGW\bin\gcc.exe"
+SET "flex_path=C:\GnuWin32\bin\flex"
+SET "bison_path=C:\GnuWin32\bin\bison"
+SET "mingw_gcc_path=C:\MinGW\bin\gcc.exe"
 %flex_path% "%~d0%~p0Lexico.l"
 pause
 %bison_path% -dyv "%~d0%~p0Sintactico.y"
@@ -13,4 +13,5 @@ del lex.yy.c
 del y.tab.c
 del y.output
 del y.tab.h
+del .\Primera.exe
 pause

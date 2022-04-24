@@ -1,0 +1,16 @@
+IF ( b >= 2   ) 
+    variable1 := "correcto"
+ENDIF
+
+IF ( b  ) 
+    variable1 := "correcto"
+ENDIF
+
+IF ( b OR c  ) 
+    variable1 := "correcto"
+ENDIF
+
+
+IF ( (b >= 2) OR (b >= 2)  ) 
+    variable1 := "correcto"
+ENDIF
