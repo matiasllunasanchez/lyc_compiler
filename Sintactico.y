@@ -51,19 +51,19 @@ sentencia:
 
 //BETWEEN
 entre:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 82: <entre> --> <BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C> \n"); }
 
 //TAKE
 llevar:
     TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C                  { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
 
 listapyc:
-    factor                                                  { printf("\n REGLA 35: <lista> --> <factor> \n"); }
-    | listapyc PYC factor                                   { printf("\n REGLA 36: <lista> --> <lista> COMA <factor> \n"); };
+    factor                                                  { printf("\n REGLA 35: <listapyc> --> <factor> \n"); }
+    | listapyc PYC factor                                   { printf("\n REGLA 36: <listapyc> --> <listapyc> PYC <factor> \n"); };
 
 oper:
-    OP_SUMA                                            { printf("\n REGLA 41: <comparador> --> OP_MAYOR \n"); } 
-    | OP_MULT                                          { printf("\n REGLA 42: <comparador> --> OP_MENOR \n"); } 
+    OP_SUMA                                            { printf("\n REGLA 41: <oper> --> OP_SUMA \n"); } 
+    | OP_MULT                                          { printf("\n REGLA 42: <oper> --> OP_MULT \n"); } 
 
 //FIN TAKE
 
