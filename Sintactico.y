@@ -58,7 +58,7 @@ entre:
 
 //TAKE
 tomar:
-    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 82: <sentencia> --> <tomar> \n"); }
+    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 82: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A <listapyc> COR_C PAR_C \n"); }
 ;
 
 listapyc:
