@@ -22,6 +22,7 @@ char * yyerror();
 
 %option noyywrap
 %option yylineno
+%x comment
 
 ESPACIO                 " "
 DIGITO		            [0-9]
@@ -65,7 +66,6 @@ CONST_STR               \".{CARACTERES}*.\"
 
 
 
-COMENTARIO              -\/{CARACTERES}*\/-
 ID		            	{LETRA}.({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
@@ -116,8 +116,6 @@ OP_RESTA                "-"
 {ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
-{COMENTARIO}     { printf("\n Linea comentario: %s\n",yytext);}
-
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
 {PAR_C}	         { printf("\n Parentesis Cierra: %s\n",yytext);return PAR_C; }
 
@@ -139,6 +137,12 @@ OP_RESTA                "-"
 {OP_MULT}        { printf("\n Operador Multiplicacion: %s\n",yytext);return OP_MULT; } 
 {OP_ASIG}        { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; } 
 {OP_RESTA}       { printf("\n Operador Resta: %s\n",yytext);return OP_RESTA; }
+
+"-/"        				BEGIN(comment);
+<comment>[^-/\n]*       	/* todo lo que no sea un '/' */
+<comment>"-"+[^-/\n]*		/* todos los "-" que no esten seguidos por "/" */
+<comment>"/"+[^-/\n]*   	/* los '/' que no esten seguidos por '-' */
+<comment>"/"+"-"       		BEGIN(INITIAL);
 
 "\n"  
 "\t"
