@@ -48,7 +48,7 @@ sentencia:
     | salida                                            { printf("\n REGLA 7: <sentencia> --> <salida> \n"); }   
     | entrada                                           { printf("\n REGLA 8: <sentencia> --> <entrada> \n"); } 
     | entre                                             { printf("\n REGLA 81: <sentencia> --> <entre> \n"); }  //BETWEEN
-    | llevar                                            { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }  // TAKE
+    | tomar                                            { printf("\n REGLA 82: <sentencia> --> <tomar> \n"); }  // TAKE
 ;
 
 //BETWEEN
@@ -57,8 +57,8 @@ entre:
 ;
 
 //TAKE
-llevar:
-    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+tomar:
+    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 82: <sentencia> --> <tomar> \n"); }
 ;
 
 listapyc:
@@ -74,7 +74,7 @@ oper:
 //FIN TAKE
 
 declaracion:
-    DECVAR bloque_variables ENDDEC                                   { printf("\n REGLA 10: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
+    DECVAR bloque_variables ENDDEC                      { printf("\n REGLA 10: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
 ;    
 
 listavar:
