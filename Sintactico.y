@@ -97,14 +97,15 @@ asignacion:
 
     
 condicion:
-    PAR_A comparacion PAR_C                             { printf("\n REGLA 22: <condicion> --> PAR_A <comparacion> PAR_C \n"); }
-    | PAR_A condicion AND comparacion PAR_C             { printf("\n REGLA 23: <condicion> --> PAR_A <condicion> AND <comparacion> PAR_C \n"); }
-    | PAR_A condicion OR comparacion PAR_C              { printf("\n REGLA 24: <condicion> --> PAR_A <condicion> OR <comparacion> PAR_C \n"); }
+    PAR_A comparacion PAR_C                                        { printf("\n REGLA 22: <condicion> --> PAR_A <comparacion> PAR_C \n"); }
+    | PAR_A condicion AND comparacion PAR_C                        { printf("\n REGLA 23: <condicion> --> PAR_A <condicion> AND <comparacion> PAR_C \n"); }
+    | PAR_A condicion OR comparacion  PAR_C                        { printf("\n REGLA 24: <condicion> --> PAR_A <condicion> OR <comparacion> PAR_C \n"); }
     | PAR_A NOT condicion PAR_C AND comparacion         { printf("\n REGLA 25: <condicion> --> PAR_A NOT <condicion> PAR_C <comparacion> \n"); }
     | PAR_A NOT condicion PAR_C OR comparacion          { printf("\n REGLA 26: <condicion> --> PAR_A NOT <condicion> PAR_C <comparacion> \n"); };
 
 comparacion:
-    expresion comparador expresion                      { printf("\n REGLA 27: <comparacion> --> <expresion> <comparador> <expresion> \n"); };
+   expresion comparador factor                     { printf("\n REGLA 27: <comparacion> --> <expresion> <comparador> <expresion> \n"); };
+   | condicion                                     { printf("\n REGLA ??: <comparacion> --> <expresion> <comparador> <expresion> \n"); };
 
 expresion:
     expresion OP_SUMA termino                           { printf("\n REGLA 28: <expresion> --> <expresion> OP_SUMA <termino> \n"); }
@@ -115,7 +116,6 @@ termino:
     termino OP_MULT factor                              { printf("\n REGLA 32: <termino> --> <termino> OP_MULT <factor> \n");}
     | termino OP_DIV factor                             { printf("\n REGLA 33: <termino> --> <termino> OP_DIV <factor> \n");}
     | factor                                            { printf("\n REGLA 34: <termino> --> <factor> \n"); };
-
 
 factor:
     PAR_A expresion PAR_C                               { printf("\n REGLA 37: <factor> --> PAR_A <expresion> PAR_C \n"); } 
