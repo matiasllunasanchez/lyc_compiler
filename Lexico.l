@@ -13,12 +13,13 @@ char * yyerror();
 %option noyywrap
 %option yylineno
 
-ESPACIO                 [" "]
+ESPACIO                 " "
 DIGITO		            [0-9]
 CERO                    "0"
 DIGITO_SIN_CERO		    [1-9]
 LETRA			        [a-zA-Z]
-CARACTERES              @|\?|\"|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\-  
+CARACTERES              @|\?|\"|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\- 
+
                       
 COMA                    ","
 
@@ -54,7 +55,7 @@ CONST_STR               \".{CARACTERES}*.\"
 
 
 
-COMENTARIO              -\/{CARACTERES}*\/-
+COMENTARIO              "-/".{CONST_STR}."/-"
 ID		            	{LETRA}.({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
@@ -76,7 +77,7 @@ OP_RESTA                "-"
 {DECVAR}         { printf("\n DECVAR: %s\n",yytext);return DECVAR; }
 {ENDDEC}         { printf("\n ENDDEC: %s\n",yytext);return ENDDEC; }
 {TAKE}           { printf("\n TAKE: %s\n",yytext);return TAKE; }
-{BETWEEN}       { printf("\n BETWEEN: %s\n",yytext);return BETWEEN; }
+{BETWEEN}        { printf("\n BETWEEN: %s\n",yytext);return BETWEEN; }
 {WRITE}          { printf("\n WRITE: %s\n",yytext);return WRITE; }
 {READ}           { printf("\n READ: %s\n",yytext);return READ; }
 {WHILE}          { printf("\n nWHILE: %s\n",yytext);return WHILE; }
@@ -99,7 +100,7 @@ OP_RESTA                "-"
 {ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
-{COMENTARIO}   
+{COMENTARIO}
 
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
 {PAR_C}	         { printf("\n Parentesis Cierra: %s\n",yytext);return PAR_C; }

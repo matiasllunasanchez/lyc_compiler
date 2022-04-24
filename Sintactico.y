@@ -22,7 +22,7 @@ char * yytext;
 %token OP_MAYOR OP_MAYIGU OP_MENOR OP_MENIGU OP_IGUAL OP_NO_IGUAL OP_TIPO
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
-%token COMENTARIO
+
 
 %token ID CONST_ENT CONST_REAL CONST_STR
 
@@ -117,9 +117,6 @@ termino:
     | termino OP_DIV factor                             { printf("\n REGLA 33: <termino> --> <termino> OP_DIV <factor> \n");}
     | factor                                            { printf("\n REGLA 34: <termino> --> <factor> \n"); };
 
-lista:
-    factor                                              { printf("\n REGLA 35: <lista> --> <factor> \n"); }
-    | lista COMA factor                                 { printf("\n REGLA 36: <lista> --> <lista> COMA <factor> \n"); };
 
 factor:
     PAR_A expresion PAR_C                               { printf("\n REGLA 37: <factor> --> PAR_A <expresion> PAR_C \n"); } 
