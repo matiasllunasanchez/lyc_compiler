@@ -132,9 +132,19 @@ factor:
 ;
 
 condicion:
+    exp                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
+    | exp AND exp_izq                         { printf("\n REGLA 23: <condicion> --> <condicion> AND <comparacion> \n"); }
+    | exp OR exp_izq                          { printf("\n REGLA 24: <condicion> --> <condicion> OR <comparacion> \n"); }
+;
+
+exp:
     comparacion                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
-    | condicion AND comparacion                         { printf("\n REGLA 23: <condicion> --> <condicion> AND <comparacion> \n"); }
-    | condicion OR comparacion                          { printf("\n REGLA 24: <condicion> --> <condicion> OR <comparacion> \n"); }
+    | PAR_A comparacion PAR_C                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
+    | expresion                       { printf("\n REGLA 23: <condicion> --> <condicion> AND <comparacion> \n"); }
+;
+
+exp_izq:
+    exp                                         { printf("\n REGLA 22: <condicion> --> <comparacion> \n"); }
 ;
 
 comparacion:
