@@ -1,0 +1,16 @@
+DECVAR
+    a1, b1 : FLOAT
+    variable1 : STRING
+	p1, p2, p3 : FLOAT
+ENDDEC
+
+-/ Realizo una selección /-
+IF (a <= 30) 
+    b := "correcto"
+ENDIF
+
+-/ Así son los comentarios de LyC/-
+
+BETWEEN (a , [2 ; a * ( b + 4 ) ] )
+
+TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )	

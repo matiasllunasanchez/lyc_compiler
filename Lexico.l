@@ -18,8 +18,8 @@ DIGITO		            [0-9]
 CERO                    "0"
 DIGITO_SIN_CERO		    [1-9]
 LETRA			        [a-zA-Z]
-CARACTERES              @|\?|\"|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\- 
 
+CARACTERES              @|\?|\"|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\-|á|Á|é|É|í|Í|ó|Ó|ú|Ú|ü|ñ|Ñ|¡|\¿
                       
 COMA                    ","
 
@@ -55,7 +55,7 @@ CONST_STR               \".{CARACTERES}*.\"
 
 
 
-COMENTARIO              "-/".{CONST_STR}."/-"
+COMENTARIO              -\/{CARACTERES}*\/-
 ID		            	{LETRA}.({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
@@ -100,7 +100,7 @@ OP_RESTA                "-"
 {ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
-{COMENTARIO}
+{COMENTARIO}     { printf("\n Bloque comentario: %s\n",yytext);return COMENTARIO; }
 
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
 {PAR_C}	         { printf("\n Parentesis Cierra: %s\n",yytext);return PAR_C; }

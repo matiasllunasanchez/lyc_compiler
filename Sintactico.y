@@ -23,8 +23,7 @@ char * yytext;
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
-
-%token ID CONST_ENT CONST_REAL CONST_STR
+%token ID CONST_ENT CONST_REAL CONST_STR COMENTARIO
 
 %union {
     char *str_val;
@@ -40,7 +39,8 @@ programa:
     | programa sentencia                                { printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); };              
     
 sentencia:
-     declaracion                                        { printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); }  
+    COMENTARIO                                          { printf("\n REGLA ??: <sentencia> --> <comentario> \n"); }
+    | declaracion                                       { printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); }  
     | asignacion                                        { printf("\n REGLA 4: <sentencia> --> <asignacion> \n"); }   
     | ciclo                                             { printf("\n REGLA 5: <sentencia> --> <ciclo> \n"); }   
     | condicional                                       { printf("\n REGLA 6: <sentencia> --> <condicional> \n"); }   
@@ -55,15 +55,15 @@ entre:
 
 //TAKE
 llevar:
-    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C                  { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
+    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 82: <sentencia> --> <llevar> \n"); }
 
 listapyc:
-    factor                                                  { printf("\n REGLA 35: <listapyc> --> <factor> \n"); }
-    | listapyc PYC factor                                   { printf("\n REGLA 36: <listapyc> --> <listapyc> PYC <factor> \n"); };
+    factor                                              { printf("\n REGLA 35: <listapyc> --> <factor> \n"); }
+    | listapyc PYC factor                               { printf("\n REGLA 36: <listapyc> --> <listapyc> PYC <factor> \n"); };
 
 oper:
-    OP_SUMA                                            { printf("\n REGLA 41: <oper> --> OP_SUMA \n"); } 
-    | OP_MULT                                          { printf("\n REGLA 42: <oper> --> OP_MULT \n"); } 
+    OP_SUMA                                             { printf("\n REGLA 41: <oper> --> OP_SUMA \n"); } 
+    | OP_MULT                                           { printf("\n REGLA 42: <oper> --> OP_MULT \n"); } 
 
 //FIN TAKE
 
