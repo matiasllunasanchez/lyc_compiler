@@ -105,6 +105,7 @@ entrada:
 
 salida:
     WRITE CONST_STR                                     { printf("\n REGLA 20: <salida> -->  WRITE CONST_STR  \n"); }
+    | WRITE ID                                     { printf("\n REGLA 20: <salida> -->  WRITE CONST_STR  \n"); }
 ;
 
 asignacion:
