@@ -33,7 +33,3 @@ TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 0 /-
 
 BETWEEN (a, [2 ; a-(b+4)])
 BETWEEN (z, [2.3 ; 11.22])
-
-
-TAKE (+ ; 3 ; [2 ; 12 ] ) -/ Error /-
-TAKE (/ ; 4 ; [ ] ) -/ Resultado: 0 /-

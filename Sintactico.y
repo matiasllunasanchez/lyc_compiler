@@ -53,7 +53,7 @@ sentencia:
 
 //BETWEEN
 entre:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 82: <entre> --> <BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C> \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 82: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
 ;
 
 //TAKE
