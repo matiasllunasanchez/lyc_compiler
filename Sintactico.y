@@ -48,7 +48,7 @@ sentencia:
     | salida                                            { printf("\n REGLA 7: <sentencia> --> <salida> \n"); }   
     | entrada                                           { printf("\n REGLA 8: <sentencia> --> <entrada> \n"); } 
     | entre                                             { printf("\n REGLA 81: <sentencia> --> <entre> \n"); }  //BETWEEN
-    | tomar                                            { printf("\n REGLA 82: <sentencia> --> <tomar> \n"); }  // TAKE
+    | tomar                                             { printf("\n REGLA 82: <sentencia> --> <tomar> \n"); }  // TAKE
 ;
 
 //BETWEEN
@@ -69,6 +69,8 @@ listapyc:
 oper:
     OP_SUMA                                             { printf("\n REGLA 41: <oper> --> OP_SUMA \n"); } 
     | OP_MULT                                           { printf("\n REGLA 42: <oper> --> OP_MULT \n"); }
+    | OP_DIV                                            { printf("\n REGLA NU: <oper> --> OP_DIV \n"); }
+    | OP_RESTA                                          { printf("\n REGLA SE: <oper> --> OP_RESTA \n"); }
 ;
 
 //FIN TAKE
