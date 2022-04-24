@@ -23,7 +23,7 @@ char * yytext;
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
-%token ID CONST_ENT CONST_REAL CONST_STR COMENTARIO
+%token ID CONST_ENT CONST_REAL CONST_STR
 
 %union {
     char *str_val;
@@ -39,7 +39,6 @@ programa:
     | programa sentencia                                { printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); };              
     
 sentencia:
-    COMENTARIO                                          { printf("\n REGLA ??: <sentencia> --> <comentario> \n"); }
     | declaracion                                       { printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); }  
     | asignacion                                        { printf("\n REGLA 4: <sentencia> --> <asignacion> \n"); }   
     | ciclo                                             { printf("\n REGLA 5: <sentencia> --> <ciclo> \n"); }   
