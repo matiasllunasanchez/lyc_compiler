@@ -27,7 +27,7 @@ ESPACIO                 " "
 DIGITO		            [0-9]
 CERO                    "0"
 DIGITO_SIN_CERO		    [1-9]
-LETRA			        [a-zA-Z]
+LETRA			        [a-zA-ZñÑ]
 
 CARACTERES              @|\?|\"|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\-|á|Á|é|É|í|Í|ó|Ó|ú|Ú|ü|ñ|Ñ|¡|\¿
                       
@@ -60,13 +60,13 @@ WHILE	            	"WHILE"
 ENDWHILE                "ENDWHILE"
 
 CONST_ENT	            {CERO}|("-"?({DIGITO_SIN_CERO}.{DIGITO}*))
-CONST_REAL              {CONST_ENT}+.".".{DIGITO}*|{CONST_ENT}*.".".{DIGITO}+
+CONST_REAL              {CONST_ENT}+"."{DIGITO}*|{CONST_ENT}*"."{DIGITO}+
 CONST_STR               \".{CARACTERES}*.\"
 
 
 
 COMENTARIO              -\/{CARACTERES}*\/-
-ID		            	{LETRA}.({LETRA}|{DIGITO})*
+ID		            	{LETRA}({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
 OP_MAYIGU	            ">="
