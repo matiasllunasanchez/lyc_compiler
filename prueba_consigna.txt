@@ -9,7 +9,7 @@ ENDDEC
 a := 99999.99
 a := 99.
 a := .9999
-b := "hola"
+b := "@sdADaSjfla%dfg"
 b := "asldk fh sjf"
 
 WRITE "ewr" -/ donde "ewr" debe ser una cte string /-

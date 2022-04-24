@@ -11,6 +11,6 @@ IF ( b OR c  )
 ENDIF
 
 
-IF ( (b >= 2) OR (b >= 2)  ) 
+IF ( (b >= 2) OR (b >= 2) ) 
     variable1 := "correcto"
 ENDIF
