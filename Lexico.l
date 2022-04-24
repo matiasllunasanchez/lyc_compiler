@@ -60,9 +60,9 @@ NOT                     "NOT"
 WHILE	            	"WHILE"
 ENDWHILE                "ENDWHILE"
 
-CONST_ENT	            {CERO}|("-"?({DIGITO_SIN_CERO}.{DIGITO}*))
+CONST_ENT	            {CERO}|("-"?({DIGITO_SIN_CERO}({DIGITO}*)))
 CONST_REAL              {CONST_ENT}+"."{DIGITO}*|{CONST_ENT}*"."{DIGITO}+
-CONST_STR               \".{CARACTERES}*.\"
+CONST_STR               \"{CARACTERES}*\"
 
 ID		            	{LETRA}({LETRA}|{DIGITO})*
 
