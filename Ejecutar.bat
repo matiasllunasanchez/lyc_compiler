@@ -7,11 +7,5 @@ pause
 pause
 %mingw_gcc_path% lex.yy.c y.tab.c -std=gnu99 -o "%~d0%~p0Primera.exe"
 pause
-pause
 "%~d0%~p0Primera.exe" prueba.txt
-del lex.yy.c
-del y.tab.c
-del y.output
-del y.tab.h
-del .\Primera.exe
 pause
