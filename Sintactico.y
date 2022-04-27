@@ -306,7 +306,6 @@ void guardarTabla(){
 
 
 void agregarCteStringATabla(char* nombre){
-    printf("%s\n",nombre);
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
