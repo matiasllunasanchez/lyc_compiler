@@ -172,7 +172,7 @@ int main(int argc,char *argv[])
 }
 
 char* yyerror(void){
-    return (char*)printf("Error Lexico en linea %d\n",yylineno) ;
+    return (char*)printf("Error Lexico en linea %d\n",yylineno);
 }
 
 void validacion_string()
@@ -182,11 +182,11 @@ void validacion_string()
         printf("Capacidad maxima de caracteres asignados superada en la linea %d\n", yylineno);
         exit(1);
     }
-    int length = strlen(yytext);
-    char str_cte[length];
+    char *str_cte = (char *) malloc(sizeof(char[yyleng]));
     strcpy(str_cte, "_");
-    strcat(str_cte, yytext+1);
-    strcpy(str_cte + strlen(str_cte) - 1, "\0");
+    char *result = yytext+1;
+    result[strlen(result)-1] = '\0';
+    strcat(str_cte, result);
     strcpy(yylval.str_val, str_cte);
 }
 
