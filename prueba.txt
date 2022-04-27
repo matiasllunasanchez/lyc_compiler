@@ -3,9 +3,11 @@ DECVAR
 a : FLOAT
 b,c,d,e,f : STRING
 p1, p2, p3 : FLOAT
+ab : INTEGER
 ENDDEC
 
 -/ Así son los comentarios de LyC/-
+
 a := 99999.99
 a := 99.
 a := .9999
@@ -25,6 +27,10 @@ ENDIF
 IF ( (a >= 2) OR (a >= 2) ) 
     f := "correcto"
 ENDIF
+
+WHILE(ab<2)
+ab := ab + 1
+ENDWHILE
 
 BETWEEN (a, [2 ; a*(b+4)])
 BETWEEN (a, [2.3 ; 11.22])
