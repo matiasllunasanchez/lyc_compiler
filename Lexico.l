@@ -22,7 +22,6 @@ char * yyerror();
 
 %option noyywrap
 %option yylineno
-%x comment
 
 ESPACIO                 " "
 DIGITO		            [0-9]
@@ -63,6 +62,7 @@ ENDWHILE                "ENDWHILE"
 CONST_ENT	            {CERO}|("-"?({DIGITO_SIN_CERO}({DIGITO}*)))
 CONST_REAL              {CONST_ENT}+"."{DIGITO}*|{CONST_ENT}*"."{DIGITO}+
 CONST_STR               \"{CARACTERES}*\"
+COMENTARIO	            \-\/.*\/\-
 
 ID		            	{LETRA}({LETRA}|{DIGITO})*
 
@@ -136,11 +136,7 @@ OP_RESTA                "-"
 {OP_ASIG}        { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; } 
 {OP_RESTA}       { printf("\n Operador Resta: %s\n",yytext);return OP_RESTA; }
 
-"-/"        				BEGIN(comment);
-<comment>[^-/\n]*       	/* todo lo que no sea un '/' */
-<comment>"-"+[^-/\n]*		/* todos los "-" que no esten seguidos por "/" */
-<comment>"/"+[^-/\n]*   	/* los '/' que no esten seguidos por '-' */
-<comment>"/"+"-"       		BEGIN(INITIAL);
+{COMENTARIO}
 
 "\n"  
 "\t"
