@@ -5,7 +5,7 @@ SET "mingw_gcc_path=C:\MinGW\bin\gcc.exe"
 pause
 %bison_path% -dyv "%~d0%~p0Sintactico.y"
 pause
-%mingw_gcc_path% lex.yy.c y.tab.c -o "%~d0%~p0Primera.exe"
+%mingw_gcc_path% lex.yy.c y.tab.c -std=gnu99 -o "%~d0%~p0Primera.exe"
 pause
 pause
 "%~d0%~p0Primera.exe" prueba.txt
