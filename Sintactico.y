@@ -154,7 +154,7 @@ ciclo:
 ;
 
 entrada:
-    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ <factor> \n"); chequearVarEnTabla(yylval.str_val);}
+    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
 ;
 
 salida:
