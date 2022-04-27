@@ -247,7 +247,7 @@ void escribirNombreEnTabla(char* nombre, int pos){
 
  void agregarVarATabla(char* nombre){
 	 if(fin_tabla >= TAM_TABLA - 1){
-		 printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		 system("Pause");
 		 exit(2);
 	 }
@@ -308,7 +308,7 @@ void guardarTabla(){
 void agregarCteStringATabla(char* nombre){
     printf("%s\n",nombre);
 	if(fin_tabla >= TAM_TABLA - 1){
-		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
@@ -323,7 +323,7 @@ void agregarCteStringATabla(char* nombre){
 
 void agregarCteRealATabla(float valor){
 	if(fin_tabla >= TAM_TABLA - 1){
-		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
@@ -339,7 +339,7 @@ void agregarCteRealATabla(float valor){
 
 void agregarCteIntATabla(int valor){
 	if(fin_tabla >= TAM_TABLA - 1){
-		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
@@ -356,7 +356,7 @@ void agregarCteIntATabla(int valor){
 void chequearVarEnTabla(char* nombre){
 	if( buscarEnTabla(nombre) == -1){
 		char msg[100];
-		sprintf(msg,"%s? No, man, tenes que declarar las variables arriba. Esto no es un viva la pepa como java...", nombre);
+		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
 		yyerror(msg);
 	}
 }
