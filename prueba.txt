@@ -3,9 +3,11 @@ DECVAR
 a : FLOAT
 b,c,d,e,f : STRING
 p1, p2, p3 : FLOAT
+ab : INTEGER
 ENDDEC
 
 -/ Así son los comentarios de LyC/-
+
 a := 99999.99
 a := 99.
 a := .9999
@@ -26,6 +28,10 @@ IF ( (a >= 2) OR (a >= 2) )
     f := "correcto"
 ENDIF
 
+WHILE(ab<2)
+ab := ab + 1
+ENDWHILE
+
 BETWEEN (a, [2 ; a*(b+4)])
 BETWEEN (a, [2.3 ; 11.22])
 TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 576 /-
@@ -34,3 +40,15 @@ TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: -34 /-
 TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 0 /-
 TAKE (+ ; 3 ; [2 ; 12 ] ) -/ Error /-
 TAKE (/ ; 4 ; [ ] ) -/ Resultado: 0 /-
+
+
+-/ cota maxima integer superada /-
+-/ a1 := 32768 /-
+-/ cota minima integer superada /-
+-/ b2 := -32769  /-
+-/ cota maxima float superada /-
+-/ p1 := 3402823000000000000000000000000000000000.0 /-
+-/ cota minima float superada /-
+-/ p2 := 0.000000000000000000000000000000000000001175494 /-
+-/ maxima cantidad de caracteres superada /-
+-/ variable1 := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" /-
