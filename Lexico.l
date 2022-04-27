@@ -194,7 +194,7 @@ void validacion_int()
 {
     if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
     {
-        printf("Capacidad maxima de constante entera excedida en la linea %d\n", yylineno);
+        printf("Contenido de constante entera invalido en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.int_val = atoi(yytext);
@@ -204,7 +204,7 @@ void validacion_real()
 {
     if (atof(yytext) < REAL_MIN || atof(yytext) > REAL_MAX)
     {
-        printf("Capacidad maxima de constante real excedida en la linea %d\n", yylineno);
+        printf("Contenido de constante real invalido en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.real_val = atof(yytext);
