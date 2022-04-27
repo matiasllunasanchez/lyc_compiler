@@ -1,16 +1,22 @@
 %{ 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
 #include "y.tab.h"
 
 #define INT_MAX 32767
 #define INT_MIN -32768
-#define FLOAT_MAX 3.402823e+38
-#define FLOAT_MIN 1.175494e-38
+#define REAL_MAX 3.402823e+38
+#define REAL_MIN 1.175494e-38
 #define STRING_MAX_CHAR 32
+#define ID_MAX_CHAR 30
 
 void validacion_string();
 void validacion_int();
-void validacion_float();
+void validacion_real();
+void validacion_id();
 
 FILE  *yyin;
 char *yytext;
@@ -108,10 +114,12 @@ OP_RESTA                "-"
                    validacion_string();
                    return CONST_STR; }
 {CONST_REAL}     { printf("\n Constante Real: %s\n", yytext);
-                   validacion_float();
+                   validacion_real();
                    return CONST_REAL; }
 
-{ID}             { printf("\n ID Variable: %s\n", yytext);return ID; }
+{ID}             { printf("\n ID Variable: %s\n", yytext);
+                   validacion_id();
+                   return ID; }
 {COMA}           { printf("\n Coma: %s\n",yytext);return COMA; }
 
 {PAR_A}	         { printf("\n Parentesis Abre: %s\n",yytext);return PAR_A; }
@@ -169,27 +177,45 @@ char* yyerror(void){
 
 void validacion_string()
 {
-	if (yyleng > STRING_MAX_CHAR)
-	{
-		printf("Capacidad maxima de caracteres asignados superada en la linea %d\n", yylineno);
-		exit(1);
-	}
+    if (yyleng > STRING_MAX_CHAR)
+    {
+        printf("Capacidad maxima de caracteres asignados superada en la linea %d\n", yylineno);
+        exit(1);
+    }
+    int length = strlen(yytext);
+    char str_cte[length];
+    strcpy(str_cte, "_");
+    strcat(str_cte, yytext+1);
+    strcpy(str_cte + strlen(str_cte) - 1, "\0");
+    strcpy(yylval.str_val, str_cte);
 }
 
 void validacion_int()
 {
-	if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
-	{
-		printf("Capacidad maxima de constante entera excedida en la linea %d\n", yylineno);
-		exit(1);
-	}
+    if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
+    {
+        printf("Capacidad maxima de constante entera excedida en la linea %d\n", yylineno);
+        exit(1);
+    }
+    yylval.int_val = atoi(yytext);
 }
 
-void validacion_float()
+void validacion_real()
 {
-	if (atof(yytext) < FLOAT_MIN || atof(yytext) > FLOAT_MAX)
-	{
-		printf("Capacidad maxima de constante float excedida en la linea %d\n", yylineno);
-		exit(1);
-	}
+    if (atof(yytext) < REAL_MIN || atof(yytext) > REAL_MAX)
+    {
+        printf("Capacidad maxima de constante real excedida en la linea %d\n", yylineno);
+        exit(1);
+    }
+    yylval.real_val = atof(yytext);
+}
+
+void validacion_id()
+{
+    if (yyleng > ID_MAX_CHAR)
+    {
+        printf("Capacidad maxima de caracteres asignados al ID superada en la linea %d\n", yylineno);
+        exit(1);
+    }
+    yylval.str_val = strdup(yytext);
 }

@@ -1,7 +1,51 @@
 %{
-#include "y.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+#include "y.tab.h"
+
+#define Integer 1
+#define Real 2
+#define String 3
+#define CteInt 4
+#define CteReal 5
+#define CteString 6
+
+#define TAM_TABLA 500
+#define TAM_NOMBRE 30
+
+/* Funciones necesarias */
+int yyerror(char* mensaje);
+void agregarVarATabla(char* nombre);
+void agregarTiposDatosATabla(void);
+void agregarCteStringATabla(char* nombre);
+void agregarCteIntATabla(int valor);
+void agregarCteRealATabla(float valor);
+void chequearVarEnTabla(char* nombre);
+int buscarEnTabla(char * name);
+void escribirNombreEnTabla(char* nombre, int pos);
+void guardarTabla(void);
+
+
+typedef struct {
+    char nombre[TAM_NOMBRE];
+    int tipo_dato;
+    char valor_s[TAM_NOMBRE];
+    float valor_f;
+    int valor_i;
+    int longitud;
+} simbolo;
+
+simbolo tabla_simbolo[TAM_TABLA];
+int fin_tabla = -1;
+
+
+int varADeclarar1 = 0;
+int cantVarsADeclarar = 0;
+int tipoDatoADeclarar;
+
+
 
 int yystopparser=0;
 FILE  *yyin;
@@ -23,16 +67,24 @@ char * yytext;
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
-%token ID CONST_ENT CONST_REAL CONST_STR
+
 
 %union {
+    int int_val;
+	float real_val;
     char *str_val;
 }
+
+%token <str_val>ID
+%token <int_val>CONST_ENT
+%token <real_val>CONST_REAL
+%token <str_val>CONST_STR
+
 
 
 %%
 
-start: programa                                                             { printf("\n REGLA 0: <start> --> <programa> \n"); }
+start: programa                                                             { printf("\n REGLA 0: <start> --> <programa> \n"); guardarTabla(); }
 ;
     
 programa:
@@ -82,14 +134,14 @@ declaracion:
 ;    
 
 listavar:
-    ID                                                                      { printf("\n REGLA 21: <listavar> --> ID \n"); }
-    | listavar COMA ID                                                      { printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); }
+    ID                                                                      { printf("\n REGLA 21: <listavar> --> ID \n"); agregarVarATabla(yylval.str_val); varADeclarar1 = fin_tabla; cantVarsADeclarar = 1; }
+    | listavar COMA ID                                                      { printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); agregarVarATabla(yylval.str_val); cantVarsADeclarar++; }
 ;
 
 tipodato:
-    INTEGER                                                                 { printf("\n REGLA 23: <tipodato> --> INTEGER  \n");}
-    | FLOAT                                                                 { printf("\n REGLA 24: <tipodato> --> FLOAT \n");}
-    | STRING                                                                { printf("\n REGLA 25: <tipodato> --> STRING \n");}
+    INTEGER                                                                 { printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); tipoDatoADeclarar = INTEGER;}
+    | FLOAT                                                                 { printf("\n REGLA 24: <tipodato> --> FLOAT \n"); tipoDatoADeclarar = FLOAT;}
+    | STRING                                                                { printf("\n REGLA 25: <tipodato> --> STRING \n"); tipoDatoADeclarar = STRING;}
 ;
 
 condicional:
@@ -102,17 +154,17 @@ ciclo:
 ;
 
 entrada:
-    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ <factor> \n"); }
+    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ <factor> \n"); chequearVarEnTabla(yylval.str_val);}
 ;
 
 salida:
-    WRITE CONST_STR                                                         { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n"); }
-    | WRITE ID                                                              { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); }
+    WRITE CONST_STR                                                         { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
+    | WRITE ID                                                              { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
 ;
 
 asignacion:
     ID OP_ASIG expresion                                                    { printf("\n REGLA 32: <asignacion> --> ID OP_ASIG <expresion> \n"); }
-    | ID OP_ASIG CONST_STR                                                  { printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); }
+    | ID OP_ASIG CONST_STR                                                  { printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); agregarCteStringATabla(yylval.str_val);}
 ;
 
 expresion:
@@ -129,9 +181,9 @@ termino:
 
 factor:
     PAR_A expresion PAR_C                                                   { printf("\n REGLA 40: <factor> --> PAR_A <expresion> PAR_C \n"); } 
-    | CONST_REAL                                                            { printf("\n REGLA 41: <factor> --> CONST_REAL \n"); }
+    | CONST_REAL                                                            { printf("\n REGLA 41: <factor> --> CONST_REAL \n"); agregarCteRealATabla(yylval.real_val);}
     | ID                                                                    { printf("\n REGLA 42: <factor> --> ID \n"); } 
-    | CONST_ENT                                                             { printf("\n REGLA 43: <factor> --> CONST_ENT \n"); }
+    | CONST_ENT                                                             { printf("\n REGLA 43: <factor> --> CONST_ENT \n"); agregarCteIntATabla(yylval.int_val);}
 ;
 
 condicion:
@@ -166,8 +218,145 @@ comparador:
 ;
 
 bloque_variables:
-    bloque_variables listavar OP_TIPO tipodato                              { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n"); }
-    | listavar OP_TIPO tipodato                                             { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n"); }
+    bloque_variables listavar OP_TIPO tipodato                              { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+    | listavar OP_TIPO tipodato                                             { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
 ;
 
 %%
+
+
+
+
+
+int buscarEnTabla(char * name){
+   int i=0;
+   while(i<=fin_tabla){
+	   if(strcmp(tabla_simbolo[i].nombre,name) == 0){
+		   return i;
+	   }
+	   i++;
+   }
+   return -1;
+}
+
+
+
+void escribirNombreEnTabla(char* nombre, int pos){
+	strcpy(tabla_simbolo[pos].nombre, nombre);
+}
+
+ void agregarVarATabla(char* nombre){
+	 if(fin_tabla >= TAM_TABLA - 1){
+		 printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		 system("Pause");
+		 exit(2);
+	 }
+	 if(buscarEnTabla(nombre) == -1){     
+		 fin_tabla++;
+		 escribirNombreEnTabla(nombre, fin_tabla);
+	 }
+	 else{
+         yyerror("Encontre dos declaraciones de variables con el mismo nombre. Decidite."); 
+     } 
+
+ }
+
+
+void agregarTiposDatosATabla(){
+	for(int i = 0; i < cantVarsADeclarar; i++){
+		tabla_simbolo[varADeclarar1 + i].tipo_dato = tipoDatoADeclarar;
+	}
+}
+
+void guardarTabla(){
+	if(fin_tabla == -1)
+		yyerror("No encontre la tabla de simbolos");
+	FILE* arch = fopen("ts.txt", "w+");
+	if(!arch){
+		printf("No pude crear el archivo ts.txt\n");
+		return;
+	}
+
+	for(int i = 0; i <= fin_tabla; i++){
+		fprintf(arch, "%s\t", &(tabla_simbolo[i].nombre) );
+		switch (tabla_simbolo[i].tipo_dato){
+		case Real:
+			fprintf(arch, "REAL");
+			break;
+		case Integer:
+			fprintf(arch, "INTEGER");
+			break;
+		case String:
+			fprintf(arch, "STRING");
+			break;
+		case CteReal:
+			fprintf(arch, "CONST_REAL\t%f", tabla_simbolo[i].valor_f);
+			break;
+		case CteInt:
+			fprintf(arch, "CONST_ENT\t%d", tabla_simbolo[i].valor_i);
+			break;
+		case CteString:
+			fprintf(arch, "CONST_STR\t%s\t%d", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
+			break;
+		}
+		fprintf(arch, "\n");
+	}
+	fclose(arch);
+}
+
+
+void agregarCteStringATabla(char* nombre){
+    printf("%s\n",nombre);
+	if(fin_tabla >= TAM_TABLA - 1){
+		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		system("Pause");
+		exit(2);
+	}
+	if(buscarEnTabla(nombre) == -1){
+		fin_tabla++;
+		escribirNombreEnTabla(nombre, fin_tabla);
+		tabla_simbolo[fin_tabla].tipo_dato = CteString;		
+		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
+		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
+	}
+}
+
+void agregarCteRealATabla(float valor){
+	if(fin_tabla >= TAM_TABLA - 1){
+		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		system("Pause");
+		exit(2);
+	}
+	char nombre[12];
+	sprintf(nombre, "_%f", valor);
+	if(buscarEnTabla(nombre) == -1){
+		fin_tabla++;
+		escribirNombreEnTabla(nombre, fin_tabla);
+		tabla_simbolo[fin_tabla].tipo_dato = CteReal;
+		tabla_simbolo[fin_tabla].valor_f = valor;
+	}
+}
+
+void agregarCteIntATabla(int valor){
+	if(fin_tabla >= TAM_TABLA - 1){
+		printf("Error: me quede sin espacio en la tabla de simbolos. Sori, gordi.\n");
+		system("Pause");
+		exit(2);
+	}
+	char nombre[30];
+	sprintf(nombre, "_%d", valor);
+	if(buscarEnTabla(nombre) == -1){
+		fin_tabla++;
+		escribirNombreEnTabla(nombre, fin_tabla);
+    	tabla_simbolo[fin_tabla].tipo_dato = CteInt;
+		tabla_simbolo[fin_tabla].valor_i = valor;
+	}
+}
+
+void chequearVarEnTabla(char* nombre){
+	if( buscarEnTabla(nombre) == -1){
+		char msg[100];
+		sprintf(msg,"%s? No, man, tenes que declarar las variables arriba. Esto no es un viva la pepa como java...", nombre);
+		yyerror(msg);
+	}
+}

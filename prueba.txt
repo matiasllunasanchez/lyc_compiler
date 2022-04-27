@@ -1,7 +1,7 @@
 
 DECVAR
-a,b,a1, b1 : FLOAT
-variable1 : STRING
+a : FLOAT
+b,c,d,e,f : STRING
 p1, p2, p3 : FLOAT
 ENDDEC
 
@@ -10,24 +10,24 @@ a := 99999.99
 a := 99.
 a := .9999
 b := "@sdADaSjfla%dfg"
-b := "asldk fh sjf"
+c := "asldk fh sjf"
 
 WRITE "ewr" -/ donde "ewr" debe ser una cte string /-
-READ base -/ donde base es una variable /-
-WRITE var1 -/ donde var1 es una variable numérica definida previamente /-
+READ d -/ donde base es una variable /-
+WRITE c -/ donde var1 es una variable numérica definida previamente /-
 
 
 -/ Realizo una selección /-
 IF (a <= 30)
-b := "correcto" -/ asignación string /-
+e := "correcto" -/ asignación string /-
 ENDIF
 
-IF ( (b >= 2) OR (b >= 2) ) 
-    variable1 := "correcto"
+IF ( (a >= 2) OR (a >= 2) ) 
+    f := "correcto"
 ENDIF
 
 BETWEEN (a, [2 ; a*(b+4)])
-BETWEEN (z, [2.3 ; 11.22])
+BETWEEN (a, [2.3 ; 11.22])
 TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 576 /-
 TAKE (+ ; 2 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 14 /-
 TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: -34 /-
