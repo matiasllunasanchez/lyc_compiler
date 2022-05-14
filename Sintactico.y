@@ -84,6 +84,7 @@ char * yytext;
 
 %%
 
+// Reglas base
 start: programa                                                             { printf("\n REGLA 0: <start> --> <programa> \n"); guardarTabla(); }
 ;
     
@@ -103,32 +104,7 @@ sentencia:
     | tomar                                                                 { printf("\n REGLA 10: <sentencia> --> <tomar> \n"); }  // TAKE
 ;
 
-//BETWEEN
-entre:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
-;
-
-//TAKE
-tomar:
-    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 12: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A <listapyc> COR_C PAR_C \n"); }
-    | TAKE PAR_A oper PYC CONST_ENT PYC COR_A COR_C PAR_C                   { printf("\n REGLA 13: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
-
-;
-
-listapyc:
-    factor                                                                  { printf("\n REGLA 14: <listapyc> --> <factor> \n"); }
-| listapyc PYC factor                                                       { printf("\n REGLA 15: <listapyc> --> <listapyc> PYC <factor> \n"); }
-;
-
-oper:
-OP_SUMA                                                                     { printf("\n REGLA 16: <oper> --> OP_SUMA \n"); } 
-| OP_MULT                                                                   { printf("\n REGLA 17: <oper> --> OP_MULT \n"); }
-| OP_DIV                                                                    { printf("\n REGLA 18: <oper> --> OP_DIV \n"); }
-| OP_RESTA                                                                  { printf("\n REGLA 19: <oper> --> OP_RESTA \n"); }
-;
-
-//FIN TAKE
-
+// Declaraciones de Variables
 declaracion:
     DECVAR bloque_variables ENDDEC                                          { printf("\n REGLA 20: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
 ;    
@@ -144,6 +120,13 @@ tipodato:
     | STRING                                                                { printf("\n REGLA 25: <tipodato> --> STRING \n"); tipoDatoADeclarar = STRING;}
 ;
 
+bloque_variables:
+    bloque_variables listavar OP_TIPO tipodato                              { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+    | listavar OP_TIPO tipodato                                             { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+;
+
+
+// General
 condicional:
     IF PAR_A condicion PAR_C programa ELSE programa ENDIF                   { printf("\n REGLA 26: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
     | IF PAR_A condicion PAR_C programa ENDIF                               { printf("\n REGLA 27: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
@@ -151,15 +134,6 @@ condicional:
 
 ciclo:
     WHILE PAR_A condicion PAR_C programa ENDWHILE                           { printf("\n REGLA 28: <ciclo> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
-;
-
-entrada:
-    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
-;
-
-salida:
-    WRITE CONST_STR                                                         { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
-    | WRITE ID                                                              { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
 ;
 
 asignacion:
@@ -217,9 +191,39 @@ comparador:
     | OP_NO_IGUAL                                                           { printf("\n REGLA 59: <comparador> --> OP_NO_IGUAL \n"); }
 ;
 
-bloque_variables:
-    bloque_variables listavar OP_TIPO tipodato                              { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
-    | listavar OP_TIPO tipodato                                             { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+// Lectura y escritura
+entrada:
+    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
+;
+
+salida:
+    WRITE CONST_STR                                                         { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
+    | WRITE ID                                                              { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
+;
+
+// Funciones Especiales
+// BETWEEN
+entre:
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+;
+
+// TAKE
+tomar:
+    TAKE PAR_A oper PYC CONST_ENT PYC COR_A listapyc COR_C PAR_C            { printf("\n REGLA 12: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A <listapyc> COR_C PAR_C \n"); }
+    | TAKE PAR_A oper PYC CONST_ENT PYC COR_A COR_C PAR_C                   { printf("\n REGLA 13: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
+
+;
+
+listapyc:
+    factor                                                                  { printf("\n REGLA 14: <listapyc> --> <factor> \n"); }
+| listapyc PYC factor                                                       { printf("\n REGLA 15: <listapyc> --> <listapyc> PYC <factor> \n"); }
+;
+
+oper:
+OP_SUMA                                                                     { printf("\n REGLA 16: <oper> --> OP_SUMA \n"); } 
+| OP_MULT                                                                   { printf("\n REGLA 17: <oper> --> OP_MULT \n"); }
+| OP_DIV                                                                    { printf("\n REGLA 18: <oper> --> OP_DIV \n"); }
+| OP_RESTA                                                                  { printf("\n REGLA 19: <oper> --> OP_RESTA \n"); }
 ;
 
 %%
