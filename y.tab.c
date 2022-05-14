@@ -544,51 +544,51 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     5,     7,    10,    11,    13,    15,    17,
-      19,    21,    23,    25,    27,    38,    49,    59,    61,    65,
-      67,    69,    71,    73,    77,    79,    83,    85,    87,    89,
-      98,   105,   112,   115,   118,   121,   125,   129,   133,   137,
-     139,   143,   147,   149,   153,   155,   157,   159,   161,   165,
-     169,   171,   175,   177,   179,   183,   187,   190,   192,   194,
-     196,   198,   200,   202,   207
+      19,    21,    23,    25,    27,    31,    33,    37,    39,    41,
+      43,    48,    52,    61,    68,    75,    79,    83,    87,    91,
+      93,    97,   101,   103,   107,   109,   111,   113,   115,   119,
+     123,   125,   129,   131,   133,   137,   141,   144,   146,   148,
+     150,   152,   154,   156,   159,   162,   165,   176,   187,   197,
+     199,   203,   205,   207,   209
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
       44,     0,    -1,    45,    -1,    46,    -1,    45,    46,    -1,
-      -1,    51,    -1,    58,    -1,    55,    -1,    54,    -1,    57,
-      -1,    56,    -1,    47,    -1,    48,    -1,    16,    34,    39,
-      31,    36,    59,    38,    59,    37,    35,    -1,    15,    34,
-      50,    38,    40,    38,    36,    49,    37,    35,    -1,    15,
-      34,    50,    38,    40,    38,    36,    37,    35,    -1,    61,
-      -1,    49,    38,    61,    -1,     5,    -1,     7,    -1,     6,
-      -1,     4,    -1,    24,    67,    25,    -1,    39,    -1,    52,
-      31,    39,    -1,    19,    -1,    20,    -1,    21,    -1,    18,
-      34,    62,    35,    45,    22,    45,    32,    -1,    18,    34,
-      62,    35,    45,    32,    -1,    17,    34,    62,    35,    45,
-      33,    -1,    30,    39,    -1,    29,    42,    -1,    29,    39,
-      -1,    39,     3,    59,    -1,    39,     3,    42,    -1,    59,
-       5,    60,    -1,    59,     4,    60,    -1,    60,    -1,    60,
-       7,    61,    -1,    60,     6,    61,    -1,    61,    -1,    34,
-      59,    35,    -1,    41,    -1,    39,    -1,    40,    -1,    63,
-      -1,    63,    26,    64,    -1,    63,    27,    64,    -1,    65,
-      -1,    34,    65,    35,    -1,    59,    -1,    63,    -1,    59,
-      66,    61,    -1,    34,    62,    35,    -1,    28,    62,    -1,
-       8,    -1,    10,    -1,    11,    -1,     9,    -1,    12,    -1,
-      13,    -1,    67,    52,    14,    53,    -1,    52,    14,    53,
+      -1,    47,    -1,    53,    -1,    52,    -1,    51,    -1,    63,
+      -1,    62,    -1,    64,    -1,    65,    -1,    24,    50,    25,
+      -1,    39,    -1,    48,    31,    39,    -1,    19,    -1,    20,
+      -1,    21,    -1,    50,    48,    14,    49,    -1,    48,    14,
+      49,    -1,    18,    34,    57,    35,    45,    22,    45,    32,
+      -1,    18,    34,    57,    35,    45,    32,    -1,    17,    34,
+      57,    35,    45,    33,    -1,    39,     3,    54,    -1,    39,
+       3,    42,    -1,    54,     5,    55,    -1,    54,     4,    55,
+      -1,    55,    -1,    55,     7,    56,    -1,    55,     6,    56,
+      -1,    56,    -1,    34,    54,    35,    -1,    41,    -1,    39,
+      -1,    40,    -1,    58,    -1,    58,    26,    59,    -1,    58,
+      27,    59,    -1,    60,    -1,    34,    60,    35,    -1,    54,
+      -1,    58,    -1,    54,    61,    56,    -1,    34,    57,    35,
+      -1,    28,    57,    -1,     8,    -1,    10,    -1,    11,    -1,
+       9,    -1,    12,    -1,    13,    -1,    30,    39,    -1,    29,
+      42,    -1,    29,    39,    -1,    16,    34,    39,    31,    36,
+      54,    38,    54,    37,    35,    -1,    15,    34,    67,    38,
+      40,    38,    36,    66,    37,    35,    -1,    15,    34,    67,
+      38,    40,    38,    36,    37,    35,    -1,    56,    -1,    66,
+      38,    56,    -1,     5,    -1,     7,    -1,     6,    -1,     4,
       -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    87,    87,    91,    92,    95,    96,    97,    98,    99,
-     100,   101,   102,   103,   108,   113,   114,   119,   120,   124,
-     125,   126,   127,   133,   137,   138,   142,   143,   144,   148,
-     149,   153,   157,   161,   162,   166,   167,   171,   172,   173,
-     177,   178,   179,   183,   184,   185,   186,   190,   191,   192,
-     196,   197,   198,   202,   206,   207,   208,   212,   213,   214,
-     215,   216,   217,   221,   222
+       0,    88,    88,    92,    93,    96,    97,    98,    99,   100,
+     101,   102,   103,   104,   109,   113,   114,   118,   119,   120,
+     124,   125,   131,   132,   136,   140,   141,   145,   146,   147,
+     151,   152,   153,   157,   158,   159,   160,   164,   165,   166,
+     170,   171,   172,   176,   180,   181,   182,   186,   187,   188,
+     189,   190,   191,   196,   200,   201,   207,   212,   213,   218,
+     219,   223,   224,   225,   226
 };
 #endif
 
@@ -603,11 +603,11 @@ static const char *const yytname[] =
   "INTEGER", "FLOAT", "STRING", "ELSE", "THEN", "DECVAR", "ENDDEC", "AND",
   "OR", "NOT", "WRITE", "READ", "COMA", "ENDIF", "ENDWHILE", "PAR_A",
   "PAR_C", "COR_A", "COR_C", "PYC", "ID", "CONST_ENT", "CONST_REAL",
-  "CONST_STR", "$accept", "start", "programa", "sentencia", "entre",
-  "tomar", "listapyc", "oper", "declaracion", "listavar", "tipodato",
-  "condicional", "ciclo", "entrada", "salida", "asignacion", "expresion",
-  "termino", "factor", "condicion", "exp", "exp_izq", "comparacion",
-  "comparador", "bloque_variables", 0
+  "CONST_STR", "$accept", "start", "programa", "sentencia", "declaracion",
+  "listavar", "tipodato", "bloque_variables", "condicional", "ciclo",
+  "asignacion", "expresion", "termino", "factor", "condicion", "exp",
+  "exp_izq", "comparacion", "comparador", "entrada", "salida", "entre",
+  "tomar", "listapyc", "oper", 0
 };
 #endif
 
@@ -628,24 +628,24 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,    43,    44,    45,    45,    46,    46,    46,    46,    46,
-      46,    46,    46,    46,    47,    48,    48,    49,    49,    50,
-      50,    50,    50,    51,    52,    52,    53,    53,    53,    54,
-      54,    55,    56,    57,    57,    58,    58,    59,    59,    59,
-      60,    60,    60,    61,    61,    61,    61,    62,    62,    62,
-      63,    63,    63,    64,    65,    65,    65,    66,    66,    66,
-      66,    66,    66,    67,    67
+      46,    46,    46,    46,    47,    48,    48,    49,    49,    49,
+      50,    50,    51,    51,    52,    53,    53,    54,    54,    54,
+      55,    55,    55,    56,    56,    56,    56,    57,    57,    57,
+      58,    58,    58,    59,    60,    60,    60,    61,    61,    61,
+      61,    61,    61,    62,    63,    63,    64,    65,    65,    66,
+      66,    67,    67,    67,    67
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     2,     0,     1,     1,     1,     1,
-       1,     1,     1,     1,    10,    10,     9,     1,     3,     1,
-       1,     1,     1,     3,     1,     3,     1,     1,     1,     8,
-       6,     6,     2,     2,     2,     3,     3,     3,     3,     1,
+       1,     1,     1,     1,     3,     1,     3,     1,     1,     1,
+       4,     3,     8,     6,     6,     3,     3,     3,     3,     1,
        3,     3,     1,     3,     1,     1,     1,     1,     3,     3,
        1,     3,     1,     1,     3,     3,     2,     1,     1,     1,
-       1,     1,     1,     4,     3
+       1,     1,     1,     2,     2,     2,    10,    10,     9,     1,
+       3,     1,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -654,26 +654,26 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        5,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       2,     3,    12,    13,     6,     9,     8,    11,    10,     7,
-       0,     0,     0,     0,    24,     0,     0,    34,    33,    32,
-       0,     1,     4,    22,    19,    21,    20,     0,     0,     0,
-       0,    45,    46,    44,    52,    39,    42,     0,    47,    50,
-       0,     0,     0,    23,     0,     0,    36,    35,     0,     0,
-      56,    52,     0,    50,     0,     0,    57,    60,    58,    59,
-      61,    62,     0,     0,     0,     5,     0,     0,     5,    26,
-      27,    28,    64,    25,     0,     0,     0,     0,    43,    55,
-      51,    38,    37,    54,    41,    40,     0,    53,    48,    49,
-       0,    63,     0,     0,    31,     5,    30,     0,     0,     0,
-       0,     0,    17,     0,    29,    16,     0,     0,     0,    15,
-      18,    14
+       2,     3,     6,     9,     8,     7,    11,    10,    12,    13,
+       0,     0,     0,     0,    15,     0,     0,    55,    54,    53,
+       0,     1,     4,    64,    61,    63,    62,     0,     0,     0,
+       0,    35,    36,    34,    42,    29,    32,     0,    37,    40,
+       0,     0,     0,    14,     0,     0,    26,    25,     0,     0,
+      46,    42,     0,    40,     0,     0,    47,    50,    48,    49,
+      51,    52,     0,     0,     0,     5,     0,     0,     5,    17,
+      18,    19,    21,    16,     0,     0,     0,     0,    33,    45,
+      41,    28,    27,    44,    31,    30,     0,    43,    38,    39,
+       0,    20,     0,     0,    24,     5,    23,     0,     0,     0,
+       0,    59,     0,     0,    22,    58,     0,     0,     0,    57,
+      60,    56
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     9,    10,    11,    12,    13,   111,    37,    14,    25,
-      82,    15,    16,    17,    18,    19,    44,    45,    46,    47,
-      48,    98,    49,    72,    26
+      -1,     9,    10,    11,    12,    25,    82,    26,    13,    14,
+      15,    44,    45,    46,    47,    48,    98,    49,    72,    16,
+      17,    18,    19,   112,    37
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -692,16 +692,16 @@ static const yytype_int16 yypact[] =
      -71,   -71,   -71,   -71,    72,    10,   108,    25,   -71,   -71,
      -71,    54,    54,   -71,   -71,   -71,    38,   -71,   -71,   -71,
       12,   -71,   111,     1,   -71,    85,   -71,    35,    25,    65,
-     113,    69,   -71,     3,   -71,   -71,   114,    25,   115,   -71,
+     113,   -71,    69,     3,   -71,   -71,   114,    25,   115,   -71,
      -71,   -71
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -71,   -71,   -53,   -10,   -71,   -71,   -71,   -71,   -71,   125,
-      68,   -71,   -71,   -71,   -71,   -71,   -29,    48,   -70,     9,
-      43,    76,   116,   -71,   -71
+     -71,   -71,   -53,   -10,   -71,   125,    68,   -71,   -71,   -71,
+     -71,   -29,    48,   -70,     9,    43,    76,   116,   -71,   -71,
+     -71,   -71,   -71,   -71,   -71
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -714,7 +714,7 @@ static const yytype_uint8 yytable[] =
       32,    57,    93,    94,    95,    64,    65,    64,    65,    53,
       20,    61,    64,    65,    64,    65,    66,    67,    68,    69,
       70,    71,    96,    24,    24,   100,    85,     1,     2,     3,
-       4,    21,    50,    51,   105,    27,     5,   112,    28,   108,
+       4,    21,    50,    51,   105,    27,     5,   111,    28,   108,
      118,     6,     7,    88,   106,    88,    84,   120,    60,    62,
       52,     8,   109,     1,     2,     3,     4,    22,   103,    55,
       73,    74,     5,    52,    41,    42,    43,     6,     7,    55,
@@ -754,18 +754,18 @@ static const yytype_int8 yycheck[] =
 static const yytype_uint8 yystos[] =
 {
        0,    15,    16,    17,    18,    24,    29,    30,    39,    44,
-      45,    46,    47,    48,    51,    54,    55,    56,    57,    58,
-      34,    34,    34,    34,    39,    52,    67,    39,    42,    39,
-       3,     0,    46,     4,     5,     6,     7,    50,    39,    28,
-      34,    39,    40,    41,    59,    60,    61,    62,    63,    65,
-      62,    14,    31,    25,    52,    34,    42,    59,    38,    31,
-      62,    59,    62,    65,     4,     5,     8,     9,    10,    11,
-      12,    13,    66,     6,     7,    35,    26,    27,    35,    19,
-      20,    21,    53,    39,    14,    59,    40,    36,    35,    35,
-      35,    60,    60,    61,    61,    61,    45,    63,    64,    64,
-      45,    53,    38,    59,    33,    22,    32,    36,    38,    45,
-      37,    49,    61,    59,    32,    35,    37,    38,    37,    35,
-      61,    35
+      45,    46,    47,    51,    52,    53,    62,    63,    64,    65,
+      34,    34,    34,    34,    39,    48,    50,    39,    42,    39,
+       3,     0,    46,     4,     5,     6,     7,    67,    39,    28,
+      34,    39,    40,    41,    54,    55,    56,    57,    58,    60,
+      57,    14,    31,    25,    48,    34,    42,    54,    38,    31,
+      57,    54,    57,    60,     4,     5,     8,     9,    10,    11,
+      12,    13,    61,     6,     7,    35,    26,    27,    35,    19,
+      20,    21,    49,    39,    14,    54,    40,    36,    35,    35,
+      35,    55,    55,    56,    56,    56,    45,    58,    59,    59,
+      45,    49,    38,    54,    33,    22,    32,    36,    38,    45,
+      37,    56,    66,    54,    32,    35,    37,    38,    37,    35,
+      56,    35
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1579,435 +1579,435 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 87 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 88 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 0: <start> --> <programa> \n"); guardarTabla(); }
     break;
 
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 91 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 92 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 1: <programa> --> <sentencia> \n"); }
     break;
 
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 92 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 93 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); }
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 96 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 97 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); }
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 97 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 98 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 4: <sentencia> --> <asignacion> \n"); }
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 98 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 99 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 5: <sentencia> --> <ciclo> \n"); }
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 99 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 100 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 6: <sentencia> --> <condicional> \n"); }
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 100 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 101 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 7: <sentencia> --> <salida> \n"); }
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 101 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 102 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 8: <sentencia> --> <entrada> \n"); }
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 102 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 103 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 9: <sentencia> --> <entre> \n"); }
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 103 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 104 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
     { printf("\n REGLA 10: <sentencia> --> <tomar> \n"); }
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 108 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+#line 109 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 20: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
 #line 113 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 12: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A <listapyc> COR_C PAR_C \n"); }
+    { printf("\n REGLA 21: <listavar> --> ID \n"); agregarVarATabla(yylval.str_val); varADeclarar1 = fin_tabla; cantVarsADeclarar = 1; }
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
 #line 114 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 13: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
+    { printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); agregarVarATabla(yylval.str_val); cantVarsADeclarar++; }
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 119 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 14: <listapyc> --> <factor> \n"); }
+#line 118 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); tipoDatoADeclarar = INTEGER;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 120 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 15: <listapyc> --> <listapyc> PYC <factor> \n"); }
+#line 119 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 24: <tipodato> --> FLOAT \n"); tipoDatoADeclarar = FLOAT;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 124 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 16: <oper> --> OP_SUMA \n"); }
+#line 120 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 25: <tipodato> --> STRING \n"); tipoDatoADeclarar = STRING;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 125 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 17: <oper> --> OP_MULT \n"); }
+#line 124 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 126 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 18: <oper> --> OP_DIV \n"); }
+#line 125 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 127 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 19: <oper> --> OP_RESTA \n"); }
+#line 131 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 26: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 133 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 20: <declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
+#line 132 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 27: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 137 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 21: <listavar> --> ID \n"); agregarVarATabla(yylval.str_val); varADeclarar1 = fin_tabla; cantVarsADeclarar = 1; }
+#line 136 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 28: <ciclo> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 138 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); agregarVarATabla(yylval.str_val); cantVarsADeclarar++; }
+#line 140 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 32: <asignacion> --> ID OP_ASIG <expresion> \n"); }
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 142 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); tipoDatoADeclarar = INTEGER;}
+#line 141 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); agregarCteStringATabla(yylval.str_val);}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 143 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 24: <tipodato> --> FLOAT \n"); tipoDatoADeclarar = FLOAT;}
+#line 145 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 34: <expresion> --> <expresion> OP_SUMA <termino> \n"); }
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 144 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 25: <tipodato> --> STRING \n"); tipoDatoADeclarar = STRING;}
+#line 146 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 35: <expresion> --> <expresion> OP_RESTA <termino> \n"); }
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 148 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 26: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
+#line 147 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 36: <expresion> --> <termino> \n"); }
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 149 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 27: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
+#line 151 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 37: <termino> --> <termino> OP_MULT <factor> \n");}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 153 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 28: <ciclo> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
+#line 152 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 38: <termino> --> <termino> OP_DIV <factor> \n");}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 157 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
+#line 153 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 39: <termino> --> <factor> \n"); }
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 161 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
+#line 157 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 40: <factor> --> PAR_A <expresion> PAR_C \n"); }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 162 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
+#line 158 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 41: <factor> --> CONST_REAL \n"); agregarCteRealATabla(yylval.real_val);}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 166 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 32: <asignacion> --> ID OP_ASIG <expresion> \n"); }
+#line 159 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 42: <factor> --> ID \n"); }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 167 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); agregarCteStringATabla(yylval.str_val);}
+#line 160 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 43: <factor> --> CONST_ENT \n"); agregarCteIntATabla(yylval.int_val);}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 171 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 34: <expresion> --> <expresion> OP_SUMA <termino> \n"); }
+#line 164 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 44: <condicion> --> <exp> \n"); }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 172 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 35: <expresion> --> <expresion> OP_RESTA <termino> \n"); }
+#line 165 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 45: <condicion> --> <exp> AND <exp_izq> \n"); }
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 173 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 36: <expresion> --> <termino> \n"); }
+#line 166 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 46: <condicion> --> <exp> OR <exp_izq> \n"); }
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 177 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 37: <termino> --> <termino> OP_MULT <factor> \n");}
+#line 170 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 47: <exp> --> <comparacion> \n"); }
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 178 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 38: <termino> --> <termino> OP_DIV <factor> \n");}
+#line 171 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 48: <exp> --> PAR_A <comparacion> PAR_C \n"); }
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 179 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 39: <termino> --> <factor> \n"); }
+#line 172 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 49: <exp> --> <expresion> \n"); }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 183 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 40: <factor> --> PAR_A <expresion> PAR_C \n"); }
+#line 176 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 50: <exp> --> <exp_izq> \n"); }
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 184 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 41: <factor> --> CONST_REAL \n"); agregarCteRealATabla(yylval.real_val);}
+#line 180 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 51: <comparacion> --> <expresion> <comparador> <factor> \n"); }
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 185 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 42: <factor> --> ID \n"); }
+#line 181 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 52: <comparacion> --> PAR_A <condicion> PAR_C\n"); }
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 186 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 43: <factor> --> CONST_ENT \n"); agregarCteIntATabla(yylval.int_val);}
+#line 182 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 53: <condicion> -->  NOT <condicion> \n"); }
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 190 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 44: <condicion> --> <exp> \n"); }
+#line 186 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 54: <comparador> --> OP_MAYOR \n"); }
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 191 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 45: <condicion> --> <exp> AND <exp_izq> \n"); }
+#line 187 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 55: <comparador> --> OP_MENOR \n"); }
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 192 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 46: <condicion> --> <exp> OR <exp_izq> \n"); }
+#line 188 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 56: <comparador> --> OP_MENIGU \n"); }
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 196 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 47: <exp> --> <comparacion> \n"); }
+#line 189 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 57: <comparador> --> OP_MAYIGU \n"); }
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 197 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 48: <exp> --> PAR_A <comparacion> PAR_C \n"); }
+#line 190 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 58: <comparador> --> OP_IGUAL \n"); }
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 198 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 49: <exp> --> <expresion> \n"); }
+#line 191 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 59: <comparador> --> OP_NO_IGUAL \n"); }
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 202 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 50: <exp> --> <exp_izq> \n"); }
+#line 196 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 206 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 51: <comparacion> --> <expresion> <comparador> <factor> \n"); }
+#line 200 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 207 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 52: <comparacion> --> PAR_A <condicion> PAR_C\n"); }
+#line 201 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 208 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 53: <condicion> -->  NOT <condicion> \n"); }
+#line 207 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
 #line 212 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 54: <comparador> --> OP_MAYOR \n"); }
+    { printf("\n REGLA 12: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A <listapyc> COR_C PAR_C \n"); }
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
 #line 213 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 55: <comparador> --> OP_MENOR \n"); }
+    { printf("\n REGLA 13: <tomar> --> TAKE PAR_A <oper> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 214 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 56: <comparador> --> OP_MENIGU \n"); }
+#line 218 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 14: <listapyc> --> <factor> \n"); }
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 215 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 57: <comparador> --> OP_MAYIGU \n"); }
+#line 219 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 15: <listapyc> --> <listapyc> PYC <factor> \n"); }
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 216 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 58: <comparador> --> OP_IGUAL \n"); }
+#line 223 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 16: <oper> --> OP_SUMA \n"); }
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 217 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 59: <comparador> --> OP_NO_IGUAL \n"); }
+#line 224 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 17: <oper> --> OP_MULT \n"); }
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 221 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+#line 225 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 18: <oper> --> OP_DIV \n"); }
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 222 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
-    { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+#line 226 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+    { printf("\n REGLA 19: <oper> --> OP_RESTA \n"); }
     break;
 
 
@@ -2225,7 +2225,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 225 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
+#line 229 "E:\\COMPILADORES\\TP\\lyc_compiler\\Sintactico.y"
 
 
 
