@@ -1,0 +1,46 @@
+DECVAR
+    a, b, z, a1, b1 : INTEGER
+    variable1 : STRING
+	p1, p2, p3 : FLOAT
+ENDDEC
+
+-/ Realizo una selección /-			
+IF (a <= 30) 
+    variable1 := ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Realizo una selección multiple hasta 2 OR /-			
+IF (a <= 30 OR b >= 2) 
+    variable1 := ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Realizo una selección multiple hasta 2 AND /-	
+IF (a <= 30 AND b >= 2) 
+    variable1 := ”correcto” -/ asignación string /-
+ENDIF
+
+-/ Error de tipo de asignacion /-	
+b := ”qwerty” -/ asignación string en tipo integer /-
+
+-/ While /-
+WHILE (a <= 30) 
+    variable1 := ”while correcto” -/ asignación string /-
+ENDWHILE
+
+-/ Así son los comentarios de LyC/-
+
+WRITE “ewr” -/ donde “ewr” debe ser una cte string /-
+READ base      -/ donde base es una variable /-
+WRITE var1 -/ donde var1 es una variable numérica definida previamente /-
+
+
+
+
+BETWEEN (a, [2 ; a*(b+4)])
+BETWEEN (z, [2.3 ; 11.22])
+TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )		-/ Resultado: 576 /-
+TAKE (+  ; 2  ;   [2 ; 12 ; 24 ; 48] )		-/ Resultado: 14 /-
+TAKE (-   ; 3  ;   [2 ; 12 ; 24 ; 48] )	    -/ Resultado: -34 /-
+TAKE (/    ; 4  ;   [2 ; 12 ; 24 ; 48] )	-/ Resultado: 0 /-
+TAKE (+   ; 3  ;   [2 ; 12 ] )			    -/ Error /-
+TAKE (/    ; 4  ;   [ ] )				    -/ Resultado: 0 /-
