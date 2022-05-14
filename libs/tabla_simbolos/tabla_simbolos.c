@@ -14,28 +14,27 @@ int buscarEnTabla(char * name){
    return -1;
 }
 
-
-
 void escribirNombreEnTabla(char* nombre, int pos){
 	strcpy(tabla_simbolo[pos].nombre, nombre);
 }
 
- void agregarVarATabla(char* nombre){
+int agregarVarATabla(char* nombre){
 	 if(fin_tabla >= TAM_TABLA - 1){
 		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		 system("Pause");
 		 exit(2);
 	 }
+
 	 if(buscarEnTabla(nombre) == -1){     
-		 fin_tabla++;
+		 int idx = ++fin_tabla;
 		 escribirNombreEnTabla(nombre, fin_tabla);
+		 return idx;
 	 }
 	 else{
-         yyerror("Encontre dos declaraciones de variables con el mismo nombre. Decidite."); 
+         yyerror("ERR- Se encontraron dos declaraciones identicas."); 
      } 
 
- }
-
+}
 
 void agregarTiposDatosATabla(){
     int i;
@@ -46,10 +45,10 @@ void agregarTiposDatosATabla(){
 
 void guardarTabla(){
 	if(fin_tabla == -1)
-		yyerror("No encontre la tabla de simbolos");
+		yyerror("ERR- No se encontró la tabla de simbolos");
 	FILE* arch = fopen("ts.txt", "w+");
 	if(!arch){
-		printf("No pude crear el archivo ts.txt\n");
+		printf("ERR- No se ha podido crear el archivo ts.txt\n");
 		return;
 	}
     int i;
@@ -80,52 +79,62 @@ void guardarTabla(){
 	fclose(arch);
 }
 
-
-void agregarCteStringATabla(char* nombre){
+int agregarCteStringATabla(char* nombre){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
+	int idx = buscarEnTabla(nombre);
+	if( idx == -1){
+		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = CteString;		
 		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
 		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
 	}
+
+	return idx;
 }
 
-void agregarCteRealATabla(float valor){
+int agregarCteRealATabla(float valor){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
+	
 	char nombre[12];
 	sprintf(nombre, "_%f", valor);
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
+	int idx = buscarEnTabla(nombre);
+
+	if(idx == -1) {
+		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = CteReal;
 		tabla_simbolo[fin_tabla].valor_f = valor;
 	}
+	return idx;
 }
 
-void agregarCteIntATabla(int valor){
+int agregarCteIntATabla(int valor){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
+
 	char nombre[30];
 	sprintf(nombre, "_%d", valor);
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
+
+	int idx = buscarEnTabla(nombre);
+	if(idx == -1){
+		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
     	tabla_simbolo[fin_tabla].tipo_dato = CteInt;
 		tabla_simbolo[fin_tabla].valor_i = valor;
 	}
+	return idx;
 }
 
 void chequearVarEnTabla(char* nombre){

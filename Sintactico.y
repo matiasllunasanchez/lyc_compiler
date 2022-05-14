@@ -4,38 +4,7 @@
 #include <conio.h>
 #include <string.h>
 #include "y.tab.h"
-
-#define Integer 1
-#define Real 2
-#define String 3
-#define CteInt 4
-#define CteReal 5
-#define CteString 6
-
-#define TAM_TABLA 500
-#define TAM_NOMBRE 30
-
-/* Funciones necesarias */
-int yyerror(char* mensaje);
-void agregarVarATabla(char* nombre);
-void agregarTiposDatosATabla(void);
-void agregarCteStringATabla(char* nombre);
-void agregarCteIntATabla(int valor);
-void agregarCteRealATabla(float valor);
-void chequearVarEnTabla(char* nombre);
-int buscarEnTabla(char * name);
-void escribirNombreEnTabla(char* nombre, int pos);
-void guardarTabla(void);
-
-
-typedef struct {
-    char nombre[TAM_NOMBRE];
-    int tipo_dato;
-    char valor_s[TAM_NOMBRE];
-    float valor_f;
-    int valor_i;
-    int longitud;
-} simbolo;
+#include "ibs/terceros/tercetos.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -56,6 +25,22 @@ int yyerror();
 int contWhile=0;
 char * yytext;
 
+
+// Cosas para comparadores booleanos
+int comp_bool_actual;
+int idx_programa;
+int idx_sentencia;
+int idx_dec;
+int idx_asig;
+int idx_ciclo;
+int idx_cond;
+int idx_salida;
+int idx_entrada;
+int idx_entre;
+int idx_tomar;
+int idx_factor;
+int idx_expresion;
+int idx_termino;
 %}
 
 %start start 
@@ -64,7 +49,7 @@ char * yytext;
 %left OP_MULT OP_DIV
 
 %token OP_MAYOR OP_MAYIGU OP_MENOR OP_MENIGU OP_IGUAL OP_NO_IGUAL OP_TIPO
-%token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE THEN DECVAR ENDDEC AND OR NOT
+%token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
 
@@ -85,23 +70,57 @@ char * yytext;
 %%
 
 // Reglas base
-start: programa                                                             { printf("\n REGLA 0: <start> --> <programa> \n"); guardarTabla(); }
+start: programa                                                             { 
+																				printf("\n REGLA 0: <start> --> <programa> \n"); 
+																				guardarTabla(); 
+																				guardar_tercetos();
+																			}
 ;
     
 programa:
-    sentencia                                                               { printf("\n REGLA 1: <programa> --> <sentencia> \n"); }       
-    | programa sentencia                                                    { printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); }
-;              
-    
+    sentencia                                                               { 
+																				printf("\n REGLA 1: <programa> --> <sentencia> \n"); 
+																				idx_programa = idx_sentencia
+																			}       
+    | programa sentencia                                                    { 
+																				printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); 
+																				idx_programa = crear_terceto(PROG, idx_programa, idx_sentencia);			
+																			}
+;
+
 sentencia:
-    | declaracion                                                           { printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); }  
-    | asignacion                                                            { printf("\n REGLA 4: <sentencia> --> <asignacion> \n"); }   
-    | ciclo                                                                 { printf("\n REGLA 5: <sentencia> --> <ciclo> \n"); }   
-    | condicional                                                           { printf("\n REGLA 6: <sentencia> --> <condicional> \n"); }   
-    | salida                                                                { printf("\n REGLA 7: <sentencia> --> <salida> \n"); }   
-    | entrada                                                               { printf("\n REGLA 8: <sentencia> --> <entrada> \n"); } 
-    | entre                                                                 { printf("\n REGLA 9: <sentencia> --> <entre> \n"); }  //BETWEEN
-    | tomar                                                                 { printf("\n REGLA 10: <sentencia> --> <tomar> \n"); }  // TAKE
+    | declaracion                                                           { 
+																				printf("\n REGLA 3: <sentencia> --> <declaracion> \n"); 
+																				idx_sentencia = idx_dec; 
+																			}  
+    | asignacion                                                            { 
+																				printf("\n REGLA 4: <sentencia> --> <asignacion> \n"); 
+																				idx_sentencia = idx_asig; 
+																			}    
+    | ciclo                                                                 { 
+																				printf("\n REGLA 5: <sentencia> --> <ciclo> \n");
+																				 idx_sentencia = idx_ciclo;
+																			}   
+    | condicional                                                           { 
+																				printf("\n REGLA 6: <sentencia> --> <condicional> \n");
+																				idx_sentencia = idx_cond; 
+																			}  
+    | salida                                                                { 
+																				printf("\n REGLA 7: <sentencia> --> <salida> \n");
+																				idx_sentencia = idx_salida; 
+																			}    
+    | entrada                                                               { 
+			    																printf("\n REGLA 8: <sentencia> --> <entrada> \n");
+																				idx_sentencia = idx_entrada; 
+																			}  
+    | entre                                                                 { 
+																				printf("\n REGLA 9: <sentencia> --> <entre> \n");
+																				idx_sentencia = idx_entre; 
+																			}  
+    | tomar                                                                 { 
+																				printf("\n REGLA 10: <sentencia> --> <tomar> \n");
+																				idx_sentencia = idx_tomar; 
+																			}  
 ;
 
 // Declaraciones de Variables
@@ -110,23 +129,107 @@ declaracion:
 ;    
 
 listavar:
-    ID                                                                      { printf("\n REGLA 21: <listavar> --> ID \n"); agregarVarATabla(yylval.str_val); varADeclarar1 = fin_tabla; cantVarsADeclarar = 1; }
-    | listavar COMA ID                                                      { printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); agregarVarATabla(yylval.str_val); cantVarsADeclarar++; }
+    ID                                                                      { 
+																				printf("\n REGLA 21: <listavar> --> ID \n"); 
+																				int idx = agregarVarATabla(yylval.str_val); 
+																				varADeclarar1 = fin_tabla; 
+																				cantVarsADeclarar = 1; 
+																			}
+    | listavar COMA ID                                                      { 
+																				printf("\n REGLA 22: <listavar> --> <listavar> COMA ID \n"); 
+																				int idx = agregarVarATabla(yylval.str_val); 
+																				cantVarsADeclarar++; 
+																			}
 ;
 
 tipodato:
-    INTEGER                                                                 { printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); tipoDatoADeclarar = INTEGER;}
-    | FLOAT                                                                 { printf("\n REGLA 24: <tipodato> --> FLOAT \n"); tipoDatoADeclarar = FLOAT;}
-    | STRING                                                                { printf("\n REGLA 25: <tipodato> --> STRING \n"); tipoDatoADeclarar = STRING;}
+    INTEGER                                                                 { 
+																				printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); 
+																				tipoDatoADeclarar = INTEGER; 
+																			}
+    | FLOAT                                                                 { 
+																				printf("\n REGLA 24: <tipodato> --> FLOAT \n"); 
+																			  	tipoDatoADeclarar = FLOAT; 
+																			}
+    | STRING                                                                { 
+																				printf("\n REGLA 25: <tipodato> --> STRING \n"); 
+																			  	tipoDatoADeclarar = STRING; 
+																			}
 ;
 
 bloque_variables:
-    bloque_variables listavar OP_TIPO tipodato                              { printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
-    | listavar OP_TIPO tipodato                                             { printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n");agregarTiposDatosATabla(); }
+    bloque_variables listavar OP_TIPO tipodato                              { 
+																				printf("\n REGLA 60: <bloque_variables> --> <bloque_variables> listavar OP_TIPO tipodato \n"); 
+																				agregarTiposDatosATabla(); 
+																			}
+    | listavar OP_TIPO tipodato                                             { 
+																				printf("\n REGLA 61: <bloque_variables> --> listavar OP_TIPO tipodato \n"); 
+																				agregarTiposDatosATabla(); 
+																			}
 ;
 
-
 // General
+asignacion:
+    ID OP_ASIG expresion                                                    { printf("\n REGLA 32: <asignacion> --> ID OP_ASIG <expresion> \n"); }
+	| ID OP_ASIG CONST_STR                                                  { 
+																				printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); 
+																				int idx = agregarCteStringATabla(yylval.str_val);
+																			}
+;
+
+expresion:
+    expresion OP_SUMA termino                                               { 
+																			  printf("\n REGLA 34: <expresion> --> <expresion> OP_SUMA <termino> \n"); 
+																			  idx_expresion = create_terceto(OP_SUMA, idx_expresion, idx_termino);
+																			}
+    | expresion OP_RESTA termino                                            { 
+																			  printf("\n REGLA 35: <expresion> --> <expresion> OP_RESTA <termino> \n"); 
+																			  idx_expresion = create_terceto(OP_RESTA, idx_expresion, idx_termino);
+																			}
+    | termino                                                               { 
+																			  printf("\n REGLA 36: <expresion> --> <termino> \n"); 
+	 																		  idx_expresion = idx_termino; 
+																			}
+;
+
+termino:
+    termino OP_MULT factor                                                  { 
+																				printf("\n REGLA 37: <termino> --> <termino> OP_MULT <factor> \n");
+																				idx_termino = crear_terceto(OP_MULT, idx_termino, idx_factor);
+																			}
+    | termino OP_DIV factor                                                 { 
+																				printf("\n REGLA 38: <termino> --> <termino> OP_DIV <factor> \n");
+																				idx_termino = crear_terceto(OP_DIV, idx_termino, ind_factor);
+																			}
+    | factor                                                                { 
+																				printf("\n REGLA 39: <termino> --> <factor> \n"); 
+																				idx_termino = idx_factor;
+																			}
+;
+
+factor:
+    PAR_A expresion PAR_C                                                   { 
+																				printf("\n REGLA 40: <factor> --> PAR_A <expresion> PAR_C \n"); 
+																				idx_factor = idx_expresion;
+																			} 
+    | CONST_REAL                                                            { 
+																				printf("\n REGLA 41: <factor> --> CONST_REAL \n");
+																				int idx = agregarCteRealATabla(yylval.real_val);
+																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																			}
+    | ID                                                                    { 
+																				printf("\n REGLA 42: <factor> --> ID \n"); 
+																				int idx = buscarEnTabla($1);
+																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																			} 
+    | CONST_ENT                                                             { 
+																				printf("\n REGLA 43: <factor> --> CONST_ENT \n"); 
+																				int idx = agregarCteIntATabla(yylval.int_val);
+																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																			}
+;
+
+// Sentencias de control
 condicional:
     IF PAR_A condicion PAR_C programa ELSE programa ENDIF                   { printf("\n REGLA 26: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
     | IF PAR_A condicion PAR_C programa ENDIF                               { printf("\n REGLA 27: <condicional> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
@@ -134,30 +237,6 @@ condicional:
 
 ciclo:
     WHILE PAR_A condicion PAR_C programa ENDWHILE                           { printf("\n REGLA 28: <ciclo> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
-;
-
-asignacion:
-    ID OP_ASIG expresion                                                    { printf("\n REGLA 32: <asignacion> --> ID OP_ASIG <expresion> \n"); }
-    | ID OP_ASIG CONST_STR                                                  { printf("\n REGLA 33: <asignacion> --> ID OP_ASIG CONST_STR \n"); agregarCteStringATabla(yylval.str_val);}
-;
-
-expresion:
-    expresion OP_SUMA termino                                               { printf("\n REGLA 34: <expresion> --> <expresion> OP_SUMA <termino> \n"); }
-    | expresion OP_RESTA termino                                            { printf("\n REGLA 35: <expresion> --> <expresion> OP_RESTA <termino> \n"); }
-    | termino                                                               { printf("\n REGLA 36: <expresion> --> <termino> \n"); }
-;
-
-termino:
-    termino OP_MULT factor                                                  { printf("\n REGLA 37: <termino> --> <termino> OP_MULT <factor> \n");}
-    | termino OP_DIV factor                                                 { printf("\n REGLA 38: <termino> --> <termino> OP_DIV <factor> \n");}
-    | factor                                                                { printf("\n REGLA 39: <termino> --> <factor> \n"); }
-;
-
-factor:
-    PAR_A expresion PAR_C                                                   { printf("\n REGLA 40: <factor> --> PAR_A <expresion> PAR_C \n"); } 
-    | CONST_REAL                                                            { printf("\n REGLA 41: <factor> --> CONST_REAL \n"); agregarCteRealATabla(yylval.real_val);}
-    | ID                                                                    { printf("\n REGLA 42: <factor> --> ID \n"); } 
-    | CONST_ENT                                                             { printf("\n REGLA 43: <factor> --> CONST_ENT \n"); agregarCteIntATabla(yylval.int_val);}
 ;
 
 condicion:
@@ -183,28 +262,58 @@ comparacion:
 ;
 
 comparador:
-    OP_MAYOR                                                                { printf("\n REGLA 54: <comparador> --> OP_MAYOR \n"); } 
-    | OP_MENOR                                                              { printf("\n REGLA 55: <comparador> --> OP_MENOR \n"); } 
-    | OP_MENIGU                                                             { printf("\n REGLA 56: <comparador> --> OP_MENIGU \n"); } 
-    | OP_MAYIGU                                                             { printf("\n REGLA 57: <comparador> --> OP_MAYIGU \n"); } 
-    | OP_IGUAL                                                              { printf("\n REGLA 58: <comparador> --> OP_IGUAL \n"); } 
-    | OP_NO_IGUAL                                                           { printf("\n REGLA 59: <comparador> --> OP_NO_IGUAL \n"); }
+    OP_MAYOR                                                                { 
+																				printf("\n REGLA 54: <comparador> --> OP_MAYOR \n");
+																				comp_bool_actual = OP_MAYOR; 
+																			} 
+    | OP_MENOR                                                              { 
+																				printf("\n REGLA 55: <comparador> --> OP_MENOR \n");
+																				comp_bool_actual = OP_MENOR; 
+																			} 
+    | OP_MENIGU                                                             { 
+																				printf("\n REGLA 56: <comparador> --> OP_MENIGU \n");
+																				comp_bool_actual = OP_MENIGU; 
+																			} 
+    | OP_MAYIGU                                                             { 
+																				printf("\n REGLA 57: <comparador> --> OP_MAYIGU \n"); 
+																				comp_bool_actual = OP_MAYIGU; 
+																			} 
+    | OP_IGUAL                                                              { 
+																				printf("\n REGLA 58: <comparador> --> OP_IGUAL \n"); 
+																				comp_bool_actual = OP_IGUAL; 
+																			} 
+    | OP_NO_IGUAL                                                           { 
+																				printf("\n REGLA 59: <comparador> --> OP_NO_IGUAL \n");
+																				comp_bool_actual = OP_NO_IGUAL; 
+																			}
 ;
 
 // Lectura y escritura
 entrada:
-    READ ID                                                                 { printf("\n REGLA 29: <entrada> --> READ ID \n"); chequearVarEnTabla(yylval.str_val);}
+    READ ID                                                                 { 
+																				printf("\n REGLA 29: <entrada> --> READ ID \n"); 
+																				chequearVarEnTabla(yylval.str_val);
+																			}
 ;
 
 salida:
-    WRITE CONST_STR                                                         { printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n");agregarCteStringATabla(yylval.str_val); }
-    | WRITE ID                                                              { printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); chequearVarEnTabla(yylval.str_val); }
+    WRITE CONST_STR                                                         { 
+																			  printf("\n REGLA 30: <salida> -->  WRITE CONST_STR  \n"); 
+																			  int idx = agregarCteStringATabla(yylval.str_val); 
+																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+																			}
+    | WRITE ID                                                              { 
+																			  printf("\n REGLA 31: <salida> -->  WRITE ID  \n"); 
+																			  chequearVarEnTabla(yylval.str_val); 
+																			  int idx = buscarEnTabla($2);
+																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+																			}
 ;
 
 // Funciones Especiales
 // BETWEEN
 entre:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C         { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+    BETWEEN PAR_A ID PUNTO_COMA COR_A expresion PYC expresion COR_C PAR_C    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
 ;
 
 // TAKE
@@ -227,139 +336,3 @@ OP_SUMA                                                                     { pr
 ;
 
 %%
-
-
-
-
-
-int buscarEnTabla(char * name){
-   int i=0;
-   while(i<=fin_tabla){
-	   if(strcmp(tabla_simbolo[i].nombre,name) == 0){
-		   return i;
-	   }
-	   i++;
-   }
-   return -1;
-}
-
-
-
-void escribirNombreEnTabla(char* nombre, int pos){
-	strcpy(tabla_simbolo[pos].nombre, nombre);
-}
-
- void agregarVarATabla(char* nombre){
-	 if(fin_tabla >= TAM_TABLA - 1){
-		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
-		 system("Pause");
-		 exit(2);
-	 }
-	 if(buscarEnTabla(nombre) == -1){     
-		 fin_tabla++;
-		 escribirNombreEnTabla(nombre, fin_tabla);
-	 }
-	 else{
-         yyerror("Encontre dos declaraciones de variables con el mismo nombre. Decidite."); 
-     } 
-
- }
-
-
-void agregarTiposDatosATabla(){
-	for(int i = 0; i < cantVarsADeclarar; i++){
-		tabla_simbolo[varADeclarar1 + i].tipo_dato = tipoDatoADeclarar;
-	}
-}
-
-void guardarTabla(){
-	if(fin_tabla == -1)
-		yyerror("No encontre la tabla de simbolos");
-	FILE* arch = fopen("ts.txt", "w+");
-	if(!arch){
-		printf("No pude crear el archivo ts.txt\n");
-		return;
-	}
-
-	for(int i = 0; i <= fin_tabla; i++){
-		fprintf(arch, "%s\t", &(tabla_simbolo[i].nombre) );
-		switch (tabla_simbolo[i].tipo_dato){
-		case Real:
-			fprintf(arch, "REAL");
-			break;
-		case Integer:
-			fprintf(arch, "INTEGER");
-			break;
-		case String:
-			fprintf(arch, "STRING");
-			break;
-		case CteReal:
-			fprintf(arch, "CONST_REAL\t%f", tabla_simbolo[i].valor_f);
-			break;
-		case CteInt:
-			fprintf(arch, "CONST_ENT\t%d", tabla_simbolo[i].valor_i);
-			break;
-		case CteString:
-			fprintf(arch, "CONST_STR\t%s\t%d", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
-			break;
-		}
-		fprintf(arch, "\n");
-	}
-	fclose(arch);
-}
-
-
-void agregarCteStringATabla(char* nombre){
-	if(fin_tabla >= TAM_TABLA - 1){
-		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
-		system("Pause");
-		exit(2);
-	}
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
-		escribirNombreEnTabla(nombre, fin_tabla);
-		tabla_simbolo[fin_tabla].tipo_dato = CteString;		
-		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
-		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
-	}
-}
-
-void agregarCteRealATabla(float valor){
-	if(fin_tabla >= TAM_TABLA - 1){
-		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
-		system("Pause");
-		exit(2);
-	}
-	char nombre[12];
-	sprintf(nombre, "_%f", valor);
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
-		escribirNombreEnTabla(nombre, fin_tabla);
-		tabla_simbolo[fin_tabla].tipo_dato = CteReal;
-		tabla_simbolo[fin_tabla].valor_f = valor;
-	}
-}
-
-void agregarCteIntATabla(int valor){
-	if(fin_tabla >= TAM_TABLA - 1){
-		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
-		system("Pause");
-		exit(2);
-	}
-	char nombre[30];
-	sprintf(nombre, "_%d", valor);
-	if(buscarEnTabla(nombre) == -1){
-		fin_tabla++;
-		escribirNombreEnTabla(nombre, fin_tabla);
-    	tabla_simbolo[fin_tabla].tipo_dato = CteInt;
-		tabla_simbolo[fin_tabla].valor_i = valor;
-	}
-}
-
-void chequearVarEnTabla(char* nombre){
-	if( buscarEnTabla(nombre) == -1){
-		char msg[100];
-		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
-		yyerror(msg);
-	}
-}

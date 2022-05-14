@@ -11,14 +11,14 @@
 #define TAM_TABLA 500
 #define TAM_NOMBRE 30
 
-void agregarVarATabla(char* nombre);
+int agregarVarATabla(char* nombre);
 void agregarTiposDatosATabla(void);
-void agregarCteStringATabla(char* nombre);
-void agregarCteIntATabla(int valor);
-void agregarCteRealATabla(float valor);
-void chequearVarEnTabla(char* nombre);
+int agregarCteStringATabla(char* nombre);
+int agregarCteIntATabla(int valor);
+int agregarCteRealATabla(float valor);
 int buscarEnTabla(char * name);
 void escribirNombreEnTabla(char* nombre, int pos);
+void chequearVarEnTabla(char* nombre);
 void guardarTabla(void);
 
 typedef struct {
