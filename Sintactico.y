@@ -1,7 +1,6 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 #include "y.tab.h"
 #include "libs/tercetos/tercetos.h"
@@ -21,7 +20,6 @@ FILE  *yyin;
 int yyparse();
 int yylex();
 int yyparse();
-int yyerror();
 int contWhile=0;
 char * yytext;
 
@@ -180,11 +178,11 @@ asignacion:
 expresion:
     expresion OP_SUMA termino                                               { 
 																			  printf("\n REGLA 34: <expresion> --> <expresion> OP_SUMA <termino> \n"); 
-																			  idx_expresion = create_terceto(OP_SUMA, idx_expresion, idx_termino);
+																			  idx_expresion = crear_terceto(OP_SUMA, idx_expresion, idx_termino);
 																			}
     | expresion OP_RESTA termino                                            { 
 																			  printf("\n REGLA 35: <expresion> --> <expresion> OP_RESTA <termino> \n"); 
-																			  idx_expresion = create_terceto(OP_RESTA, idx_expresion, idx_termino);
+																			  idx_expresion = crear_terceto(OP_RESTA, idx_expresion, idx_termino);
 																			}
     | termino                                                               { 
 																			  printf("\n REGLA 36: <expresion> --> <termino> \n"); 

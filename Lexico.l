@@ -2,12 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 #include "y.tab.h"
 
-#define INT_MAX 32767
-#define INT_MIN -32768
+#define INTEGER_MAX  32767
+#define INTEGER_MIN  -32768
 #define REAL_MAX 3.402823e+38
 #define REAL_MIN 1.175494e-38
 #define STRING_MAX_CHAR 32
@@ -22,7 +21,6 @@ FILE  *yyin;
 char *yytext;
 int yylex();
 int yyparse();
-char * yyerror();
  
 %}
 
@@ -152,7 +150,7 @@ OP_RESTA                "-"
 "\n\t" 
 "\r\n"               
 " "                 
-.                yyerror(yytext);
+.                { printf("Error lexico: Caracter invalido: %s", yytext); exit(1);}
 
 %%
 
@@ -169,10 +167,6 @@ int main(int argc,char *argv[])
         }
         fclose(yyin);
         return 1;
-}
-
-char* yyerror(void){
-    return (char*)printf("Error Lexico en linea %d\n",yylineno);
 }
 
 void validacion_string()
@@ -192,7 +186,7 @@ void validacion_string()
 
 void validacion_int()
 {
-    if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
+    if (atoll(yytext) < INTEGER_MAX  || atoll(yytext) > INTEGER_MAX )
     {
         printf("Contenido de constante entera invalido en la linea %d\n", yylineno);
         exit(1);

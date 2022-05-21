@@ -16,15 +16,31 @@ int crear_terceto(int parte_a, int parte_b, int parte_c) {
 	return idx_ultimo_terceto + OFFSET;
 }
 
+void grabar_parte(FILE** arch,int parte){
+		fprintf(*arch, ", ");
+
+		if(parte == PARTE_VACIA)
+			fprintf(*arch, "_");
+		else if(parte < TAM_TABLA){
+			// Es una entrada a tabla de simbolos
+			fprintf(*arch, "%s", &(tabla_simbolo[parte].nombre) );
+		}
+		else
+			fprintf(*arch, "[%d]", parte); // Indice nuevo elemento
+}
+
 // Guarda tercetos en archivo en formato final
 // [idx] (PARTE_A, PARTE_B, PARTE_C)
 void guardar_tercetos() { 
-    if(idx_ultimo_terceto == -1)
-        yyerror("ERR- No existen tercetos cargados en el vector");
+    if(idx_ultimo_terceto == -1){
+        printf("ERR- No existen tercetos cargados en el vector");
+        exit(1);
+    }
 
 	FILE* arch = fopen("intermedia.txt", "w+");
 	if(!arch){
 		printf("ERR- No se pudo crear el archivo: intermedia.txt\n");
+        exit(1);
 		return;
 	}
     int i;
@@ -132,12 +148,12 @@ void guardar_tercetos() {
 		// Escribo PARTE_B
         // Result: [idx] (PARTE_A, PARTE_B
 		int parte_b = vector_tercetos[i].parte_b;
-        grabar_parte(&arch,&parte_b);
+        grabar_parte(&arch,parte_b);
 
 		// Escribo PARTE_C
         // Result: [idx] (PARTE_A, PARTE_B, PARTE_C
 		int parte_c = vector_tercetos[i].parte_c;
-        grabar_parte(&arch,&parte_c);
+        grabar_parte(&arch,parte_c);
 
         // Result: [idx] (PARTE_A, PARTE_B, PARTE_C)
 		fprintf(arch, ")\n");
@@ -145,20 +161,6 @@ void guardar_tercetos() {
 	}
 	
     fclose(arch);
-}
-
-void grabar_parte(FILE* arch,int parte){
-		fprintf(arch, ", ");
-
-		if(parte == PARTE_VACIA)
-			fprintf(arch, "_");
-		else if(parte < TAM_TABLA){
-			// Es una entrada a tabla de simbolos
-			fprintf(arch, "%s", &(tabla_simbolo[parte].nombre) );
-		}
-		else
-			fprintf(arch, "[%d]", parte); // Indice nuevo elemento
- 
 }
 
 // Modificar terceto mediante idx y posicion recibido.

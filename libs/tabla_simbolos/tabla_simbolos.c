@@ -31,7 +31,7 @@ int agregarVarATabla(char* nombre){
 		 return idx;
 	 }
 	 else{
-         yyerror("ERR- Se encontraron dos declaraciones identicas."); 
+         printf("ERR- Se encontraron dos declaraciones identicas."); 
      } 
 
 }
@@ -45,7 +45,7 @@ void agregarTiposDatosATabla(){
 
 void guardarTabla(){
 	if(fin_tabla == -1)
-		yyerror("ERR- No se encontró la tabla de simbolos");
+		printf("ERR- No se encontró la tabla de simbolos");
 	FILE* arch = fopen("ts.txt", "w+");
 	if(!arch){
 		printf("ERR- No se ha podido crear el archivo ts.txt\n");
@@ -141,6 +141,6 @@ void chequearVarEnTabla(char* nombre){
 	if( buscarEnTabla(nombre) == -1){
 		char msg[100];
 		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
-		yyerror(msg);
+		printf(msg);
 	}
 }
