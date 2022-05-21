@@ -27,8 +27,8 @@ void guardar_tercetos() {
 		printf("ERR- No se pudo crear el archivo: intermedia.txt\n");
 		return;
 	}
-
-    for(int i = 0; i <= idx_ultimo_terceto; i++) {
+    int i;
+    for(i = 0; i <= idx_ultimo_terceto; i++) {
 		
 		// Indice
         // Result: [idx] (
@@ -73,7 +73,7 @@ void guardar_tercetos() {
             case OP_RESTA:
                 fprintf(arch, "-");
                 break;
-            case OP_MUL:
+            case OP_MULT:
                 fprintf(arch, "*");
                 break;
             case OP_DIV:
@@ -115,7 +115,7 @@ void guardar_tercetos() {
             case COMA:
                 fprintf(arch, "\',\'");
                 break;
-            case PUNTO_COMA:
+            case PYC:
                 fprintf(arch,  "\';\'");
                 break;
             case READ:

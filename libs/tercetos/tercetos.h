@@ -1,6 +1,6 @@
 #ifndef tercetos_h
 #define tercetos_h
-#include "tabla_simbolos.h"
+#include "../tabla_simbolos/tabla_simbolos.h"
 #include "../../y.tab.h"
 #include <stdio.h>
 #include <stdlib.h>

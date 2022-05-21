@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <string.h>
 #include "y.tab.h"
-#include "ibs/terceros/tercetos.h"
+#include "libs/tercetos/tercetos.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -80,7 +80,7 @@ start: programa                                                             {
 programa:
     sentencia                                                               { 
 																				printf("\n REGLA 1: <programa> --> <sentencia> \n"); 
-																				idx_programa = idx_sentencia
+																				idx_programa = idx_sentencia;
 																			}       
     | programa sentencia                                                    { 
 																				printf("\n REGLA 2: <programa> --> <programa> <sentencia> \n"); 
@@ -199,7 +199,7 @@ termino:
 																			}
     | termino OP_DIV factor                                                 { 
 																				printf("\n REGLA 38: <termino> --> <termino> OP_DIV <factor> \n");
-																				idx_termino = crear_terceto(OP_DIV, idx_termino, ind_factor);
+																				idx_termino = crear_terceto(OP_DIV, idx_termino, idx_factor);
 																			}
     | factor                                                                { 
 																				printf("\n REGLA 39: <termino> --> <factor> \n"); 
@@ -313,7 +313,7 @@ salida:
 // Funciones Especiales
 // BETWEEN
 entre:
-    BETWEEN PAR_A ID PUNTO_COMA COR_A expresion PYC expresion COR_C PAR_C    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+    BETWEEN PAR_A ID PYC COR_A expresion PYC expresion COR_C PAR_C    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
 ;
 
 // TAKE
