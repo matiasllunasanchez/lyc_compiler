@@ -3,4 +3,4 @@ del y.tab.c
 del y.output
 del y.tab.h
 del ts.txt
-del .\Primera.exe
+del .\Segunda.exe
