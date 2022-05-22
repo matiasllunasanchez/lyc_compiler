@@ -25,9 +25,12 @@ int agregarVarATabla(char* nombre){
 		 exit(2);
 	 }
 
-	 if(buscarEnTabla(nombre) == -1){     
+	char nombreNuevo[strlen(nombre)+2];
+	sprintf(nombreNuevo, "_%s",nombre);
+
+	 if(buscarEnTabla(nombreNuevo) == -1){     
 		 int idx = ++fin_tabla;
-		 escribirNombreEnTabla(nombre, fin_tabla);
+		 escribirNombreEnTabla(nombreNuevo, fin_tabla);
 		 return idx;
 	 }
 	 else{
