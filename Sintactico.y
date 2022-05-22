@@ -236,7 +236,7 @@ condicion:
 	| NOT comparacion                                                       { printf("\n REGLA 44: <condicion> --> NOT <comparacion> \n"); }
     | condicion AND comparacion                                             { printf("\n REGLA 45: <condicion> --> <condicion> AND <comparacion> <c> \n"); }
     | condicion OR comparacion                                              { printf("\n REGLA 46: <condicion> --> <condicion> OR <comparacion> \n"); }
-	| PAR_A between	PAR_C													{ printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n"); }
+	| between																{ printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n"); }
 ;
 
 comparacion:

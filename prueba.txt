@@ -32,15 +32,21 @@ WHILE(ab<2)
 ab := ab + 1
 ENDWHILE
 
-BETWEEN (a, [2 ; a*(b+4)])
-BETWEEN (a, [2.3 ; 11.22])
-TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 576 /-
-TAKE (+ ; 2 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 14 /-
-TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: -34 /-
-TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] ) -/ Resultado: 0 /-
-TAKE (+ ; 3 ; [2 ; 12 ] ) -/ Error /-
-TAKE (/ ; 4 ; [ ] ) -/ Resultado: 0 /-
+IF(BETWEEN (a, [2 ; a*(b+4)]))
+    f:= "ok between"
+ENDIF
 
+IF(BETWEEN (a, [2.3 ; 11.22]))
+    f:= "ok between 2"
+ENDIF
+
+d:=TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (+ ; 2 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [ ] )
+
+-/ TAKE (+ ; 3 ; [2 ; 12 ] )  Error /-
 
 -/ cota maxima integer superada /-
 -/ a1 := 32768 /-
