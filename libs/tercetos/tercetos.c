@@ -51,7 +51,7 @@ void guardar_tercetos() {
 		
 		// Indice
         // Result: [idx] (
-		fprintf(arch, "[%d] (", i); 
+		fprintf(arch, "[%d] (", i + OFFSET); 
 
         // Escribo PARTE_A
         // Result: [idx] (PARTE_A
