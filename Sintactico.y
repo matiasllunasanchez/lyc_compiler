@@ -124,6 +124,7 @@ tipodato:
 																			}
 ;
 
+// Reglas base
 programa:
       sentencia                                                   			{ 
 																				printf("\n REGLA 9: <programa> --> <sentencia> \n"); 
@@ -157,7 +158,6 @@ sentencia:
 																				idx_sentencia = idx_entrada; 
 																			}
 ;
-
 
 // General
 asignacion:
