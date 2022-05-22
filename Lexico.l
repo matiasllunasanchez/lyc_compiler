@@ -70,18 +70,18 @@ COMENTARIO	            \-\/.*\/\-
 ID		            	{LETRA}({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
-OP_MAYIGU	            ">="
+OP_MAYOR_IGUAL	            ">="
 OP_MENOR		        "<"
-OP_MENIGU	            "<="
+OP_MENOR_IGUAL	            "<="
 OP_IGUAL	            "=="
 OP_NO_IGUAL		        "!="
 OP_TIPO                 ":"
 
 OP_ASIG		            ":="
 OP_DIV                  "/"
-OP_SUMA                 "+"
-OP_MULT		            "*"
-OP_RESTA                "-"
+OP_SUM                 "+"
+OP_MUL		            "*"
+OP_RES                "-"
 
 %%
 
@@ -129,17 +129,16 @@ OP_RESTA                "-"
 
 {OP_ASIG}	     { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; }
 {OP_MAYOR}		 { printf("\n Operador Mayor: %s\n",yytext);return OP_MAYOR; }
-{OP_MAYIGU}      { printf("\n Operador Mayor o igual: %s\n",yytext);return OP_MAYIGU; }
+{OP_MAYOR_IGUAL} { printf("\n Operador Mayor o igual: %s\n",yytext);return OP_MAYOR_IGUAL; }
 {OP_MENOR}       { printf("\n Operador Menor: %s\n",yytext);return OP_MENOR; }
-{OP_MENIGU}      { printf("\n Operador Menor o Igual: %s\n",yytext);return OP_MENIGU; }
+{OP_MENOR_IGUAL} { printf("\n Operador Menor o Igual: %s\n",yytext);return OP_MENOR_IGUAL; }
 {OP_IGUAL}       { printf("\n Operador Igual: %s\n",yytext);return OP_IGUAL; }
 {OP_TIPO}        { printf("\n Operador de tipo: %s\n",yytext);return OP_TIPO; }
 {OP_NO_IGUAL}    { printf("\n Operador Distinto : %s\n",yytext);return OP_NO_IGUAL; }
 {OP_DIV}         { printf("\n Operador Divison: %s\n",yytext);return OP_DIV; }
-{OP_SUMA}        { printf("\n Operador Suma: %s\n",yytext);return OP_SUMA; }
-{OP_MULT}        { printf("\n Operador Multiplicacion: %s\n",yytext);return OP_MULT; } 
-{OP_ASIG}        { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; } 
-{OP_RESTA}       { printf("\n Operador Resta: %s\n",yytext);return OP_RESTA; }
+{OP_SUM}         { printf("\n Operador Suma: %s\n",yytext);return OP_SUM; }
+{OP_MUL}         { printf("\n Operador Multiplicacion: %s\n",yytext);return OP_MUL; } 
+{OP_RES}         { printf("\n Operador Resta: %s\n",yytext);return OP_RES; }
 
 {COMENTARIO}
 
