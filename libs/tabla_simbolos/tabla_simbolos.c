@@ -52,26 +52,27 @@ void guardarTabla(){
 		return;
 	}
     int i;
+    fprintf(arch, "%-30s%-40s%-30s%-30s\n", "NOMBRE", "TIPO", "VALOR", "LONGITUD");
 	for(i = 0; i <= fin_tabla; i++){
-		fprintf(arch, "%s\t", &(tabla_simbolo[i].nombre) );
+		fprintf(arch, "%-30s", &(tabla_simbolo[i].nombre) );
 		switch (tabla_simbolo[i].tipo_dato){
 		case Real:
-			fprintf(arch, "REAL");
+			fprintf(arch,"%-40s", "REAL");
 			break;
 		case Integer:
-			fprintf(arch, "INTEGER");
+			fprintf(arch,"%-40s", "INTEGER");
 			break;
 		case String:
-			fprintf(arch, "STRING");
+			fprintf(arch,"%-40s", "STRING");
 			break;
 		case CteReal:
-			fprintf(arch, "CONST_REAL\t%f", tabla_simbolo[i].valor_f);
+			fprintf(arch,"%-40s%-30f", "CONST_REAL", tabla_simbolo[i].valor_f);
 			break;
 		case CteInt:
-			fprintf(arch, "CONST_ENT\t%d", tabla_simbolo[i].valor_i);
+			fprintf(arch,"%-40s%-30d", "CONST_ENT", tabla_simbolo[i].valor_i);
 			break;
 		case CteString:
-			fprintf(arch, "CONST_STR\t%s\t%d", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
+			fprintf(arch,"%-40s%-30s%-30d", "CONST_STR", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
 			break;
 		}
 		fprintf(arch, "\n");
@@ -104,7 +105,7 @@ int agregarCteRealATabla(float valor){
 		exit(2);
 	}
 	
-	char nombre[12];
+	char nombre[15];
 	sprintf(nombre, "_%f", valor);
 	int idx = buscarEnTabla(nombre);
 
