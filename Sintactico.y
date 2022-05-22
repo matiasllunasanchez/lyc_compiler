@@ -315,7 +315,7 @@ salida:
 // Funciones Especiales
 // BETWEEN
 entre:
-    BETWEEN PAR_A ID PYC COR_A expresion PYC expresion COR_C PAR_C    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    { printf("\n REGLA 11: <entre> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
 ;
 
 // TAKE
