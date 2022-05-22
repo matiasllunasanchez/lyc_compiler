@@ -240,7 +240,7 @@ condicion:
 ;
 
 comparacion:
-	PAR_A condicion PAR_C													{ printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n"); }
+	PAR_A condicion PAR_C													 { printf("\n REGLA 48.bis: <comparacion> --> PAR_A <condicion> PAR_C \n"); }
     | expresion comparador expresion                                         { printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n"); }
 ;
 
