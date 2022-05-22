@@ -9,5 +9,3 @@ pause
 pause
 "%~d0%~p0Segunda.exe" prueba.txt
 pause
-@REM "%~d0%~p0Primera.exe" %~d0%~p0\tests\prueba_ok.txt
-@REM pause
