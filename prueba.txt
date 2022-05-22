@@ -28,6 +28,10 @@ IF ( (a >= 2) OR (a >= 2) )
     f := "correcto"
 ENDIF
 
+IF (NOT (a>3))
+    f := "correcto NOT"
+ENDIF
+
 WHILE(ab<2)
 ab := ab + 1
 ENDWHILE
