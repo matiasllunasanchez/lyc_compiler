@@ -1,9 +1,6 @@
 #ifndef tercetos_h
 #define tercetos_h
 #include "../tabla_simbolos/tabla_simbolos.h"
-#include "../../y.tab.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 #define OFFSET TAM_TABLA
 // Desde 0 al max de la tabla de simbolos se considera un valor CTE o ID
@@ -32,6 +29,6 @@ typedef struct{
 } terceto;
 
 extern terceto vector_tercetos[CANT_MAX_TERCETOS];
-extern int idx_ultimo_terceto = -1; // Indice del ultimo elemento insertado en vector
+extern int idx_ultimo_terceto; // Indice del ultimo elemento insertado en vector
 
 #endif

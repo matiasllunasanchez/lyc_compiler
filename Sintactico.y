@@ -4,6 +4,7 @@
 #include <string.h>
 #include "y.tab.h"
 #include "libs/tercetos/tercetos.h"
+#include "libs/tabla_simbolos/tabla_simbolos.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -20,10 +21,13 @@ FILE  *yyin;
 int yyparse();
 int yylex();
 int yyparse();
+int yyerror(char* mensaje);
+int yyerror();
 int contWhile=0;
 char * yytext;
 
-
+terceto vector_tercetos[CANT_MAX_TERCETOS];
+int idx_ultimo_terceto = -1;
 // Cosas para comparadores booleanos
 int comp_bool_actual;
 int idx_programa;
@@ -332,5 +336,4 @@ OP_SUMA                                                                     { pr
 | OP_DIV                                                                    { printf("\n REGLA 18: <oper> --> OP_DIV \n"); }
 | OP_RESTA                                                                  { printf("\n REGLA 19: <oper> --> OP_RESTA \n"); }
 ;
-
 %%

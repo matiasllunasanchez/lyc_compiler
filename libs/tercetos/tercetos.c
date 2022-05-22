@@ -1,4 +1,7 @@
 #include "tercetos.h"
+#include "../../y.tab.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // Agrega terceto a vector.
 // Mandar PARTE_VACIA en PARTE_B y PARTE_C para guardar CTE o ID
