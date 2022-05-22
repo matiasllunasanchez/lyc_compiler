@@ -34,7 +34,6 @@ DIGITO_SIN_CERO		    [1-9]
 LETRA			        [a-zA-ZñÑ]
 
 CARACTERES              @|\?|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\-|á|Á|é|É|í|Í|ó|Ó|ú|Ú|ü|ñ|Ñ|¡|\¿|%
-                      
 COMA                    ","
 
 PAR_A	                "("
@@ -186,7 +185,7 @@ void validacion_string()
 
 void validacion_int()
 {
-    if (atoll(yytext) < INTEGER_MAX  || atoll(yytext) > INTEGER_MAX )
+    if (atoll(yytext) < INTEGER_MIN  || atoll(yytext) > INTEGER_MAX )
     {
         printf("Contenido de constante entera invalido en la linea %d\n", yylineno);
         exit(1);
