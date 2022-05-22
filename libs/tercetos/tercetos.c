@@ -60,8 +60,8 @@ void guardar_tercetos() {
                 fprintf(arch, "_");
                 break;
             case PROG: // Revisar
-			fprintf(arch, "PROGRAMA");
-			break;
+                fprintf(arch, "PROGRAMA");
+                break;
             case DECVAR:
                 fprintf(arch, "DECVAR");
                 break;

@@ -12,6 +12,16 @@
 #define PARTE_VACIA -1 // Terceto parte vacia
 #define PROG 7 // Revisar
 #define CANT_MAX_TERCETOS 512
+#define CMP 21  // Comparador de assembler
+// Recordar que los branches son siempre por la condicion contraria a la que evalua el condicional, la verdadera no salta / branchea, sino que sigue.
+#define BNE 2   // =  - Salto por NOT EQUAL cuando es igual
+#define BGE 4   // <  Salto por MAYOR IGUAL cuando es menor
+#define BLT 6   // >= Salto por MENOR QUE cuando es mayor igual
+#define BLE 10  // >  Salto por MENOR IGUAL cuadno es mayor
+#define BEQ 14  // != Salto por IGUAL QUE cuando es distinto
+#define BGT 8   // <= Salto por MAYOR QUE cuando es menor igual
+#define BI 16   // Branch Always o Salto Incondicional osea salto siempre.
+
 
 // Partes de un terceto
 #define PARTE_A 1
