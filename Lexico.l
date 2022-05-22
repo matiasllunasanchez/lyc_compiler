@@ -187,7 +187,7 @@ void validacion_int()
 {
     if (atoll(yytext) < INTEGER_MIN  || atoll(yytext) > INTEGER_MAX )
     {
-        printf("Constante fuera de rango en la linea %d\n", yylineno);
+        printf("Constante entera fuera de rango en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.int_val = atoi(yytext);
@@ -197,7 +197,7 @@ void validacion_real()
 {
     if (atof(yytext) < REAL_MIN || atof(yytext) > REAL_MAX)
     {
-        printf("Constante fuera de rango en la linea %d\n", yylineno);
+        printf("Constante real fuera de rango en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.real_val = atof(yytext);
