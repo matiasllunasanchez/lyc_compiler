@@ -86,13 +86,13 @@ void guardar_tercetos() {
             case OP_ASIG:
                 fprintf(arch, ":=");
                 break;
-            case OP_SUMA:
+            case OP_SUM:
                 fprintf(arch, "+");
                 break;
-            case OP_RESTA:
+            case OP_RES:
                 fprintf(arch, "-");
                 break;
-            case OP_MULT:
+            case OP_MUL:
                 fprintf(arch, "*");
                 break;
             case OP_DIV:
@@ -113,10 +113,10 @@ void guardar_tercetos() {
             case OP_MAYOR:
                 fprintf(arch, ">");
                 break;
-            case OP_MENIGU:
+            case OP_MENOR_IGUAL:
                 fprintf(arch, "<=");
                 break;
-            case OP_MAYIGU:
+            case OP_MAYOR_IGUAL:
                 fprintf(arch, ">=");
                 break;
             case OP_IGUAL:
