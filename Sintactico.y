@@ -147,15 +147,15 @@ listavar:
 tipodato:
     INTEGER                                                                 { 
 																				printf("\n REGLA 23: <tipodato> --> INTEGER  \n"); 
-																				tipoDatoADeclarar = INTEGER; 
+																				tipoDatoADeclarar = ENUM_INTEGER; 
 																			}
     | FLOAT                                                                 { 
 																				printf("\n REGLA 24: <tipodato> --> FLOAT \n"); 
-																			  	tipoDatoADeclarar = FLOAT; 
+																			  	tipoDatoADeclarar = ENUM_FLOAT; 
 																			}
     | STRING                                                                { 
 																				printf("\n REGLA 25: <tipodato> --> STRING \n"); 
-																			  	tipoDatoADeclarar = STRING; 
+																			  	tipoDatoADeclarar = ENUM_STRING; 
 																			}
 ;
 

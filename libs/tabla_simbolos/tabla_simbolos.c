@@ -25,12 +25,9 @@ int agregarVarATabla(char* nombre){
 		 exit(2);
 	 }
 
-	char nombreNuevo[strlen(nombre)+2];
-	sprintf(nombreNuevo, "_%s",nombre);
-
-	 if(buscarEnTabla(nombreNuevo) == -1){     
+	 if(buscarEnTabla(nombre) == -1){     
 		 int idx = ++fin_tabla;
-		 escribirNombreEnTabla(nombreNuevo, fin_tabla);
+		 escribirNombreEnTabla(nombre, fin_tabla);
 		 return idx;
 	 }
 	 else{
@@ -56,28 +53,29 @@ void guardarTabla(){
 	}
     int i;
     fprintf(arch, "%-30s%-40s%-30s%-30s\n", "NOMBRE", "TIPO", "VALOR", "LONGITUD");
-	for(i = 0; i <= fin_tabla; i++){
+	for(i = 0; i <= fin_tabla; i++) {
 		fprintf(arch, "%-30s", &(tabla_simbolo[i].nombre) );
 		switch (tabla_simbolo[i].tipo_dato){
-		case Real:
-			fprintf(arch,"%-40s", "REAL");
-			break;
-		case Integer:
-			fprintf(arch,"%-40s", "INTEGER");
-			break;
-		case String:
-			fprintf(arch,"%-40s", "STRING");
-			break;
-		case CteReal:
-			fprintf(arch,"%-40s%-30f", "CONST_REAL", tabla_simbolo[i].valor_f);
-			break;
-		case CteInt:
-			fprintf(arch,"%-40s%-30d", "CONST_ENT", tabla_simbolo[i].valor_i);
-			break;
-		case CteString:
-			fprintf(arch,"%-40s%-30s%-30d", "CONST_STR", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
-			break;
+			case ENUM_FLOAT:
+				fprintf(arch,"%-40s", "FLOAT");
+				break;
+			case ENUM_INTEGER:
+				fprintf(arch,"%-40s", "INTEGER");
+				break;
+			case ENUM_STRING:
+				fprintf(arch,"%-40s", "STRING");
+				break;
+			case ENUM_CTE_FLOAT:
+				fprintf(arch,"%-40s%-30f", "CONST_REAL", tabla_simbolo[i].valor_f);
+				break;
+			case ENUM_CTE_INTEGER:
+				fprintf(arch,"%-40s%-30d", "CONST_ENT", tabla_simbolo[i].valor_i);
+				break;
+			case ENUM_CTE_STRING:
+				fprintf(arch,"%-40s%-30s%-30d", "CONST_STR", &(tabla_simbolo[i].valor_s), tabla_simbolo[i].longitud);
+				break;
 		}
+
 		fprintf(arch, "\n");
 	}
 	fclose(arch);
@@ -93,7 +91,7 @@ int agregarCteStringATabla(char* nombre){
 	if( idx == -1){
 		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
-		tabla_simbolo[fin_tabla].tipo_dato = CteString;		
+		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_STRING;		
 		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
 		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
 	}
@@ -115,7 +113,7 @@ int agregarCteRealATabla(float valor){
 	if(idx == -1) {
 		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
-		tabla_simbolo[fin_tabla].tipo_dato = CteReal;
+		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_FLOAT;
 		tabla_simbolo[fin_tabla].valor_f = valor;
 	}
 	return idx;
@@ -135,7 +133,7 @@ int agregarCteIntATabla(int valor){
 	if(idx == -1){
 		idx = ++fin_tabla;
 		escribirNombreEnTabla(nombre, fin_tabla);
-    	tabla_simbolo[fin_tabla].tipo_dato = CteInt;
+    	tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_INTEGER;
 		tabla_simbolo[fin_tabla].valor_i = valor;
 	}
 	return idx;
