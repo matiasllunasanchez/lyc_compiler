@@ -94,6 +94,7 @@ int agregarCteStringATabla(char* nombre){
 		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_STRING;		
 		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
 		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
+		idx=fin_tabla;
 	}
 
 	return idx;
@@ -115,6 +116,7 @@ int agregarCteRealATabla(float valor){
 		escribirNombreEnTabla(nombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_FLOAT;
 		tabla_simbolo[fin_tabla].valor_f = valor;
+		idx=fin_tabla;
 	}
 	return idx;
 }
@@ -135,6 +137,7 @@ int agregarCteIntATabla(int valor){
 		escribirNombreEnTabla(nombre, fin_tabla);
     	tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_INTEGER;
 		tabla_simbolo[fin_tabla].valor_i = valor;
+		idx=fin_tabla;
 	}
 	return idx;
 }

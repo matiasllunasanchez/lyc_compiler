@@ -300,7 +300,8 @@ between:
 ;
 
 // TAKE  --- Devuelve un valor, deberia poder asignarse
-// Para mi el take va como factor
+// Para mi el take va como factor 
+// concuerdo
 take:
      TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A lista_take_ctes COR_C PAR_C          	{ printf("\n REGLA 59: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); }
     |  TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A COR_C PAR_C                   		{ printf("\n REGLA 60: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
