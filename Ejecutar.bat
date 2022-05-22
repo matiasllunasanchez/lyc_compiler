@@ -9,3 +9,5 @@ pause
 pause
 "%~d0%~p0Segunda.exe" prueba.txt
 pause
+@REM "%~d0%~p0Segunda.exe" "tests/prueba_peque.txt"
+@REM pause
