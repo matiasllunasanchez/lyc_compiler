@@ -213,3 +213,10 @@ void validacion_id()
     }
     yylval.str_val = strdup(yytext);
 }
+
+int yyerror(char* mensaje)
+ {
+    printf("Syntax Error (linea %d): %s\n", yylineno, mensaje);
+    system ("Pause");
+    exit (1);
+ }
