@@ -1,24 +1,61 @@
-DECVAR
-    a, b, z, a1, b1 : INTEGER
-    variable1 : STRING
-	p1, p2, p3 : FLOAT
-ENDDEC
 
--/ Realizo una selección /-
-IF (a <= 30) 
-    b := "correcto"
-ENDIF
+DECVAR
+a : FLOAT
+b,c,d,e,f : STRING
+p1, p2, p3 : FLOAT
+ab : INTEGER
+ENDDEC
 
 -/ Así son los comentarios de LyC/-
 
-BETWEEN (a , [2 ; a * ( b + 4 ) ] )
+a := 99999.99
+a := 99.
+a := .9999
+b := "@sdADaSjfla%dfg"
+c := "asldk fh sjf"
 
-TAKE (*   ; 3  ;   [2 ; 12 ; 24 ; 48] )
+WRITE "ewr" -/ donde "ewr" debe ser una cte string /-
+READ d -/ donde base es una variable /-
+WRITE c -/ donde var1 es una variable numérica definida previamente /-
+
+
+-/ Realizo una selección /-
+IF (a <= 30)
+e := "correcto" -/ asignación string /-
+ENDIF
+
+IF ( (a >= 2) OR (a >= 2) ) 
+    f := "correcto"
+ENDIF
+
+IF (NOT (a>3))
+    f := "correcto NOT"
+ENDIF
+
+WHILE(ab<2)
+ab := ab + 1
+ENDWHILE
+
+IF(BETWEEN (a, [2 ; a*(b+4)]))
+    f:= "ok between"
+ENDIF
+
+IF(BETWEEN (a, [2.3 ; 11.22]))
+    f:= "ok between 2"
+ENDIF
+
+d:=TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (+ ; 2 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [ ] )
+
+-/ TAKE (+ ; 3 ; [2 ; 12 ] )  Error /-
 
 -/ cota maxima integer superada /-
 -/ a1 := 32768 /-
 -/ cota minima integer superada /-
--/ b2 := -32769 /-
+-/ b2 := -32769  /-
 -/ cota maxima float superada /-
 -/ p1 := 3402823000000000000000000000000000000000.0 /-
 -/ cota minima float superada /-
