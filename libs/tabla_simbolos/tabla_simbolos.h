@@ -9,7 +9,7 @@
 #define ENUM_CTE_STRING 6
 
 #define TAM_TABLA 500
-#define TAM_NOMBRE 30
+#define TAM_NOMBRE 32
 
 int agregar_var_a_tabla(char* nombre);
 void agregar_tipos_datos_a_tabla(void);

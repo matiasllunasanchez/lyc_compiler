@@ -2,4 +2,4 @@ DECVAR
 a,b : INTEGER
 ENDDEC
 
-a1 := b2 * 2 + 3
+a := b * 2 + 3

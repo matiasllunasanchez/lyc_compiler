@@ -9,12 +9,9 @@
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
 
-
 int varADeclarar1 = 0;
 int cantVarsADeclarar = 0;
 int tipoDatoADeclarar;
-
-
 
 int yystopparser=0;
 FILE  *yyin;
@@ -54,8 +51,6 @@ int idx_termino;
 %token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE DECVAR ENDDEC AND OR NOT
 %token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
-
-
 %union {
     int int_val;
 	float real_val;
@@ -67,8 +62,6 @@ int idx_termino;
 %token <real_val>CONST_REAL
 %token <str_val>CONST_STR
 
-
-
 %%
 
 // Reglas base
@@ -79,31 +72,31 @@ start: seccion_declaracion programa                                         {
 																			}
 ;
 
-// Declaraciones de Variables - 8 Shifts + Reduces
+// Declaraciones de Variables
 seccion_declaracion:
-    DECVAR bloque_variables ENDDEC                                          { printf("\n REGLA 1: <seccion_declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); }
+    DECVAR bloque_variables ENDDEC                                          { 	printf("\n REGLA 1: <seccion_declaracion> --> DECVAR <bloque_variables> ENDDEC \n"); 	}
 ;    
 
 bloque_variables:
     bloque_variables listavar OP_TIPO tipodato                              { 
 																				printf("\n REGLA 2: <bloque_variables> --> <bloque_variables> <listavar> OP_TIPO <tipodato> \n"); 
-																				agregar_tipos_datos_a_tabla(); 
+																				agregar_tipos_datos_a_tabla();
 																			}
     | listavar OP_TIPO tipodato                                             { 
 																				printf("\n REGLA 3: <bloque_variables> --> <listavar> OP_TIPO <tipodato> \n"); 
-																				agregar_tipos_datos_a_tabla(); 
+																				agregar_tipos_datos_a_tabla();
 																			}
 ;
  
 listavar:
     ID                                                                      { 
-																				printf("\n REGLA 4: <listavar> --> ID \n"); 
+																				printf("\n REGLA 4: <listavar> --> ID  [ID: %s] \n", $1); 
 																				int idx = agregar_var_a_tabla(yylval.str_val); 
 																				varADeclarar1 = fin_tabla; 
 																				cantVarsADeclarar = 1; 
 																			}
     | listavar COMA ID                                                      { 
-																				printf("\n REGLA 5: <listavar> --> <listavar> COMA ID \n"); 
+																				printf("\n REGLA 5: <listavar> --> <listavar> COMA ID [ID: %s] \n", $3); 
 																				int idx = agregar_var_a_tabla(yylval.str_val); 
 																				cantVarsADeclarar++; 
 																			}
@@ -161,26 +154,30 @@ sentencia:
 
 // General
 asignacion:
-    ID OP_ASIG expresion                                                    { printf("\n REGLA 16: <asignacion> --> ID OP_ASIG <expresion> \n"); }
+    ID OP_ASIG expresion                                                    { 	
+																				printf("\n REGLA 16: <asignacion> --> ID OP_ASIG <expresion> \n"); 	
+																				int idx = buscar_en_tabla($1);
+																				idx_asig = crear_terceto(OP_ASIG, idx, idx_expresion);
+																			}
 	| ID OP_ASIG CONST_STR                                                  { 
 																				printf("\n REGLA 17: <asignacion> --> ID OP_ASIG CONST_STR \n"); 
 																				int idx = agregar_cte_string_a_tabla(yylval.str_val);
 																			}
-	| ID OP_ASIG take														{ printf("\n REGLA 18: <asignacion> --> ID OP_ASIG <take> \n"); }		
+	| ID OP_ASIG take														{ 	printf("\n REGLA 18: <asignacion> --> ID OP_ASIG <take> \n"); 	}		
 ;
 
 expresion:
     expresion OP_SUM termino                                               	{ 
-																			  printf("\n REGLA 19: <expresion> --> <expresion> OP_SUM <termino> \n"); 
-																			  idx_expresion = crear_terceto(OP_SUM, idx_expresion, idx_termino);
+																				printf("\n REGLA 19: <expresion> --> <expresion> OP_SUM <termino> \n"); 
+																				idx_expresion = crear_terceto(OP_SUM, idx_expresion, idx_termino);
 																			}
     | expresion OP_RES termino                                            	{ 
-																			  printf("\n REGLA 20: <expresion> --> <expresion> OP_RES <termino> \n"); 
-																			  idx_expresion = crear_terceto(OP_RES, idx_expresion, idx_termino);
+																				printf("\n REGLA 20: <expresion> --> <expresion> OP_RES <termino> \n"); 
+																				idx_expresion = crear_terceto(OP_RES, idx_expresion, idx_termino);
 																			}
     | termino                                                               { 
-																			  printf("\n REGLA 21: <expresion> --> <termino> \n"); 
-	 																		  idx_expresion = idx_termino; 
+																				printf("\n REGLA 21: <expresion> --> <termino> \n"); 
+																				idx_expresion = idx_termino; 
 																			}
 ;
 
@@ -223,25 +220,25 @@ factor:
 
 // Sentencias de control
 seleccion:
-    IF PAR_A condicion PAR_C programa ELSE programa ENDIF                   			{ printf("\n REGLA 29: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); }
-    | IF PAR_A condicion PAR_C programa ENDIF                               			{ printf("\n REGLA 30: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); }
+    IF PAR_A condicion PAR_C programa ELSE programa ENDIF                   { 	printf("\n REGLA 29: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); 	}
+    | IF PAR_A condicion PAR_C programa ENDIF                               { 	printf("\n REGLA 30: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); 	}
 ;
 
 iteracion:
-    WHILE PAR_A condicion PAR_C programa ENDWHILE                           			{ printf("\n REGLA 31: <iteracion> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
+    WHILE PAR_A condicion PAR_C programa ENDWHILE                           { 	printf("\n REGLA 31: <iteracion> --> WHILE PAR_A <condicion> PAR_C <programa> ENDWHILE\n"); }
 ;
 
 condicion:
-    | comparacion                                                           { printf("\n REGLA 33: <condicion> --> <comparacion> \n"); }
-	| NOT comparacion                                                       { printf("\n REGLA 44: <condicion> --> NOT <comparacion> \n"); }
-    | condicion AND comparacion                                             { printf("\n REGLA 45: <condicion> --> <condicion> AND <comparacion> <c> \n"); }
-    | condicion OR comparacion                                              { printf("\n REGLA 46: <condicion> --> <condicion> OR <comparacion> \n"); }
-	| between																{ printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n"); }
+    | comparacion                                                           { 	printf("\n REGLA 33: <condicion> --> <comparacion> \n"); 	}
+	| NOT comparacion                                                       { 	printf("\n REGLA 44: <condicion> --> NOT <comparacion> \n"); 	}
+    | condicion AND comparacion                                             { 	printf("\n REGLA 45: <condicion> --> <condicion> AND <comparacion> <c> \n"); 	}
+    | condicion OR comparacion                                              { 	printf("\n REGLA 46: <condicion> --> <condicion> OR <comparacion> \n"); 	}
+	| between																{ 	printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n"); 	}
 ;
 
 comparacion:
-	PAR_A condicion PAR_C													 { printf("\n REGLA 48.bis: <comparacion> --> PAR_A <condicion> PAR_C \n"); }
-    | expresion comparador expresion                                         { printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n"); }
+	PAR_A condicion PAR_C													{ 	printf("\n REGLA 48.bis: <comparacion> --> PAR_A <condicion> PAR_C \n"); 	}
+    | expresion comparador expresion                                        { 	printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n"); 	}
 ;
 
 comparador:
@@ -257,7 +254,7 @@ comparador:
 																				printf("\n REGLA 51: <comparador> --> OP_MENOR_IGUAL \n");
 																				comp_bool_actual = OP_MENOR_IGUAL; 
 																			} 
-    | OP_MAYOR_IGUAL                                                             { 
+    | OP_MAYOR_IGUAL                                                        { 
 																				printf("\n REGLA 52: <comparador> --> OP_MAYOR_IGUAL \n"); 
 																				comp_bool_actual = OP_MAYOR_IGUAL; 
 																			} 
@@ -281,15 +278,15 @@ entrada:
 
 salida:
     WRITE CONST_STR                                                         { 
-																			  printf("\n REGLA 56: <salida> -->  WRITE CONST_STR  \n"); 
-																			  int idx = agregar_cte_string_a_tabla(yylval.str_val); 
-																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+																				printf("\n REGLA 56: <salida> -->  WRITE CONST_STR  \n"); 
+																				int idx = agregar_cte_string_a_tabla(yylval.str_val); 
+																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
     | WRITE ID                                                              { 
-																			  printf("\n REGLA 57: <salida> -->  WRITE ID  \n"); 
-																			  chequear_var_en_tabla(yylval.str_val); 
-																			  int idx = buscar_en_tabla($2);
-																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+																				printf("\n REGLA 57: <salida> -->  WRITE ID  \n"); 
+																				chequear_var_en_tabla(yylval.str_val); 
+																				int idx = buscar_en_tabla($2);
+																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
 ;
 
