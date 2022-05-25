@@ -5,6 +5,7 @@
 #include "y.tab.h"
 #include "libs/tercetos/tercetos.h"
 #include "libs/tabla_simbolos/tabla_simbolos.h"
+#include "libs/sentencias_control/sentencias_control.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -25,31 +26,42 @@ char * yytext;
 
 terceto vector_tercetos[CANT_MAX_TERCETOS];
 int idx_ultimo_terceto = -1;
-// Cosas para comparadores booleanos
+
+// Comparadores booleanos
 int comp_bool_actual;
-int idx_programa;
+
+// Auxiliares anidamientos
+int salto_implicito=NULO;
+
+infoaux_sentencias pila_aux[ANIDACION_MAX];
+int tope_pila_aux=NULO;
+
+// Indices
+int idx_programa; // ind_bloque
 int idx_sentencia;
 int idx_dec;
-int idx_asig;
-int idx_ciclo;
-int idx_cond;
+int idx_asignacion;
+int idx_iteracion;
+int idx_seleccion; // ind_bif
 int idx_salida;
 int idx_entrada;
-int idx_entre;
 int idx_tomar;
 int idx_factor;
+int idx_condicion;
+int idx_comparacion;
+int idx_comparacion_izq;
 int idx_expresion;
+int idx_expresion_izq;
 int idx_termino;
+int idx_between;
+int idx_take;
+
+// Indices sentencias de control van como extern en sentencias de control.c
+int idx_if;
+int idx_endif;
+int idx_else;
+int idx_endwhile;
 %}
-
-%start start 
-%right OP_ASIG 
-%left OP_SUM OP_RES
-%left OP_MUL OP_DIV
-
-%token OP_MAYOR OP_MAYOR_IGUAL OP_MENOR OP_MENOR_IGUAL OP_IGUAL OP_NO_IGUAL OP_TIPO
-%token TAKE BETWEEN WHILE IF INTEGER FLOAT STRING ELSE DECVAR ENDDEC AND OR NOT
-%token WRITE READ COMA ENDIF ENDWHILE PAR_A PAR_C COR_A COR_C PYC
 
 %union {
     int int_val;
@@ -57,10 +69,27 @@ int idx_termino;
     char *str_val;
 }
 
-%token <str_val>ID
-%token <int_val>CONST_ENT
-%token <real_val>CONST_REAL
-%token <str_val>CONST_STR
+%start start 
+%token DECVAR ENDDEC OP_TIPO INTEGER FLOAT STRING
+
+%token IF ELSE ENDIF WHILE ENDWHILE
+
+%token TAKE BETWEEN 
+%token WRITE READ 
+
+%token AND OR NOT
+%token OP_ASIG
+%left OP_SUM OP_RES
+%token OP_MUL OP_DIV
+%token OP_MAYOR OP_MAYOR_IGUAL OP_MENOR OP_MENOR_IGUAL
+%token OP_IGUAL OP_NO_IGUAL
+
+%token COMA PAR_A PAR_C COR_A COR_C PYC
+
+%token <str_val> ID
+%token <int_val> CONST_ENT
+%token <real_val> CONST_REAL
+%token <str_val> CONST_STR
 
 %%
 
@@ -132,15 +161,15 @@ programa:
 sentencia:
     | asignacion                                                            { 
 																				printf("\n REGLA 11: <sentencia> --> <asignacion> \n"); 
-																				idx_sentencia = idx_asig; 
+																				idx_sentencia = idx_asignacion; 
 																			}    
     | iteracion                                                             { 
 																				printf("\n REGLA 12: <sentencia> --> <iteracion> \n");
-																				 idx_sentencia = idx_ciclo;
+																				 idx_sentencia = idx_iteracion;
 																			}   
     | seleccion                                                           	{ 
 																				printf("\n REGLA 13: <sentencia> --> <seleccion> \n");
-																				idx_sentencia = idx_cond; 
+																				idx_sentencia = idx_seleccion; 
 																			}  
     | salida                                                                { 
 																				printf("\n REGLA 14: <sentencia> --> <salida> \n");
@@ -157,7 +186,7 @@ asignacion:
     ID OP_ASIG expresion                                                    { 	
 																				printf("\n REGLA 16: <asignacion> --> ID OP_ASIG <expresion> \n"); 	
 																				int idx = buscar_en_tabla($1);
-																				idx_asig = crear_terceto(OP_ASIG, idx, idx_expresion);
+																				idx_asignacion = crear_terceto(OP_ASIG, idx, idx_expresion);
 																			}
 	| ID OP_ASIG CONST_STR                                                  { 
 																				printf("\n REGLA 17: <asignacion> --> ID OP_ASIG CONST_STR \n"); 
@@ -220,8 +249,27 @@ factor:
 
 // Sentencias de control
 seleccion:
-    IF PAR_A condicion PAR_C programa ELSE programa ENDIF                   { 	printf("\n REGLA 29: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); 	}
-    | IF PAR_A condicion PAR_C programa ENDIF                               { 	printf("\n REGLA 30: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n"); 	}
+    IF { 
+		// idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
+		// apilar_sentencia();
+	} PAR_A condicion PAR_C programa ELSE  programa ENDIF                   { 	
+																				printf("\n REGLA 29: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ELSE <programa> ENDIF\n"); 	
+																				idx_endif=crear_terceto(ENDIF,PARTE_VACIA,PARTE_VACIA);
+																				salto_a_fin_IF();
+																				// desapilar_sentencia();
+																				idx_seleccion = idx_if;
+																			}
+    | IF { 
+			// idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
+			// apilar_sentencia();
+	} PAR_A condicion PAR_C programa ENDIF                               	{ 	
+																				printf("\n REGLA 30: <seleccion> --> IF PAR_A <condicion> PAR_C <programa> ENDIF \n");
+																				idx_endif=crear_terceto(ENDIF,PARTE_VACIA,PARTE_VACIA);
+																				idx_else=idx_endif;
+																				//! ponerSaltosElse();
+																				// desapilar_sentencia();
+																				idx_seleccion = idx_if;
+																			}
 ;
 
 iteracion:
@@ -229,16 +277,36 @@ iteracion:
 ;
 
 condicion:
-    | comparacion                                                           { 	printf("\n REGLA 33: <condicion> --> <comparacion> \n"); 	}
+    | comparacion                                                          	{ 	printf("\n REGLA 33: <condicion> --> <comparacion> \n"); 	}
 	| NOT comparacion                                                       { 	printf("\n REGLA 44: <condicion> --> NOT <comparacion> \n"); 	}
-    | condicion AND comparacion                                             { 	printf("\n REGLA 45: <condicion> --> <condicion> AND <comparacion> <c> \n"); 	}
+	/* | PAR_A condicion PAR_C                                              { 	printf("\n REGLA 33: <condicion> --> <comparacion> \n"); 	} */
+    | condicion 
+		{ 
+			crear_terceto(obtener_operador_salto(comp_bool_actual),idx_comparacion,PARTE_VACIA);
+			idx_comparacion_izq =  idx_comparacion; 
+		} AND comparacion													{ 	
+																				crear_terceto(obtener_operador_salto(comp_bool_actual),idx_comparacion,PARTE_VACIA);
+																				crear_terceto(AND,idx_comparacion_izq,idx_comparacion);
+																				
+																				printf("\n REGLA 45: <condicion> --> <condicion> AND <comparacion> <c> \n"); 	
+																			}
     | condicion OR comparacion                                              { 	printf("\n REGLA 46: <condicion> --> <condicion> OR <comparacion> \n"); 	}
-	| between																{ 	printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n"); 	}
 ;
 
+
 comparacion:
-	PAR_A condicion PAR_C													{ 	printf("\n REGLA 48.bis: <comparacion> --> PAR_A <condicion> PAR_C \n"); 	}
-    | expresion comparador expresion                                        { 	printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n"); 	}
+	PAR_A condicion PAR_C													{ 	// REVISAR, deberia estar en condicion
+																				printf("\n REGLA 48.bis: <comparacion> --> PAR_A <condicion> PAR_C \n");
+																				idx_comparacion = idx_condicion;
+																			}
+    | expresion {idx_expresion_izq = idx_expresion;} comparador expresion   { 	
+																				printf("\n REGLA 48: <comparacion> --> <expresion> <comparador> <expresion> \n");
+																				idx_comparacion = crear_terceto(CMP,idx_expresion_izq,idx_expresion);
+																			}
+	| between																{ 	
+																				printf("\n REGLA 47: <condicion> --> PAR_A <between> PAR_C \n");
+																				idx_comparacion = idx_between;
+																			}
 ;
 
 comparador:
@@ -297,8 +365,6 @@ between:
 ;
 
 // TAKE  --- Devuelve un valor, deberia poder asignarse
-// Para mi el take va como factor 
-// concuerdo
 take:
      TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A lista_take_ctes COR_C PAR_C          	{ printf("\n REGLA 59: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); }
     |  TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A COR_C PAR_C                   		{ printf("\n REGLA 60: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }

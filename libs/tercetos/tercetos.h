@@ -20,22 +20,22 @@
 #define BLE 10  // >  Salto por MENOR IGUAL cuadno es mayor
 #define BEQ 14  // != Salto por IGUAL QUE cuando es distinto
 #define BGT 8   // <= Salto por MAYOR QUE cuando es menor igual
-#define BI 16   // Branch Always o Salto Incondicional osea salto siempre.
+#define BA 16   // Branch Always o Salto Incondicional osea salto siempre.
 
 
 // Partes de un terceto
-#define PARTE_A 1
-#define PARTE_B 2
-#define PARTE_C 3
+#define PARTE_A 1 // OPERADOR
+#define PARTE_B 2 // OPERANDO A
+#define PARTE_C 3 // OPERANDO B
 
 int crear_terceto(int parte_a, int parte_b, int parte_c);
 void guardar_tercetos();
 void modificar_terceto(int indice, int posicion, int valor);
 
 typedef struct{
-  int parte_a;
-  int parte_b;
-  int parte_c;
+  int parte_a; // OPERADOR
+  int parte_b; // OPERANDO A
+  int parte_c; // OPERANDO B
 } terceto;
 
 extern terceto vector_tercetos[CANT_MAX_TERCETOS];

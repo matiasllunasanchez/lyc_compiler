@@ -31,7 +31,7 @@ typedef struct {
 } simbolo;
 
 extern simbolo tabla_simbolo[TAM_TABLA];
-extern int fin_tabla; /* Apunta al ultimo registro en la tabla de simbolos. Incrementarlo para guardar el siguiente. */
+extern int fin_tabla; // Apunta al ultimo registro en la tabla de simbolos. Incrementarlo para guardar el siguiente.
 extern int varADeclarar1;
 extern int cantVarsADeclarar;
 extern int tipoDatoADeclarar;
