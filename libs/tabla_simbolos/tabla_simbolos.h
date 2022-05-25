@@ -16,10 +16,10 @@ void agregar_tipos_datos_a_tabla(void);
 int agregar_cte_string_a_tabla(char* nombre);
 int agregar_cte_int_a_tabla(int valor);
 int agregar_cte_real_a_tabla(float valor);
-int buscarEnTabla(char * name);
-void escribirNombreEnTabla(char* nombre, int pos);
-void chequearVarEnTabla(char* nombre);
-void guardarTabla(void);
+int buscar_en_tabla(char * name);
+void escribir_nombre_en_tabla(char* nombre, int pos);
+void chequer_var_en_tabla(char* nombre);
+void guardar_tabla(void);
 
 typedef struct {
     char nombre[TAM_NOMBRE];
