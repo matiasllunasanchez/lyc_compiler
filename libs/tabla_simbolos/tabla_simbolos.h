@@ -35,6 +35,5 @@ extern int fin_tabla; /* Apunta al ultimo registro en la tabla de simbolos. Incr
 extern int varADeclarar1;
 extern int cantVarsADeclarar;
 extern int tipoDatoADeclarar;
-///OTRAS FUNCIONES
 
 #endif // PRIMITIVAS_H_INCLUDED
