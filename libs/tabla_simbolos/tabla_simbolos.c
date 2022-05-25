@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tabla_simbolos.h"
 
-int buscarEnTabla(char * name){
+int buscar_en_tabla(char * name){
    int i=0;
    while(i<=fin_tabla){
 	   if(strcmp(tabla_simbolo[i].nombre,name) == 0){
@@ -14,20 +14,20 @@ int buscarEnTabla(char * name){
    return -1;
 }
 
-void escribirNombreEnTabla(char* nombre, int pos){
+void escribir_nombre_en_tabla(char* nombre, int pos){
 	strcpy(tabla_simbolo[pos].nombre, nombre);
 }
 
-int agregarVarATabla(char* nombre){
+int agregar_var_a_tabla(char* nombre){
 	 if(fin_tabla >= TAM_TABLA - 1){
 		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		 system("Pause");
 		 exit(2);
 	 }
 
-	 if(buscarEnTabla(nombre) == -1){     
+	 if(buscar_en_tabla(nombre) == -1){     
 		 int idx = ++fin_tabla;
-		 escribirNombreEnTabla(nombre, fin_tabla);
+		 escribir_nombre_en_tabla(nombre, fin_tabla);
 		 return idx;
 	 }
 	 else{
@@ -36,14 +36,14 @@ int agregarVarATabla(char* nombre){
 
 }
 
-void agregarTiposDatosATabla(){
+void agregar_tipos_datos_a_tabla(){
     int i;
 	for( i = 0; i < cantVarsADeclarar; i++){
 		tabla_simbolo[varADeclarar1 + i].tipo_dato = tipoDatoADeclarar;
 	}
 }
 
-void guardarTabla(){
+void guardar_tabla(){
 	if(fin_tabla == -1)
 		printf("ERR- No se encontró la tabla de simbolos");
 	FILE* arch = fopen("ts.txt", "w+");
@@ -81,16 +81,16 @@ void guardarTabla(){
 	fclose(arch);
 }
 
-int agregarCteStringATabla(char* nombre){
+int agregar_cte_string_a_tabla(char* nombre){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
-	int idx = buscarEnTabla(nombre);
+	int idx = buscar_en_tabla(nombre);
 	if( idx == -1){
 		idx = ++fin_tabla;
-		escribirNombreEnTabla(nombre, fin_tabla);
+		escribir_nombre_en_tabla(nombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_STRING;		
 		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
 		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
@@ -100,7 +100,7 @@ int agregarCteStringATabla(char* nombre){
 	return idx;
 }
 
-int agregarCteRealATabla(float valor){
+int agregar_cte_real_a_tabla(float valor){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
@@ -109,11 +109,11 @@ int agregarCteRealATabla(float valor){
 	
 	char nombre[15];
 	sprintf(nombre, "_%f", valor);
-	int idx = buscarEnTabla(nombre);
+	int idx = buscar_en_tabla(nombre);
 
 	if(idx == -1) {
 		idx = ++fin_tabla;
-		escribirNombreEnTabla(nombre, fin_tabla);
+		escribir_nombre_en_tabla(nombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_FLOAT;
 		tabla_simbolo[fin_tabla].valor_f = valor;
 		idx=fin_tabla;
@@ -121,7 +121,7 @@ int agregarCteRealATabla(float valor){
 	return idx;
 }
 
-int agregarCteIntATabla(int valor){
+int agregar_cte_int_a_tabla(int valor){
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
@@ -131,10 +131,10 @@ int agregarCteIntATabla(int valor){
 	char nombre[30];
 	sprintf(nombre, "_%d", valor);
 
-	int idx = buscarEnTabla(nombre);
+	int idx = buscar_en_tabla(nombre);
 	if(idx == -1){
 		idx = ++fin_tabla;
-		escribirNombreEnTabla(nombre, fin_tabla);
+		escribir_nombre_en_tabla(nombre, fin_tabla);
     	tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_INTEGER;
 		tabla_simbolo[fin_tabla].valor_i = valor;
 		idx=fin_tabla;
@@ -142,8 +142,8 @@ int agregarCteIntATabla(int valor){
 	return idx;
 }
 
-void chequearVarEnTabla(char* nombre){
-	if( buscarEnTabla(nombre) == -1){
+void chequear_var_en_tabla(char* nombre){
+	if( buscar_en_tabla(nombre) == -1){
 		char msg[100];
 		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
 		printf(msg);

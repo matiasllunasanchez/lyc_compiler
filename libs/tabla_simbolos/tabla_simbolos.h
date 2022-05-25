@@ -11,11 +11,11 @@
 #define TAM_TABLA 500
 #define TAM_NOMBRE 30
 
-int agregarVarATabla(char* nombre);
-void agregarTiposDatosATabla(void);
-int agregarCteStringATabla(char* nombre);
-int agregarCteIntATabla(int valor);
-int agregarCteRealATabla(float valor);
+int agregar_var_a_tabla(char* nombre);
+void agregar_tipos_datos_a_tabla(void);
+int agregar_cte_string_a_tabla(char* nombre);
+int agregar_cte_int_a_tabla(int valor);
+int agregar_cte_real_a_tabla(float valor);
 int buscarEnTabla(char * name);
 void escribirNombreEnTabla(char* nombre, int pos);
 void chequearVarEnTabla(char* nombre);

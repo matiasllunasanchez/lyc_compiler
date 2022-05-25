@@ -74,7 +74,7 @@ int idx_termino;
 // Reglas base
 start: seccion_declaracion programa                                         { 
 																				printf("\n REGLA 0: <start> --> <seccion_declaracion> <programa> \n"); 
-																				guardarTabla(); 
+																				guardar_tabla(); 
 																				guardar_tercetos();
 																			}
 ;
@@ -87,24 +87,24 @@ seccion_declaracion:
 bloque_variables:
     bloque_variables listavar OP_TIPO tipodato                              { 
 																				printf("\n REGLA 2: <bloque_variables> --> <bloque_variables> <listavar> OP_TIPO <tipodato> \n"); 
-																				agregarTiposDatosATabla(); 
+																				agregar_tipos_datos_a_tabla(); 
 																			}
     | listavar OP_TIPO tipodato                                             { 
 																				printf("\n REGLA 3: <bloque_variables> --> <listavar> OP_TIPO <tipodato> \n"); 
-																				agregarTiposDatosATabla(); 
+																				agregar_tipos_datos_a_tabla(); 
 																			}
 ;
  
 listavar:
     ID                                                                      { 
 																				printf("\n REGLA 4: <listavar> --> ID \n"); 
-																				int idx = agregarVarATabla(yylval.str_val); 
+																				int idx = agregar_var_a_tabla(yylval.str_val); 
 																				varADeclarar1 = fin_tabla; 
 																				cantVarsADeclarar = 1; 
 																			}
     | listavar COMA ID                                                      { 
 																				printf("\n REGLA 5: <listavar> --> <listavar> COMA ID \n"); 
-																				int idx = agregarVarATabla(yylval.str_val); 
+																				int idx = agregar_var_a_tabla(yylval.str_val); 
 																				cantVarsADeclarar++; 
 																			}
 ;
@@ -164,7 +164,7 @@ asignacion:
     ID OP_ASIG expresion                                                    { printf("\n REGLA 16: <asignacion> --> ID OP_ASIG <expresion> \n"); }
 	| ID OP_ASIG CONST_STR                                                  { 
 																				printf("\n REGLA 17: <asignacion> --> ID OP_ASIG CONST_STR \n"); 
-																				int idx = agregarCteStringATabla(yylval.str_val);
+																				int idx = agregar_cte_string_a_tabla(yylval.str_val);
 																			}
 	| ID OP_ASIG take														{ printf("\n REGLA 18: <asignacion> --> ID OP_ASIG <take> \n"); }		
 ;
@@ -206,17 +206,17 @@ factor:
 																			} 
     | CONST_REAL                                                            { 
 																				printf("\n REGLA 26: <factor> --> CONST_REAL \n");
-																				int idx = agregarCteRealATabla(yylval.real_val);
+																				int idx = agregar_cte_real_a_tabla(yylval.real_val);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
     | ID                                                                    { 
 																				printf("\n REGLA 27: <factor> --> ID \n"); 
-																				int idx = buscarEnTabla($1);
+																				int idx = buscar_en_tabla($1);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			} 
     | CONST_ENT                                                             { 
 																				printf("\n REGLA 28: <factor> --> CONST_ENT \n"); 
-																				int idx = agregarCteIntATabla(yylval.int_val);
+																				int idx = agregar_cte_int_a_tabla(yylval.int_val);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
 ;
@@ -275,20 +275,20 @@ comparador:
 entrada:
     READ ID                                                                 { 
 																				printf("\n REGLA 55: <entrada> --> READ ID \n"); 
-																				chequearVarEnTabla(yylval.str_val);
+																				chequear_var_en_tabla(yylval.str_val);
 																			}
 ;
 
 salida:
     WRITE CONST_STR                                                         { 
 																			  printf("\n REGLA 56: <salida> -->  WRITE CONST_STR  \n"); 
-																			  int idx = agregarCteStringATabla(yylval.str_val); 
+																			  int idx = agregar_cte_string_a_tabla(yylval.str_val); 
 																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
     | WRITE ID                                                              { 
 																			  printf("\n REGLA 57: <salida> -->  WRITE ID  \n"); 
-																			  chequearVarEnTabla(yylval.str_val); 
-																			  int idx = buscarEnTabla($2);
+																			  chequear_var_en_tabla(yylval.str_val); 
+																			  int idx = buscar_en_tabla($2);
 																			  idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
 ;
