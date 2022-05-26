@@ -156,7 +156,7 @@ tipodato:
 
 // Reglas base
 programa:
-      sentencia                                                   			{ 
+    sentencia                                                   			{ 
 																				printf("\n REGLA 9: <programa> --> <sentencia> \n"); 
 																				idx_programa = idx_sentencia;
 																			}       
@@ -171,11 +171,11 @@ sentencia:
 																				printf("\n REGLA 11: <sentencia> --> <asignacion> \n"); 
 																				idx_sentencia = idx_asignacion; 
 																			}    
-    | iteracion                                                             { // bloque_while
+    | iteracion                                                             {
 																				printf("\n REGLA 12: <sentencia> --> <iteracion> \n");
 																				idx_sentencia = idx_iteracion;
 																			}   
-    | seleccion                                                           	{ //bloque_if
+    | seleccion                                                           	{
 																				printf("\n REGLA 13: <sentencia> --> <seleccion> \n");
 																				idx_sentencia = idx_seleccion; 
 																			}  
@@ -197,16 +197,18 @@ asignacion:
 																				idx_asignacion = crear_terceto(OP_ASIG, idx, idx_expresion_general);
 																			}
 ;
+
 expresion_general:
 	CONST_STR																{
-																				printf("Regla 24: expresion_cadena es CTE_STRING(%s)\n", $1);
+																				printf("\n Regla 17: <expresion_general> --> CTE_STRING");
 																				int idx = agregar_cte_string_a_tabla(yylval.str_val);
 																				idx_expresion_general = crear_terceto(PARTE_VACIA,idx,PARTE_VACIA);
 																			}
-	| expresion																{ 	// expresion_aritmetica
-																				printf("Regla NN: expresion es expresion_aritmetica\n");
+	| expresion																{
+																				printf("\n Regla 18: <expresion_general> --> <expresion>\n");
 																				idx_expresion_general = idx_expresion;
-																			};
+																			}
+;
 
 expresion:
     expresion OP_SUM termino                                               	{ 
@@ -259,41 +261,24 @@ factor:
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
 	| take                                           						{
-																				printf("Regla NN: <factor> --> TAKE \n");
+																				printf("Regla 29: <factor> --> <take> \n");
 																				// chequearTipoDato(Float);
 																				idx_factor = idx_take;
 																			}
 ;
-
-
 
 iteracion:
 	WHILE 												{ 
 															idx_iteracion = crear_terceto(WHILE, PARTE_VACIA, PARTE_VACIA); 
 															apilar_terceto(); 
 														} 
-	PAR_A expresion_booleana PAR_C THEN 				{	
+	expresion_booleana  THEN 							{	
 															idx_then = crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA); 
 															actualizar_terceto_pos_then();
 														} 
 	programa ENDWHILE
 														{
-															printf("Regla 20.1: bloque_while es WHILE expresion_logica THEN bloque ENDWHILE\n\n");
-															idx_salto_implicito = crear_terceto(JMP,idx_iteracion,PARTE_VACIA);
-															idx_end_while = crear_terceto(ENDWHILE, PARTE_VACIA, PARTE_VACIA);
-															actualizar_terceto_pos_end_while();
-															desapilar_terceto();
-														}
-	| WHILE 											{ 
-															idx_iteracion = crear_terceto(WHILE, PARTE_VACIA, PARTE_VACIA); 
-															apilar_terceto(); 
-														} 
-	PAR_A expresion_booleana PAR_C THEN 				{
-															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA); 
-															actualizar_terceto_pos_then();
-														} 
-	ENDWHILE											{
-															printf("Regla 20.2: bloque_while es WHILE expresion_logica ENDWHILE\n\n");
+															printf("\n Regla 30: <iteracion> --> WHILE <expresion_booleana> THEN <programa> ENDWHILE\n");
 															idx_salto_implicito = crear_terceto(JMP,idx_iteracion,PARTE_VACIA);
 															idx_end_while = crear_terceto(ENDWHILE, PARTE_VACIA, PARTE_VACIA);
 															actualizar_terceto_pos_end_while();
@@ -306,35 +291,30 @@ seleccion:
 															idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
 															apilar_terceto();
 														}
-	PAR_A expresion_booleana PAR_C THEN					{
+	expresion_booleana THEN								{
 															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA); 
 															actualizar_terceto_pos_then();
 														}
 	programa ENDIF 										{
-															printf("Regla 18: bloque_if es IF expresion_logica THEN bloque ENDIF\n\n");
+															printf("\n Regla 31: <seleccion> --> IF <expresion_booleana> THEN <programa> ENDIF\n");
 															idx_end_if=crear_terceto(ENDIF,PARTE_VACIA,PARTE_VACIA);
 															idx_else=idx_end_if;
 															actualizar_terceto_pos_else();
 															desapilar_terceto();
 															idx_seleccion=idx_if;
 														}
-
 	| IF 												{	idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
 															apilar_terceto();
 														}
-	  PAR_A expresion_booleana PAR_C THEN				{	idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA);  // REVISAR THEN
+	expresion_booleana THEN								{	idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA);
 	  														actualizar_terceto_pos_then();
 														} 	
-	  programa											{
-		  													printf("Regla 21.1: bloque_true es bloque\n"); 
-															idx_bloque_if_true = idx_programa;
-														}
-	  ELSE 												{	idx_salto_implicito = crear_terceto(JMP, PARTE_VACIA, PARTE_VACIA);
+	bloque_verdadero ELSE 								{	idx_salto_implicito = crear_terceto(JMP, PARTE_VACIA, PARTE_VACIA);
 	  														idx_else = crear_terceto(ELSE,PARTE_VACIA,PARTE_VACIA);
 															actualizar_terceto_pos_else();
 														}
-	  programa ENDIF 									{
-															printf("Regla 19.1: bloque_if es IF expresion_logica THEN bloque ELSE bloque ENDIF\n\n");
+	programa ENDIF 									{
+															printf("\n Regla 32:<seleccion> --> IF <expresion_booleana> THEN <programa> ELSE <programa> ENDIF\n"); 
 															idx_end_if = crear_terceto(ENDIF,PARTE_VACIA,PARTE_VACIA);
 															actualizar_terceto_pos_end_if();
 															desapilar_terceto();
@@ -343,95 +323,101 @@ seleccion:
 														
 ;
 
+bloque_verdadero:
+	programa											{
+															idx_bloque_if_true = idx_programa;
+														}
+;
+
+
 expresion_booleana:
-    termino_booleano 									{ 	
-															printf("Regla 39.1: termino_logico_izq es termino_logico\n"); 
+	PAR_A expresion_booleana PAR_C 						{
+															printf("\n Regla 33: <expresion_booleana> --> PAR_A <expresion_booleana> PAR_C\n");
+														}
+    | termino_booleano 									{ 	
 															idx_termino_booleano_izq = idx_termino_booleano;	
 														} 
 	AND 												{ 	idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);		}
 	termino_booleano 									{
-															printf("Regla 36: expresion_logica es termino_logico AND termino_logico\n");
+															printf("\n Regla 34: <expresion_booleana> --> <termino_booleano> AND <termino_booleano>\n");
 															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 															idx_expresion_booleana = crear_terceto(AND, idx_termino_booleano_izq, idx_termino_booleano);
 														}
-	| termino_booleano									{ 	printf("Regla 39.1: termino_logico_izq es termino_logico\n"); 
+	| termino_booleano									{ 	
 															idx_termino_booleano_izq = idx_termino_booleano;	} 
 	OR 													{ 	has_or = crear_terceto(obtener_salto_condicion(comp_bool_actual), idx_termino_booleano, PARTE_VACIA); 	}
 	termino_booleano									{
-															printf("Regla 37: expresion_logica es termino_logico OR termino_logico\n");
+															printf("\n Regla 35: <expresion_booleana> --> <termino_booleano> OR <termino_booleano>\n");
 															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 															idx_expresion_booleana = crear_terceto(OR, idx_termino_booleano_izq, idx_termino_booleano);
 														}
     | termino_booleano                                  {
-															printf("Regla 38: expresion_logica es termino_logico\n");
+															printf("\n Regla 36: <expresion_booleana> --> <termino_booleano>\n");
 															idx_expresion_booleana = idx_termino_booleano;
 															idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 														}
     | NOT termino_booleano                              {
-															printf("Regla 39: expresion_logica es NOT termino_logico\n");
+															printf("\n Regla 37: <expresion_booleana> --> NOT <termino_booleano>\n");
 															idx_expresion_booleana = idx_termino_booleano;
 															idx_condicion_izq = crear_terceto(obtener_salto_condicion(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 														}
 	| between                       			        {
-															printf("Regla 39: expresion_logica es between\n");
+															printf("\n Regla 38: <expresion_booleana> --> <between>\n");
 														}
 ;
 
 termino_booleano:
-    expresion 											{
-															printf("Regla 41.1: expresion_izquierda es expresion\n");
-															idx_expresion_izq = idx_expresion;
-														}
-	 comparador expresion		 						{
-															printf("Regla 40: termino_logico es expresion_izquierda comparador expresion\n");
+    expresion 											{ 	idx_expresion_izq = idx_expresion;	}
+	comparador expresion		 						{
+															printf("\n Regla 39: <termino_booleano> --> <expresion> <comparador> <expresion>\n");
 															//resetTipoDato();
 															idx_termino_booleano = crear_terceto(CMP, idx_expresion_izq, idx_expresion);
 														}
 ;
 
 comparador:
-    OP_MAYOR                                                                { 
-																				printf("\n REGLA 49: <comparador> --> OP_MAYOR \n");
-																				comp_bool_actual = OP_MAYOR; 
-																			} 
-    | OP_MENOR                                                              { 
-																				printf("\n REGLA 50: <comparador> --> OP_MENOR \n");
-																				comp_bool_actual = OP_MENOR; 
-																			} 
-    | OP_MENOR_IGUAL                                                        { 
-																				printf("\n REGLA 51: <comparador> --> OP_MENOR_IGUAL \n");
-																				comp_bool_actual = OP_MENOR_IGUAL; 
-																			} 
-    | OP_MAYOR_IGUAL                                                        { 
-																				printf("\n REGLA 52: <comparador> --> OP_MAYOR_IGUAL \n"); 
-																				comp_bool_actual = OP_MAYOR_IGUAL; 
-																			} 
-    | OP_IGUAL                                                              { 
-																				printf("\n REGLA 53: <comparador> --> OP_IGUAL \n"); 
-																				comp_bool_actual = OP_IGUAL; 
-																			} 
-    | OP_NO_IGUAL                                                           { 
-																				printf("\n REGLA 54: <comparador> --> OP_NO_IGUAL \n");
-																				comp_bool_actual = OP_NO_IGUAL; 
-																			}
+	OP_MAYOR                                           	{ 
+															printf("\n REGLA 40: <comparador> --> OP_MAYOR \n");
+															comp_bool_actual = OP_MAYOR; 
+														} 
+	| OP_MENOR                                          { 
+															printf("\n REGLA 41: <comparador> --> OP_MENOR \n");
+															comp_bool_actual = OP_MENOR; 
+														} 
+	| OP_MENOR_IGUAL                                    { 
+															printf("\n REGLA 42: <comparador> --> OP_MENOR_IGUAL \n");
+															comp_bool_actual = OP_MENOR_IGUAL; 
+														} 
+	| OP_MAYOR_IGUAL                                    { 
+															printf("\n REGLA 43: <comparador> --> OP_MAYOR_IGUAL \n"); 
+															comp_bool_actual = OP_MAYOR_IGUAL; 
+														} 
+	| OP_IGUAL                                          { 
+															printf("\n REGLA 44: <comparador> --> OP_IGUAL \n"); 
+															comp_bool_actual = OP_IGUAL; 
+														} 
+	| OP_NO_IGUAL                                           { 
+															printf("\n REGLA 45: <comparador> --> OP_NO_IGUAL \n");
+															comp_bool_actual = OP_NO_IGUAL; 
+														}
 ;
 
 // Lectura y escritura
 entrada:
     READ ID                                                                 { 
-																				printf("\n REGLA 55: <entrada> --> READ ID \n"); 
+																				printf("\n REGLA 46: <entrada> --> READ ID \n"); 
 																				chequear_var_en_tabla(yylval.str_val);
 																			}
 ;
 
 salida:
     WRITE CONST_STR                                                         { 
-																				printf("\n REGLA 56: <salida> -->  WRITE CONST_STR  \n"); 
+																				printf("\n REGLA 47: <salida> -->  WRITE CONST_STR  \n"); 
 																				int idx = agregar_cte_string_a_tabla(yylval.str_val); 
 																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
     | WRITE ID                                                              { 
-																				printf("\n REGLA 57: <salida> -->  WRITE ID  \n"); 
+																				printf("\n REGLA 48: <salida> -->  WRITE ID  \n"); 
 																				chequear_var_en_tabla(yylval.str_val); 
 																				int idx = buscar_en_tabla($2);
 																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
@@ -441,32 +427,32 @@ salida:
 // Funciones Especiales
 // FUNCION BETWEEN
 between:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    							{ printf("\n REGLA 58: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    		{ printf("\n REGLA 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
 ;
 
 // FUNCION TAKE
 take:
-     TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A lista_take_ctes COR_C PAR_C          	{ printf("\n REGLA 59: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); }
-    |  TAKE PAR_A operadores_take PYC CONST_ENT PYC COR_A COR_C PAR_C                   		{ printf("\n REGLA 60: <take> --> TAKE PAR_A <operadores_take> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
+    TAKE PAR_A operador_take PYC CONST_ENT PYC COR_A lista_take_ctes COR_C PAR_C          	{ printf("\n REGLA 50: <take> --> TAKE PAR_A <operador_take> PYC CONST_ENT PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); }
+    |  TAKE PAR_A operador_take PYC CONST_ENT PYC COR_A COR_C PAR_C                   		{ printf("\n REGLA 51: <take> --> TAKE PAR_A <operador_take> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
 ;
 
 lista_take_ctes:
-	CONST_ENT                                                                					{ printf("\n REGLA 61: <lista_take_ctes> --> CONST_ENT \n"); }
-	| lista_take_ctes PYC CONST_ENT                                          					{ printf("\n REGLA 62: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n"); }
+	CONST_ENT                                                                				{ printf("\n REGLA 52: <lista_take_ctes> --> CONST_ENT \n"); }
+	| lista_take_ctes PYC CONST_ENT                                          				{ printf("\n REGLA 53: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n"); }
 ;
 
-operadores_take:
-OP_SUM                                                                     { printf("\n REGLA 63: <oper> --> OP_SUM \n"); } 
-| OP_MUL                                                                   { printf("\n REGLA 64: <oper> --> OP_MUL \n"); }
-| OP_DIV                                                                   { printf("\n REGLA 65: <oper> --> OP_DIV \n"); }
-| OP_RES                                                                   { printf("\n REGLA 66: <oper> --> OP_RES \n"); }
+operador_take:
+	OP_SUM                                                                     { printf("\n REGLA 54: <operador_take> --> OP_SUM \n"); } 
+	| OP_MUL                                                                   { printf("\n REGLA 55: <operador_take> --> OP_MUL \n"); }
+	| OP_DIV                                                                   { printf("\n REGLA 56: <operador_take> --> OP_DIV \n"); }
+	| OP_RES                                                                   { printf("\n REGLA 57: <operador_take> --> OP_RES \n"); }
 ;
 
 %%
 
 
-/** Compara el tipo de dato pasado por parámetro contra el que se está trabajando actualmente en tipo_dato_actual.
-Si es distinto, tira error. Si no hay tipo de dato actual, asigna el pasado por parámetro. */
+// Compara tipo de dato recibido con el que se trabaja en tipo_dato_Actual
+// Error si es distinto, sino se le asigna
 void chequear_tipo_dato(int tipo){
 	if(tipo_dato_actual == SIN_TIPO){
 		tipo_dato_actual = tipo;
@@ -476,7 +462,6 @@ void chequear_tipo_dato(int tipo){
 		yyerror("ERR- Tipo de dato asignado incompatible");
 }
 
-/** Setea tipo_dato_actual a SIN_TIPO */
 void reset_tipo_dato(){
 	tipo_dato_actual = SIN_TIPO;
 }
