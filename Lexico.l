@@ -51,6 +51,7 @@ DECVAR		            "DECVAR"
 ENDDEC	                "ENDDEC"
 
 IF			            "IF"
+THEN			        "THEN"
 ENDIF                   "ENDIF"
 INTEGER	            	"INTEGER"
 STRING                  "STRING"
@@ -93,6 +94,7 @@ OP_RES                "-"
 {READ}           { printf("\n READ: %s\n",yytext);return READ; }
 {WHILE}          { printf("\n nWHILE: %s\n",yytext);return WHILE; }
 {IF}             { printf("\n IF: %s\n",yytext);return IF; }
+{THEN}           { printf("\n THEN: %s\n",yytext);return THEN; }
 {INTEGER}        { printf("\n INTEGER: %s\n",yytext);return INTEGER; }
 {FLOAT}          { printf("\n FLOAT: %s\n",yytext);return FLOAT; }
 {ELSE}           { printf("\n ELSE: %s\n",yytext);return ELSE; }

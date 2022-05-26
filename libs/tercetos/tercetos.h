@@ -20,7 +20,7 @@
 #define BLE 10  // >  Salto por MENOR IGUAL cuadno es mayor
 #define BEQ 14  // != Salto por IGUAL QUE cuando es distinto
 #define BGT 8   // <= Salto por MAYOR QUE cuando es menor igual
-#define BI 16   // Branch Always o Salto Incondicional osea salto siempre.
+#define JMP 16   // Branch Always o Salto Incondicional osea salto siempre.
 
 
 // Partes de un terceto

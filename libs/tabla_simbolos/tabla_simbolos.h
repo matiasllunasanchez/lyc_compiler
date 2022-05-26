@@ -1,13 +1,13 @@
 #ifndef TABLA_SIMBOLOS_H
 #define TABLA_SIMBOLOS_H
 
+#define SIN_TIPO 0
 #define ENUM_INTEGER 1
 #define ENUM_FLOAT 2
 #define ENUM_STRING 3
 #define ENUM_CTE_INTEGER 4
 #define ENUM_CTE_FLOAT 5
 #define ENUM_CTE_STRING 6
-
 #define TAM_TABLA 500
 #define TAM_NOMBRE 32
 

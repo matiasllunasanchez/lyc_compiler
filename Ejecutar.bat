@@ -5,7 +5,7 @@ SET "mingw_gcc_path=C:\MinGW\bin\gcc.exe"
 pause
 %bison_path% -dyv "%~d0%~p0Sintactico.y"
 pause
-%mingw_gcc_path% lex.yy.c y.tab.c "libs/tabla_simbolos/tabla_simbolos.c" "libs/tercetos/tercetos.c" -std=gnu99 -o "%~d0%~p0Segunda.exe"
+%mingw_gcc_path% lex.yy.c y.tab.c "libs/tabla_simbolos/tabla_simbolos.c" "libs/tercetos/tercetos.c" "libs/sentencias_control/sentencias_control.c" -std=gnu99 -o "%~d0%~p0Segunda.exe"
 pause
 "%~d0%~p0Segunda.exe" "prueba.txt"
 pause
