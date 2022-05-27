@@ -142,10 +142,25 @@ int agregar_cte_int_a_tabla(int valor) {
 	return idx;
 }
 
-void chequear_var_en_tabla(char* nombre) {
-	if( buscar_en_tabla(nombre) == -1){
+int validar_var_en_tabla(char* nombre) {
+	int variable = buscar_en_tabla(nombre);
+	if( variable== -1){
 		char msg[100];
 		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
 		printf(msg);
 	}
+	return tabla_simbolo[variable].tipo_dato;
 }
+
+int validar_tipo_dato(int cte_tipo, int cte_tipo_leido){
+	if(cte_tipo_leido == SIN_TIPO){
+		 return cte_tipo;
+	}
+	if(cte_tipo_leido != cte_tipo)
+	{
+		printf("ERR- Tipo de dato asignado incompatible. Asegurarse de que los tipos de datos son correctos.");
+		exit(1);
+	}
+	return -1;
+}
+

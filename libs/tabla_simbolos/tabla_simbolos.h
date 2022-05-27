@@ -18,8 +18,13 @@ int agregar_cte_int_a_tabla(int valor);
 int agregar_cte_real_a_tabla(float valor);
 int buscar_en_tabla(char * name);
 void escribir_nombre_en_tabla(char* nombre, int pos);
-void chequear_var_en_tabla(char* nombre);
+int validar_var_en_tabla(char* nombre);
 void guardar_tabla(void);
+
+// Funcion auxiliar Auxiliares
+// Valida que los tipos de datos recibidos sean iguales y sino lanza error.
+int validar_tipo_dato(int cte_tipo, int cte_tipo_leido);
+
 
 typedef struct {
     char nombre[TAM_NOMBRE];

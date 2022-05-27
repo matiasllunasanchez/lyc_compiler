@@ -23,8 +23,7 @@ int yylex();
 int yyparse();
 int yyerror(char* mensaje);
 int yyerror();
-void chequear_tipo_dato(int tipo);
-void reset_tipo_dato();
+void reset_tipo_dato(){ tipo_dato_actual = SIN_TIPO; };
 int contWhile=0;
 char * yytext;
 int ult_pos_pila;
@@ -67,7 +66,9 @@ int idx_termino_booleano_izq;
 int idx_iteracion;
 int idx_seleccion;
 
-/* Indices extras para if y while */
+// Indices para BETWEEN
+int idx_salto;
+// Indices extras para if y while
 int idx_while;
 int idx_end_while;
 
@@ -407,7 +408,7 @@ comparador:
 entrada:
     READ ID                                                                 { 
 																				printf("\n Regla 46: <entrada> --> READ ID \n"); 
-																				chequear_var_en_tabla(yylval.str_val);
+																				validar_var_en_tabla(yylval.str_val);
 																			}
 ;
 
@@ -419,7 +420,7 @@ salida:
 																			}
     | WRITE ID                                                              { 
 																				printf("\n Regla 48: <salida> -->  WRITE ID  \n"); 
-																				chequear_var_en_tabla(yylval.str_val); 
+																				validar_var_en_tabla(yylval.str_val); 
 																				int idx = buscar_en_tabla($2);
 																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 																			}
@@ -428,10 +429,16 @@ salida:
 // Funciones Especiales
 // FUNCION BETWEEN
 between:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    		{ 
-																				// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
-																				printf("\n Regla 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
-																			}
+    BETWEEN PAR_A ID										{ 
+																int tipo_dato = validar_var_en_tabla($3);
+																tipo_dato_actual = validar_tipo_dato(tipo_dato, tipo_dato_actual);
+																int idx = buscar_en_tabla($3);
+																idx_salto = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+															} 
+	COMA COR_A expresion PYC expresion COR_C PAR_C    		{ 
+																// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
+																printf("\n Regla 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
+															}
 ;
 
 // FUNCION TAKE
@@ -453,19 +460,3 @@ operador_take:
 ;
 
 %%
-
-
-// Compara tipo de dato recibido con el que se trabaja en tipo_dato_Actual
-// Error si es distinto, sino se le asigna
-void chequear_tipo_dato(int tipo){
-	if(tipo_dato_actual == SIN_TIPO){
-		tipo_dato_actual = tipo;
-		return;
-	}
-	if(tipo_dato_actual != tipo)
-		yyerror("ERR- Tipo de dato asignado incompatible");
-}
-
-void reset_tipo_dato(){
-	tipo_dato_actual = SIN_TIPO;
-}
