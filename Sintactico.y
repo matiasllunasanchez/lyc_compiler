@@ -168,7 +168,7 @@ programa:
 ;
 
 sentencia:
-    | asignacion                                                            { 
+    asignacion                                                            	{ 
 																				printf("\n Regla 11: <sentencia> --> <asignacion> \n"); 
 																				idx_sentencia = idx_asignacion; 
 																			}    
