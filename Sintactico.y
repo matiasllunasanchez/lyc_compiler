@@ -428,7 +428,10 @@ salida:
 // Funciones Especiales
 // FUNCION BETWEEN
 between:
-    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    		{ printf("\n Regla 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); }
+    BETWEEN PAR_A ID COMA COR_A expresion PYC expresion COR_C PAR_C    		{ 
+																				// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
+																				printf("\n Regla 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
+																			}
 ;
 
 // FUNCION TAKE
