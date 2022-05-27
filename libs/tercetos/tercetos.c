@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Agrega terceto a vector.
-// Mandar PARTE_VACIA en PARTE_B y PARTE_C para guardar CTE o ID
-// Operadores se manda token, operandos se manda el idx en la tabla de simbolos o de otro terceto.
 int crear_terceto(int parte_a, int parte_b, int parte_c) {
     idx_ultimo_terceto++;
     if(idx_ultimo_terceto >= CANT_MAX_TERCETOS){
@@ -32,8 +29,6 @@ void grabar_parte(FILE** arch,int parte){
 			fprintf(*arch, "[%d]", parte); // Indice nuevo elemento
 }
 
-// Guarda tercetos en archivo en formato final
-// [idx] (PARTE_A, PARTE_B, PARTE_C)
 void guardar_tercetos() { 
     if(idx_ultimo_terceto == -1){
         printf("ERR- No existen tercetos cargados en el vector");
@@ -166,9 +161,7 @@ void guardar_tercetos() {
     fclose(arch);
 }
 
-// Modificar terceto mediante idx y posicion recibido.
-// El idx recibido debe tener offset, y la pos debe ser PARTE_A o PARTE_B o PARTE_C
-void modificar_terceto(int indice, int posicion, int valor) {
+void modificar_terceto(int indice, int parte_terceto, int valor) {
 
 	if(indice > idx_ultimo_terceto + OFFSET){
 		printf("ERR- Se intentó modificar un terceto inexistente.");
@@ -176,7 +169,7 @@ void modificar_terceto(int indice, int posicion, int valor) {
 		exit (4);
 	}
 
-	switch(posicion){
+	switch(parte_terceto){
         case PARTE_A:
             vector_tercetos[indice - OFFSET].parte_a = valor;
             break;

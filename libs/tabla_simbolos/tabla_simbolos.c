@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tabla_simbolos.h"
 
-int buscar_en_tabla(char * name){
+int buscar_en_tabla(char * name) {
    int i=0;
    while(i<=fin_tabla){
 	   if(strcmp(tabla_simbolo[i].nombre,name) == 0){
@@ -14,11 +14,11 @@ int buscar_en_tabla(char * name){
    return -1;
 }
 
-void escribir_nombre_en_tabla(char* nombre, int pos){
+void escribir_nombre_en_tabla(char* nombre, int pos) {
 	strcpy(tabla_simbolo[pos].nombre, nombre);
 }
 
-int agregar_var_a_tabla(char* nombre){
+int agregar_var_a_tabla(char* nombre) {
 	 if(fin_tabla >= TAM_TABLA - 1){
 		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		 system("Pause");
@@ -36,14 +36,14 @@ int agregar_var_a_tabla(char* nombre){
 
 }
 
-void agregar_tipos_datos_a_tabla(){
+void agregar_tipos_datos_a_tabla() {
     int i;
 	for( i = 0; i < cantVarsADeclarar; i++){
 		tabla_simbolo[varADeclarar1 + i].tipo_dato = tipoDatoADeclarar;
 	}
 }
 
-void guardar_tabla(){
+void guardar_tabla() {
 	if(fin_tabla == -1)
 		printf("ERR- No se encontró la tabla de simbolos");
 	FILE* arch = fopen("ts.txt", "w+");
@@ -81,7 +81,7 @@ void guardar_tabla(){
 	fclose(arch);
 }
 
-int agregar_cte_string_a_tabla(char* nombre){
+int agregar_cte_string_a_tabla(char* nombre) {
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
@@ -100,7 +100,7 @@ int agregar_cte_string_a_tabla(char* nombre){
 	return idx;
 }
 
-int agregar_cte_real_a_tabla(float valor){
+int agregar_cte_real_a_tabla(float valor) {
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
@@ -121,7 +121,7 @@ int agregar_cte_real_a_tabla(float valor){
 	return idx;
 }
 
-int agregar_cte_int_a_tabla(int valor){
+int agregar_cte_int_a_tabla(int valor) {
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
@@ -142,7 +142,7 @@ int agregar_cte_int_a_tabla(int valor){
 	return idx;
 }
 
-void chequear_var_en_tabla(char* nombre){
+void chequear_var_en_tabla(char* nombre) {
 	if( buscar_en_tabla(nombre) == -1){
 		char msg[100];
 		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);

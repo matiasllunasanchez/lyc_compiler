@@ -31,9 +31,9 @@ typedef struct {
 } simbolo;
 
 extern simbolo tabla_simbolo[TAM_TABLA];
-extern int fin_tabla; /* Apunta al ultimo registro en la tabla de simbolos. Incrementarlo para guardar el siguiente. */
+extern int fin_tabla; // Es un indice o valor numerico que apunta al ultimo registro en la tabla de simbolos. Es una suerte de tope y debe ser incrementado al guardar el siguiente en la tabla.
 extern int varADeclarar1;
-extern int cantVarsADeclarar;
-extern int tipoDatoADeclarar;
+extern int cantVarsADeclarar; // Refiere a la cantidad de variables declaradas en el bloque del programador
+extern int tipoDatoADeclarar; // Maneja / guarda los valores CONSTANTES que refieren a los tipos de datos posibles que puede definir el programador
 
 #endif // PRIMITIVAS_H_INCLUDED

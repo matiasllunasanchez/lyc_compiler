@@ -24,21 +24,33 @@
 
 
 // Partes de un terceto
-#define PARTE_A 1
-#define PARTE_B 2
-#define PARTE_C 3
+#define PARTE_A 1 // Generalmente el operador (+,*,-,/,etc)
+#define PARTE_B 2 // Generalmente el operando 1. (Num o algo)
+#define PARTE_C 3 // Generalmente el operando 2. (Num o algo)
 
-int crear_terceto(int parte_a, int parte_b, int parte_c);
-void guardar_tercetos();
-void modificar_terceto(int indice, int posicion, int valor);
+// Agrega terceto a vector.
+// Tratar de respetar la PARTE_A para los OPERANDOS UNICAMENTE.
+// Mandar PARTE_VACIA en PARTE_A y PARTE_C para guardar CTE o ID en la PARTE_B.
+// Operadores se manda token, operandos se manda el idx en la tabla de simbolos o de otro terceto.
+int crear_terceto(int parte_a, int parte_b, int parte_c); 
+// Guarda tercetos en archivo en archivo intermedia.txt
+// Esto lo hace recorriendo el vector de tercetos e identificando cada variable DEFINE / CONSTANTE definida en tercetos.h
+// Forma final de un terceto: [idx] (PARTE_A, PARTE_B, PARTE_C)
+// Nota: Arrancan del indice 500
+void guardar_tercetos(); 
+
+// Modificar terceto mediante idx que tiene en el vector y la PARTE que se quiere modificar
+// El idx recibido debe tener offset
+// La parte debe ser alguna de las CONSTANTES definidas en tercetos.h (PARTE_A o PARTE_B o PARTE_C)
+void modificar_terceto(int indice, int parte_terceto, int valor);
 
 typedef struct{
-  int parte_a;
-  int parte_b;
-  int parte_c;
+  int parte_a;  // Generalmente el operador (+,*,-,/,etc)
+  int parte_b;  // Generalmente el operando 1. (Num o algo)
+  int parte_c;  // Generalmente el operando 2. (Num o algo)
 } terceto;
 
-extern terceto vector_tercetos[CANT_MAX_TERCETOS];
-extern int idx_ultimo_terceto; // Indice del ultimo elemento insertado en vector
+extern terceto vector_tercetos[CANT_MAX_TERCETOS]; // Vector que va apilando tercetos
+extern int idx_ultimo_terceto; // Indice del ultimo elemento insertado en vector.
 
 #endif

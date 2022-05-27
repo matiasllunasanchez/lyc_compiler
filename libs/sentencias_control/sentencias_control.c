@@ -2,8 +2,6 @@
 #include "../tercetos/tercetos.h"
 #include "../../y.tab.h"
 
-/**Devuelve el comparador contrario que hace saltar un bloque para un comparador especifico.
-*/
 int obtener_salto_condicion_negada(int comp){
 	switch(comp){
 	case OP_MAYOR:
@@ -22,8 +20,6 @@ int obtener_salto_condicion_negada(int comp){
 	return PARTE_VACIA;
 }
 
-/**Devuelve el comparador enviado pasado al valor en assembler
-*/
 int obtener_salto_condicion(int comp){
 	switch(comp){
 	case OP_MAYOR:
@@ -42,12 +38,10 @@ int obtener_salto_condicion(int comp){
 	return PARTE_VACIA;
 }
 
-/** Apila struct elemento_terceto utilizado para if y while que contiene info de los indices de branch. Contempla anidaciones de if y whiles.
-*/
 void apilar_terceto(){
 	ult_pos_pila++;
 	if(ult_pos_pila>=MAX_ANIDAMIENTOS){
-		yyerror("Se ha excedido la cantidad de anidamientos.");
+		yyerror("ERR- Se ha excedido la cantidad de anidamientos.");
 	}
 
 	elemento_terceto terceto;
@@ -65,9 +59,6 @@ void apilar_terceto(){
 	idx_salto_implicito=VALOR_NULO;
 }
 
-/** Desapila struct elemento_tercetoun elemento de la pila que contiene info de los indices utilizados para if y while necesarios para realizar branches.
-* pensado para cuando habia if y whiles anidados y vuelvo al padre.
-*/
 void desapilar_terceto(){
 	elemento_terceto terceto=pila_tercetos[ult_pos_pila];
 	ult_pos_pila--;
@@ -79,18 +70,13 @@ void desapilar_terceto(){
 	idx_salto_implicito=terceto.idx_salto_implicito;
 }
 
-/** Actualiza el terceto con el indice del inicio del bloque de condicion verdadera para un branch en el que se cumple la condicion de un if
-*/
-//***Revisar si es necesario***
+//***Revisar***//
 void actualizar_terceto_pos_then(){
-	if(has_or!=VALOR_NULO){ //Me di cuenta tarde de que ind_branch_pendiente y compania no hacen falta, soy un boludo
+	if(has_or!=VALOR_NULO){ //Revisa
 		modificar_terceto(has_or, PARTE_B, idx_then);
 	}
 }
 
-/** Actualiza el terceto con el indice donde comienza el bloque else para un branch en el que no se cumple la condicion de un if.
-* ind_else deberia apuntar al inicio del bloque else o al final del if en caso de no tener la condicion falsa.
-*/
 void actualizar_terceto_pos_else(){
 	if(idx_condicion_izq!=VALOR_NULO){
 		modificar_terceto(idx_condicion_izq, PARTE_B, idx_else);
@@ -100,17 +86,12 @@ void actualizar_terceto_pos_else(){
 	}
 }
 
-/**  Actualiza el terceto con el indice que apunta al final del if para el branch implicito al final del bloque por verdadero de una condicion.
-*/
 void actualizar_terceto_pos_end_if(){
 	if(idx_salto_implicito!=VALOR_NULO){
 		modificar_terceto(idx_salto_implicito, PARTE_A, idx_end_if);
 	}
 }
 
-/**
-Actualiza el terceto con el indice que apunta al final del while para el branch implicito al final del bloque por verdadero de una iteracion.
-*/
 void actualizar_terceto_pos_end_while(){
 	if(idx_condicion_izq !=VALOR_NULO){
 		modificar_terceto(idx_condicion_izq, PARTE_B, idx_end_while);
