@@ -287,15 +287,20 @@ iteracion:
 														}
 ;
 
-seleccion:
-    IF 													{
+inicio_if:
+	IF PAR_A											{
 															idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
 															apilar_terceto();
-														}
-	PAR_A expresion_booleana PAR_C THEN					{
-															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA); 
-															actualizar_terceto_pos_then();
-														}
+														};
+
+inicio_then:
+	PAR_C THEN											{	
+															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA);
+	  														actualizar_terceto_pos_then();
+														};
+
+seleccion:
+    inicio_if expresion_booleana inicio_then
 	programa ENDIF 										{
 															printf("\n Regla 31: <seleccion> --> IF <expresion_booleana> THEN <programa> ENDIF\n");
 															idx_end_if=crear_terceto(ENDIF,PARTE_VACIA,PARTE_VACIA);
@@ -304,16 +309,10 @@ seleccion:
 															desapilar_terceto();
 															idx_seleccion=idx_if;
 														}
-	| IF 												{	idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
-															apilar_terceto();
-														}
-	PAR_A expresion_booleana PAR_C THEN					{	
-															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA);
-	  														actualizar_terceto_pos_then();
-														} 	
-	programa 											{
-															idx_bloque_if_true = idx_programa;
-														} 
+	| inicio_if expresion_booleana inicio_then	
+
+	programa 											{	idx_bloque_if_true = idx_programa;} 
+
 	ELSE 												{	
 															idx_salto_implicito = crear_terceto(JMP, PARTE_VACIA, PARTE_VACIA);
 	  														idx_else = crear_terceto(ELSE,PARTE_VACIA,PARTE_VACIA);
