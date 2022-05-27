@@ -329,10 +329,7 @@ seleccion:
 ;
 
 expresion_booleana:
-	PAR_A expresion_booleana PAR_C 						{
-															printf("\n Regla 33: <expresion_booleana> --> PAR_A <expresion_booleana> PAR_C\n");
-														}
-    | termino_booleano 									{ 	
+    termino_booleano 									{ 	
 															idx_termino_booleano_izq = idx_termino_booleano;	
 														} 
 	AND 												{ 	idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);		}
@@ -365,7 +362,7 @@ expresion_booleana:
 ;
 
 termino_booleano:
-	PAR_A termino_booleano PAR_C 						{
+	PAR_A expresion_booleana PAR_C 						{
 															printf("\n Regla 38: <expresion_booleana> --> PAR_A <termino_booleano> PAR_C\n");
 														}
     | expresion 										{ 	idx_expresion_izq = idx_expresion;	}
