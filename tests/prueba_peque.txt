@@ -4,5 +4,5 @@ ENDDEC
 
 IF(BETWEEN (a, [2 ; b]))
 THEN
-    c:= "ok between"
+    c:= "sentencia de if con between"
 ENDIF
