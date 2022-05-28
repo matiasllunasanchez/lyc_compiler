@@ -70,6 +70,13 @@ int idx_seleccion;
 int idx_cota_inferior;
 int idx_cota_superior;
 
+// Variables para TAKE
+int operador_take;
+int cantidad_a_tomar;
+int idx_constante_take;
+int idx_var_take = -1; // Donde va la variable auxiliar que acumula
+int idx_var_take_aux = -1; // Variable auxiliar para asignar valor antes de operar el take
+
 // Indices para BETWEEN
 int idx_between;
 int idx_salto_between;
@@ -467,7 +474,7 @@ between:
 																printf("\n Regla 50: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
 																// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
 
-																reset_tipo_dato();
+																reset_tipo_dato(); // Revisar
 																int idx_var_between = buscar_o_insertar_var_en_tabla("@between",ENUM_INTEGER);
 																int valor_verdadero = agregar_cte_int_a_tabla(1);
 																crear_terceto(OP_ASIG, idx_var_between, valor_verdadero); 
@@ -491,20 +498,70 @@ between:
 
 // FUNCION TAKE
 take:
-    TAKE PAR_A operador_take PYC CONST_ENT PYC COR_A lista_take_ctes COR_C PAR_C          	{ printf("\n Regla 51: <take> --> TAKE PAR_A <operador_take> PYC CONST_ENT PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); }
-    |  TAKE PAR_A operador_take PYC CONST_ENT PYC COR_A COR_C PAR_C                   		{ printf("\n Regla 52: <take> --> TAKE PAR_A <operador_take> PYC CONST_ENT PYC COR_A COR_C PAR_C \n"); }
-;
-
-lista_take_ctes:
-	CONST_ENT                                                                				{ printf("\n Regla 53: <lista_take_ctes> --> CONST_ENT \n"); }
-	| lista_take_ctes PYC CONST_ENT                                          				{ printf("\n Regla 54: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n"); }
+    TAKE PAR_A operador_take PYC numeros_a_tomar PYC 
+	COR_A lista_take_ctes COR_C PAR_C 											{ 
+																					printf("\n Regla 51: <take> --> TAKE PAR_A <operador_take> PYC numeros_a_tomar PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); 
+																				}
+    |  TAKE PAR_A operador_take PYC numeros_a_tomar PYC 
+	COR_A COR_C PAR_C			  	 											{ 
+																					printf("\n Regla 52: <take> --> TAKE PAR_A <operador_take> PYC numeros_a_tomar PYC COR_A COR_C PAR_C \n"); 
+																				}
 ;
 
 operador_take:
-	OP_SUM                                                                     { printf("\n Regla 55: <operador_take> --> OP_SUM \n"); } 
-	| OP_MUL                                                                   { printf("\n Regla 56: <operador_take> --> OP_MUL \n"); }
-	| OP_DIV                                                                   { printf("\n Regla 57: <operador_take> --> OP_DIV \n"); }
-	| OP_RES                                                                   { printf("\n Regla 58: <operador_take> --> OP_RES \n"); }
+	OP_SUM                                                                     	{ 
+																					printf("\n Regla 53: <operador_take> --> OP_SUM \n"); 
+																					operador_take = OP_SUM;
+																				} 
+	| OP_MUL                                                                   	{ 
+																					printf("\n Regla 54: <operador_take> --> OP_MUL \n"); 
+																					operador_take = OP_MUL;
+																				}
+	| OP_DIV                                                                   	{ 
+																					printf("\n Regla 55: <operador_take> --> OP_DIV \n"); 
+																					operador_take = OP_DIV;
+																				}
+	| OP_RES                                                                   	{ 
+																					printf("\n Regla 56: <operador_take> --> OP_RES \n"); 
+																					operador_take = OP_RES;
+																				}
 ;
 
+numeros_a_tomar:
+	CONST_ENT																	{
+																					printf("\n Regla 57: <numeros_a_tomar> --> CONST_ENT \n"); 
+																					// reset_tipo_dato(); // Revisar
+
+																					// Aca esta devolviendo indice pero tiene q devolver numero
+																					//cantidad_a_tomar = agregar_cte_int_a_tabla($1);
+																					cantidad_a_tomar = 3; // Si esto anda, falta hacerlo funcar con valor entero.
+
+																					idx_var_take = buscar_o_insertar_var_en_tabla("@acumulador",ENUM_INTEGER);
+																					idx_var_take_aux = buscar_o_insertar_var_en_tabla("@acumulador_aux",ENUM_INTEGER);
+																				}
+;
+
+lista_take_ctes:
+	CONST_ENT                                                                	{ 
+																					// No sta contando bien las recursividades. Creo que cuando llega aca siempre es el caos mas chico.
+																					printf("\n Regla 58: <lista_take_ctes> --> CONST_ENT \n");
+																					// Creo que es lo mismo hacer pesos 1, pero revisar.
+																					// int idx = agregar_cte_int_a_tabla(yylval.int_val);
+																					int idx = agregar_cte_int_a_tabla($1);
+																					int idx_primer_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																					crear_terceto(OP_ASIG, idx_var_take, idx_primer_constante);
+																					cantidad_a_tomar--;
+																				}
+	| lista_take_ctes PYC CONST_ENT                                          	{ 
+																					printf("\n Regla 59: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n");
+																					int idx = agregar_cte_int_a_tabla($3);
+																					if(cantidad_a_tomar > 0) {
+																						int idx_siguiente_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																						crear_terceto(OP_ASIG, idx_var_take_aux, idx_siguiente_constante);
+																						int idx_operacion_terceto = crear_terceto(operador_take, idx_var_take, idx_var_take_aux);
+																						crear_terceto(OP_ASIG, idx_var_take, idx_operacion_terceto);
+																						cantidad_a_tomar--;
+																					}
+																				}
+;
 %%
