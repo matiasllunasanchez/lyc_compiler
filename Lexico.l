@@ -2,12 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 #include "y.tab.h"
 
-#define INT_MAX 32767
-#define INT_MIN -32768
+#define INTEGER_MAX  32767
+#define INTEGER_MIN  -32768
 #define REAL_MAX 3.402823e+38
 #define REAL_MIN 1.175494e-38
 #define STRING_MAX_CHAR 32
@@ -22,7 +21,6 @@ FILE  *yyin;
 char *yytext;
 int yylex();
 int yyparse();
-char * yyerror();
  
 %}
 
@@ -36,7 +34,6 @@ DIGITO_SIN_CERO		    [1-9]
 LETRA			        [a-zA-ZñÑ]
 
 CARACTERES              @|\?|\.|\,|\+|\t|\n|\/|\_|\:|\;|¿|\*|{LETRA}|{DIGITO}|{ESPACIO}|\=|\*|\>\<|\-|á|Á|é|É|í|Í|ó|Ó|ú|Ú|ü|ñ|Ñ|¡|\¿|%
-                      
 COMA                    ","
 
 PAR_A	                "("
@@ -54,6 +51,7 @@ DECVAR		            "DECVAR"
 ENDDEC	                "ENDDEC"
 
 IF			            "IF"
+THEN			        "THEN"
 ENDIF                   "ENDIF"
 INTEGER	            	"INTEGER"
 STRING                  "STRING"
@@ -73,18 +71,18 @@ COMENTARIO	            \-\/.*\/\-
 ID		            	{LETRA}({LETRA}|{DIGITO})*
 
 OP_MAYOR		        ">"
-OP_MAYIGU	            ">="
+OP_MAYOR_IGUAL	            ">="
 OP_MENOR		        "<"
-OP_MENIGU	            "<="
+OP_MENOR_IGUAL	            "<="
 OP_IGUAL	            "=="
 OP_NO_IGUAL		        "!="
 OP_TIPO                 ":"
 
 OP_ASIG		            ":="
 OP_DIV                  "/"
-OP_SUMA                 "+"
-OP_MULT		            "*"
-OP_RESTA                "-"
+OP_SUM                 "+"
+OP_MUL		            "*"
+OP_RES                "-"
 
 %%
 
@@ -96,6 +94,7 @@ OP_RESTA                "-"
 {READ}           { printf("\n READ: %s\n",yytext);return READ; }
 {WHILE}          { printf("\n nWHILE: %s\n",yytext);return WHILE; }
 {IF}             { printf("\n IF: %s\n",yytext);return IF; }
+{THEN}           { printf("\n THEN: %s\n",yytext);return THEN; }
 {INTEGER}        { printf("\n INTEGER: %s\n",yytext);return INTEGER; }
 {FLOAT}          { printf("\n FLOAT: %s\n",yytext);return FLOAT; }
 {ELSE}           { printf("\n ELSE: %s\n",yytext);return ELSE; }
@@ -132,17 +131,16 @@ OP_RESTA                "-"
 
 {OP_ASIG}	     { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; }
 {OP_MAYOR}		 { printf("\n Operador Mayor: %s\n",yytext);return OP_MAYOR; }
-{OP_MAYIGU}      { printf("\n Operador Mayor o igual: %s\n",yytext);return OP_MAYIGU; }
+{OP_MAYOR_IGUAL} { printf("\n Operador Mayor o igual: %s\n",yytext);return OP_MAYOR_IGUAL; }
 {OP_MENOR}       { printf("\n Operador Menor: %s\n",yytext);return OP_MENOR; }
-{OP_MENIGU}      { printf("\n Operador Menor o Igual: %s\n",yytext);return OP_MENIGU; }
+{OP_MENOR_IGUAL} { printf("\n Operador Menor o Igual: %s\n",yytext);return OP_MENOR_IGUAL; }
 {OP_IGUAL}       { printf("\n Operador Igual: %s\n",yytext);return OP_IGUAL; }
 {OP_TIPO}        { printf("\n Operador de tipo: %s\n",yytext);return OP_TIPO; }
 {OP_NO_IGUAL}    { printf("\n Operador Distinto : %s\n",yytext);return OP_NO_IGUAL; }
 {OP_DIV}         { printf("\n Operador Divison: %s\n",yytext);return OP_DIV; }
-{OP_SUMA}        { printf("\n Operador Suma: %s\n",yytext);return OP_SUMA; }
-{OP_MULT}        { printf("\n Operador Multiplicacion: %s\n",yytext);return OP_MULT; } 
-{OP_ASIG}        { printf("\n Operador Asignacion: %s\n",yytext);return OP_ASIG; } 
-{OP_RESTA}       { printf("\n Operador Resta: %s\n",yytext);return OP_RESTA; }
+{OP_SUM}         { printf("\n Operador Suma: %s\n",yytext);return OP_SUM; }
+{OP_MUL}         { printf("\n Operador Multiplicacion: %s\n",yytext);return OP_MUL; } 
+{OP_RES}         { printf("\n Operador Resta: %s\n",yytext);return OP_RES; }
 
 {COMENTARIO}
 
@@ -152,7 +150,7 @@ OP_RESTA                "-"
 "\n\t" 
 "\r\n"               
 " "                 
-.                yyerror(yytext);
+.                { printf("Error lexico: Caracter invalido: %s", yytext); exit(1);}
 
 %%
 
@@ -169,10 +167,6 @@ int main(int argc,char *argv[])
         }
         fclose(yyin);
         return 1;
-}
-
-char* yyerror(void){
-    return (char*)printf("Error Lexico en linea %d\n",yylineno);
 }
 
 void validacion_string()
@@ -192,9 +186,9 @@ void validacion_string()
 
 void validacion_int()
 {
-    if (atoll(yytext) < INT_MIN || atoll(yytext) > INT_MAX)
+    if (atoll(yytext) < INTEGER_MIN  || atoll(yytext) > INTEGER_MAX )
     {
-        printf("Contenido de constante entera invalido en la linea %d\n", yylineno);
+        printf("Constante entera fuera de rango en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.int_val = atoi(yytext);
@@ -204,7 +198,7 @@ void validacion_real()
 {
     if (atof(yytext) < REAL_MIN || atof(yytext) > REAL_MAX)
     {
-        printf("Contenido de constante real invalido en la linea %d\n", yylineno);
+        printf("Constante real fuera de rango en la linea %d\n", yylineno);
         exit(1);
     }
     yylval.real_val = atof(yytext);
@@ -219,3 +213,10 @@ void validacion_id()
     }
     yylval.str_val = strdup(yytext);
 }
+
+int yyerror(char* mensaje)
+ {
+    printf("Syntax Error (linea %d): %s\n", yylineno, mensaje);
+    system ("Pause");
+    exit (1);
+ }

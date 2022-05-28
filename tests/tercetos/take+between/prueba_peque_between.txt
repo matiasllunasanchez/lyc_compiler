@@ -1,0 +1,8 @@
+DECVAR
+a,b,c,f : INTEGER
+ENDDEC
+
+IF(BETWEEN (a, [2 ; b]))
+THEN
+    c:= "ok between"
+ENDIF

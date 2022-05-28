@@ -21,32 +21,26 @@ WRITE c -/ donde var1 es una variable numérica definida previamente /-
 
 -/ Realizo una selección /-
 IF (a <= 30)
-THEN
 e := "correcto" -/ asignación string /-
 ENDIF
 
 IF ( (a >= 2) OR (a >= 2) ) 
-THEN
     f := "correcto"
 ENDIF
 
 IF (NOT (a>3))
-THEN
     f := "correcto NOT"
 ENDIF
 
 WHILE(ab<2)
-THEN
 ab := ab + 1
 ENDWHILE
 
 IF(BETWEEN (a, [2 ; a*(b+4)]))
-THEN
     f:= "ok between"
 ENDIF
 
 IF(BETWEEN (a, [2.3 ; 11.22]))
-THEN
     f:= "ok between 2"
 ENDIF
 

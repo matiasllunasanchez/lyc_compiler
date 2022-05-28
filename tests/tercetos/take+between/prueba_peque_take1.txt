@@ -1,0 +1,5 @@
+DECVAR
+a,b,c,d : INTEGER
+ENDDEC
+
+d:=TAKE(+ ; 4 ; [4;5;6;7;8;9;12])
