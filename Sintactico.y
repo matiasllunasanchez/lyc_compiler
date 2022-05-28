@@ -533,8 +533,8 @@ numeros_a_tomar:
 																					// reset_tipo_dato(); // Revisar
 
 																					// Aca esta devolviendo indice pero tiene q devolver numero
-																					//cantidad_a_tomar = agregar_cte_int_a_tabla($1);
-																					cantidad_a_tomar = 3; // Si esto anda, falta hacerlo funcar con valor entero.
+																					cantidad_a_tomar = $1;
+																					agregar_cte_int_a_tabla(cantidad_a_tomar);
 
 																					idx_var_take = buscar_o_insertar_var_en_tabla("@acumulador",ENUM_INTEGER);
 																					idx_var_take_aux = buscar_o_insertar_var_en_tabla("@acumulador_aux",ENUM_INTEGER);
@@ -543,7 +543,6 @@ numeros_a_tomar:
 
 lista_take_ctes:
 	CONST_ENT                                                                	{ 
-																					// No sta contando bien las recursividades. Creo que cuando llega aca siempre es el caos mas chico.
 																					printf("\n Regla 58: <lista_take_ctes> --> CONST_ENT \n");
 																					// Creo que es lo mismo hacer pesos 1, pero revisar.
 																					// int idx = agregar_cte_int_a_tabla(yylval.int_val);
@@ -552,14 +551,14 @@ lista_take_ctes:
 																					crear_terceto(OP_ASIG, idx_var_take, idx_primer_constante);
 																					cantidad_a_tomar--;
 																				}
-	| lista_take_ctes PYC CONST_ENT                                          	{ 
+	| lista_take_ctes PYC CONST_ENT                                          	{
 																					printf("\n Regla 59: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n");
 																					int idx = agregar_cte_int_a_tabla($3);
 																					if(cantidad_a_tomar > 0) {
 																						int idx_siguiente_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																						crear_terceto(OP_ASIG, idx_var_take_aux, idx_siguiente_constante);
 																						int idx_operacion_terceto = crear_terceto(operador_take, idx_var_take, idx_var_take_aux);
-																						crear_terceto(OP_ASIG, idx_var_take, idx_operacion_terceto);
+																						idx_take =crear_terceto(OP_ASIG, idx_var_take, idx_operacion_terceto);
 																						cantidad_a_tomar--;
 																					}
 																				}
