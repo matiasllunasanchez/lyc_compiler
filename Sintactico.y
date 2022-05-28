@@ -477,7 +477,7 @@ between:
 																// Flow solo si viene por falso
 																int valor_falso = agregar_cte_int_a_tabla(0);
 																int idx_terceto_falso = crear_terceto(BETWEEN_FALSE, PARTE_VACIA, PARTE_VACIA);
-																crear_terceto(OP_ASIG, idx_var_between, valor_verdadero); //A este terceto se llega si es verdadero, asigno 1 a @between
+																crear_terceto(OP_ASIG, idx_var_between, valor_falso); //A este terceto se llega si es verdadero, asigno 1 a @between
 																
 																// Flow final obligatorio
 																idx_between = crear_terceto(BETWEEN_CMP, PARTE_VACIA, PARTE_VACIA); // Aca caigo si algun branch por falso me hizo caer directo aca.

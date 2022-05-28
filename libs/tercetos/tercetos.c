@@ -125,8 +125,10 @@ void guardar_tercetos() {
                 break;
             case BETWEEN:
                 fprintf(arch, "BETWEEN");
+                break;
             case BETWEEN_FALSE:
                 fprintf(arch, "BETWEEN_FALSE");
+                break;
             case BETWEEN_CMP:
                 fprintf(arch, "BETWEEN_CMP");
                 break;
@@ -194,7 +196,7 @@ void guardar_tercetos() {
 
 void modificar_terceto(int indice, int parte_terceto, int valor) {
 
-	if(indice > idx_ultimo_terceto + OFFSET){
+	if(indice > (idx_ultimo_terceto + OFFSET)){
 		printf("ERR- Se intentó modificar un terceto inexistente.");
 		system ("Pause");
 		exit (4);
