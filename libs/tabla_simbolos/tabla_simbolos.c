@@ -18,22 +18,38 @@ void escribir_nombre_en_tabla(char* nombre, int pos) {
 	strcpy(tabla_simbolo[pos].nombre, nombre);
 }
 
-int agregar_var_a_tabla(char* nombre) {
-	 if(fin_tabla >= TAM_TABLA - 1){
-		 printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
-		 system("Pause");
-		 exit(2);
-	 }
+int agregar_var_declarada_a_tabla(char* nombre) {
+	if(fin_tabla >= TAM_TABLA - 1){
+		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
+		system("Pause");
+		exit(2);
+	}
 
-	 if(buscar_en_tabla(nombre) == -1){     
-		 int idx = ++fin_tabla;
-		 escribir_nombre_en_tabla(nombre, fin_tabla);
-		 return idx;
-	 }
-	 else{
-         printf("ERR- Se encontraron dos declaraciones identicas."); 
-     } 
+	if(buscar_en_tabla(nombre) == -1){     
+		int idx = ++fin_tabla;
+		escribir_nombre_en_tabla(nombre, fin_tabla);
+		return idx;
+	}
+	else{
+		printf("ERR- Se encontraron dos declaraciones de variables identicas\n"); 
+	} 
+}
 
+int buscar_o_insertar_var_a_tabla(char* nombre, int tipo) {
+	if(fin_tabla >= TAM_TABLA - 1){
+		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
+		system("Pause");
+		exit(2);
+	}
+
+	int pos = buscarEnTabla(nombre);
+	if(pos == -1){     
+		int idx = ++fin_tabla;
+		escribir_nombre_en_tabla(nombre, fin_tabla);
+		tabla_simbolo[fin_tabla].tipo_dato = tipo;
+		return fin_tabla;
+	}
+	return pos;
 }
 
 void agregar_tipos_datos_a_tabla() {

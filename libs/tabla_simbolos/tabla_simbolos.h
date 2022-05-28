@@ -11,7 +11,10 @@
 #define TAM_TABLA 500
 #define TAM_NOMBRE 32
 
-int agregar_var_a_tabla(char* nombre);
+//Funcion que agrega una variable a la tabla de simbolos. En caso de que la variable ya exista tira error por variable duplicada
+int agregar_var_declarada_a_tabla(char* nombre);
+//Funcion que busca una variable en la tabla de simbolos y en caso de no existir la inserta.
+int buscar_o_insertar_var_a_tabla(char* nombre);
 void agregar_tipos_datos_a_tabla(void);
 int agregar_cte_string_a_tabla(char* nombre);
 int agregar_cte_int_a_tabla(int valor);
