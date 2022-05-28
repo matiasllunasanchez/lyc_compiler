@@ -6,6 +6,7 @@
 #include "libs/tercetos/tercetos.h"
 #include "libs/tabla_simbolos/tabla_simbolos.h"
 #include "libs/sentencias_control/sentencias_control.h"
+#include "libs/funciones_especiales/funciones_especiales.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -66,8 +67,16 @@ int idx_termino_booleano_izq;
 int idx_iteracion;
 int idx_seleccion;
 
+int idx_cota_inferior;
+int idx_cota_superior;
+
 // Indices para BETWEEN
-int idx_salto;
+int idx_between;
+int idx_salto_between;
+int idx_valor_a_comparar;
+int idx_salto_a_fin_between_cota_inf; // Between falso, cota inferior mayor al valor
+int idx_salto_a_fin_between_cota_sup; // Between falso, cota superior menor al valor
+
 // Indices extras para if y while
 int idx_while;
 int idx_end_while;
@@ -129,13 +138,13 @@ bloque_variables:
 listavar:
     ID                                                                      { 
 																				printf("\n Regla 4: <listavar> --> ID  [ID: %s] \n", $1); 
-																				int idx = agregar_var_a_tabla(yylval.str_val); 
+																				int idx = agregar_var_declarada_a_tabla(yylval.str_val); 
 																				varADeclarar1 = fin_tabla; 
 																				cantVarsADeclarar = 1; 
 																			}
     | listavar COMA ID                                                      { 
 																				printf("\n Regla 5: <listavar> --> <listavar> COMA ID [ID: %s] \n", $3); 
-																				int idx = agregar_var_a_tabla(yylval.str_val); 
+																				int idx = agregar_var_declarada_a_tabla(yylval.str_val); 
 																				cantVarsADeclarar++; 
 																			}
 ;
@@ -358,6 +367,7 @@ expresion_booleana:
 														}
 	| between                       			        {
 															printf("\n Regla 38: <expresion_booleana> --> <between>\n");
+															idx_expresion_booleana = idx_between;
 														}
 ;
 
@@ -422,6 +432,27 @@ salida:
 																			}
 ;
 
+funcion_expresion_cota_inferior:
+	expresion													{
+																	idx_cota_inferior = idx_expresion;
+																	printf("\n Regla N+0: <funcion_expresion_cota_inferior> -->  <expresion>  \n"); 
+																	comp_bool_actual = OP_MAYOR_IGUAL; // Salta por BLT
+																	int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_inferior);
+																	idx_salto_a_fin_between_cota_inf=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
+																}
+;
+
+funcion_expresion_cota_superior:
+	expresion													{
+																	idx_cota_superior = idx_expresion;	
+																	printf("\n Regla N+1: <funcion_expresion_cota_superior> -->  <expresion>  \n");
+																	int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_superior);
+																	comp_bool_actual = OP_MENOR_IGUAL;  // Salta por BGT
+																	idx_salto_a_fin_between_cota_sup=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
+																}
+;
+
+
 // Funciones Especiales
 // FUNCION BETWEEN
 between:
@@ -429,11 +460,32 @@ between:
 																int tipo_dato = validar_var_en_tabla($3);
 																tipo_dato_actual = validar_tipo_dato(tipo_dato, tipo_dato_actual);
 																int idx = buscar_en_tabla($3);
-																idx_salto = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																idx_valor_a_comparar = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 															} 
-	COMA COR_A expresion PYC expresion COR_C PAR_C    		{ 
-																// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
+	COMA COR_A funcion_expresion_cota_inferior PYC 
+	
+	funcion_expresion_cota_superior COR_C PAR_C    			{ 
 																printf("\n Regla 49: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
+																// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
+																reset_tipo_dato();
+																int idx_var_between = buscar_o_insertar_var_en_tabla("@between",ENUM_INTEGER);
+																int valor_verdadero = agregar_cte_int_a_tabla(1);
+																crear_terceto(OP_ASIG, idx_var_between, valor_verdadero); 
+
+																idx_salto_between=crear_terceto(JMP, PARTE_VACIA, PARTE_VACIA); //Saltea la asignacion de falso
+																
+																// Flow solo si viene por falso
+																int valor_falso = agregar_cte_int_a_tabla(0);
+																int idx_terceto_falso = crear_terceto(BETWEEN_FALSE, PARTE_VACIA, PARTE_VACIA);
+																crear_terceto(OP_ASIG, idx_var_between, valor_verdadero); //A este terceto se llega si es verdadero, asigno 1 a @between
+																
+																// Flow final obligatorio
+																idx_between = crear_terceto(BETWEEN_CMP, PARTE_VACIA, PARTE_VACIA); // Aca caigo si algun branch por falso me hizo caer directo aca.
+																crear_terceto(CMP, idx_var_between, valor_verdadero); //Comparo @between contra verdadero
+
+																// Relleno tercetos con branches que saltan por casos falsos.
+																// Valor a comparar fuera de las cotas
+																poner_salto_hacia_fin_between(idx_terceto_falso, idx_salto_between, idx_between, idx_salto_a_fin_between_cota_inf, idx_salto_a_fin_between_cota_sup);
 															}
 ;
 

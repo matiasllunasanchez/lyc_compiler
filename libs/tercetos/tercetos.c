@@ -66,6 +66,9 @@ void guardar_tercetos() {
             case IF:
                 fprintf(arch, "IF");
                 break;
+            case THEN:
+				fprintf(arch, "THEN");
+				break;
             case ELSE:
                 fprintf(arch, "ELSE");
                 break;
@@ -122,6 +125,10 @@ void guardar_tercetos() {
                 break;
             case BETWEEN:
                 fprintf(arch, "BETWEEN");
+            case BETWEEN_FALSE:
+                fprintf(arch, "BETWEEN_FALSE");
+            case BETWEEN_CMP:
+                fprintf(arch, "BETWEEN_CMP");
                 break;
             case TAKE:
                 fprintf(arch, "TAKE");
@@ -138,8 +145,32 @@ void guardar_tercetos() {
             case WRITE:
                 fprintf(arch, "WRITE");
                 break;
+            case CMP:
+				fprintf(arch, "CMP");
+				break;
+			case BNE:
+				fprintf(arch, "BNE");
+				break;
+			case BEQ:
+				fprintf(arch, "BEQ");
+				break;
+			case BGT:
+				fprintf(arch, "BGT");
+				break;
+			case BGE:
+				fprintf(arch, "BGE");
+				break;
+			case BLE:
+				fprintf(arch, "BLE");
+				break;
+			case BLT:
+				fprintf(arch, "BLT");
+				break;
+			case JMP:
+				fprintf(arch, "JMP");
+				break;
             default:
-                fprintf(arch, "Error");
+                fprintf(arch, "Error. Etiqueta u operando no reconocido");
                 break;
 		}
 

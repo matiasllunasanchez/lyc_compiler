@@ -35,14 +35,14 @@ int agregar_var_declarada_a_tabla(char* nombre) {
 	} 
 }
 
-int buscar_o_insertar_var_a_tabla(char* nombre, int tipo) {
+int buscar_o_insertar_var_en_tabla(char* nombre, int tipo) {
 	if(fin_tabla >= TAM_TABLA - 1){
 		printf("ERR- Tamanio max de tabla de simbolos alcanzado\n");
 		system("Pause");
 		exit(2);
 	}
 
-	int pos = buscarEnTabla(nombre);
+	int pos = buscar_en_tabla(nombre);
 	if(pos == -1){     
 		int idx = ++fin_tabla;
 		escribir_nombre_en_tabla(nombre, fin_tabla);
