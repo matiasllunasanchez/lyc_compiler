@@ -5,3 +5,4 @@ del y.tab.h
 del ts.txt
 del intermedia.txt
 del Segunda.exe
+del Final.asm
