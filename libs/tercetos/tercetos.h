@@ -9,7 +9,6 @@
 // Desde el max tabla de simbolos + idx_ultimo_terceto arrancan los tercetos
 // -1 NULL o VACIO  > 0, ... OFFSET > TERCETOS
 // Inicio de los valores de los indices validos para interpretar a tercetos:  OFFSET + idx_ultimo_terceto
-
 #define PROG 7 // Revisar
 #define CMP 21  // Comparador de assembler
 // Recordar que los branches son siempre por la condicion contraria a la que evalua el condicional, la verdadera no salta / branchea, sino que sigue.
@@ -33,6 +32,9 @@ typedef struct{
   int parte_c;  // Generalmente el operando 2. (Num o algo)
 } terceto;
 
+#define OPTIMIZAR 1 // Constante para usar en el metodo de guardar tercetos
+#define NO_OPTIMIZAR 0 // Constante para usar en el metodo de guardar tercetos
+
 // Agrega terceto a vector.
 // Tratar de respetar la PARTE_A para los OPERANDOS UNICAMENTE.
 // Mandar PARTE_VACIA en PARTE_A y PARTE_C para guardar CTE o ID en la PARTE_B.
@@ -42,13 +44,17 @@ int crear_terceto(int parte_a, int parte_b, int parte_c);
 // Esto lo hace recorriendo el vector de tercetos e identificando cada variable DEFINE / CONSTANTE definida en tercetos.h
 // Forma final de un terceto: [idx] (PARTE_A, PARTE_B, PARTE_C)
 // Nota: Arrancan del indice 500
-void guardar_tercetos(); 
+// Mandar  OPTMIZAR o NO_OPTIMIZAR segun se quieran optimizar (o no) los tercetos a guardar
+void guardar_tercetos(int optimizar); 
 
 // Modificar terceto mediante idx que tiene en el vector y la PARTE que se quiere modificar
 // El idx recibido debe tener offset
 // La parte debe ser alguna de las CONSTANTES definidas en tercetos.h (PARTE_A o PARTE_B o PARTE_C)
 void modificar_terceto(int indice, int parte_terceto, int valor);
 
+// Se optimiza la lista de tercetos moviendo las referencias de los tercetos de ctes o variables a los tercetos correspondientes 
+// Los tercetos viejos ya optimizados siguen en el vector y se deben ignorar
+void optimizar_tercetos();
 
 extern terceto vector_tercetos[CANT_MAX_TERCETOS]; // Vector que va apilando tercetos
 extern int idx_ultimo_terceto; // Indice del ultimo elemento insertado en vector.

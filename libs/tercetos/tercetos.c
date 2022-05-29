@@ -29,11 +29,14 @@ void grabar_parte(FILE** arch,int parte){
 			fprintf(*arch, "[%d]", parte); // Indice nuevo elemento
 }
 
-void guardar_tercetos() { 
+void guardar_tercetos(int optimizar) { 
     if(idx_ultimo_terceto == -1){
         printf("ERR- No existen tercetos cargados en el vector");
         exit(1);
     }
+
+    if(optimizar==OPTIMIZAR)
+        optimizar_tercetos();
 
 	FILE* arch = fopen("intermedia.txt", "w+");
 	if(!arch){
@@ -43,8 +46,13 @@ void guardar_tercetos() {
 	}
     int i;
     for(i = 0; i <= idx_ultimo_terceto; i++) {
+		 // Si se solicitó optimizar, y el terceto que se esta leyendo tiene la primer parte vacia
+         // Entonces estamos en presencia de un terceto de una CTE o ID
+         // Así que, ya se optimizó, por lo que salto al siguiente elemento del for
+        if((optimizar==OPTIMIZAR) && (vector_tercetos[i].parte_a == PARTE_VACIA))
+            continue;
 		
-		// Indice
+        // Indice
         // Result: [idx] (
 		fprintf(arch, "[%d] (", i + OFFSET); 
 
@@ -212,5 +220,26 @@ void modificar_terceto(int indice, int parte_terceto, int valor) {
         case PARTE_C:
             vector_tercetos[indice - OFFSET].parte_c = valor;
             break;
+	}
+}
+
+void optimizar_tercetos() {
+	// Recorro todos los tercetos
+    // Por cada terceto, trabajo primero reduciendo el primer operando y luego el segundo. (Primero parte B y luego C)
+    // Reviso si la parte B del terceto refiere a otro, y si es el caso de que es un ID o CTE y lo optimizo reemplazando la referencia que apunta al terceto directamente por uan referencia al ID o CTE
+    // Lo mismo hago con la parte del segundo operando o parte c
+    // La referencia de la CTE o ID siempre esta en la parte b para que sea mas facil encontrarla
+	for(int i=0; i<CANT_MAX_TERCETOS; i++) {
+		if(vector_tercetos[i].parte_b >= OFFSET) {
+			int idx = vector_tercetos[i].parte_b - OFFSET;
+			if(vector_tercetos[idx].parte_a == PARTE_VACIA)
+				vector_tercetos[i].parte_b = vector_tercetos[idx].parte_b;
+		}
+		
+		if(vector_tercetos[i].parte_c >= OFFSET) {
+			int idx = vector_tercetos[i].parte_c - OFFSET;
+			if(vector_tercetos[idx].parte_a == PARTE_VACIA) 
+				vector_tercetos[i].parte_c = vector_tercetos[idx].parte_b;
+		}
 	}
 }

@@ -123,7 +123,7 @@ int idx_then;
 start: seccion_declaracion programa                                         { 
 																				printf("\n Regla 0: <start> --> <seccion_declaracion> <programa> \n"); 
 																				guardar_tabla(); 
-																				guardar_tercetos();
+																				guardar_tercetos(OPTIMIZAR);
 																				genera_assembler();
 																			}
 ;
