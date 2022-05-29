@@ -25,9 +25,9 @@ void imprimir_header_assembler(FILE* pFile) {
     imprimir_tabla_simbolos(pFile);
 
     // Inicio del codigo
-    fprintf(pFile, ".CODE\n\n");
-    fprintf(pFile, "mov AX, @DATA\n"); // Inicializa el segmento de datos
-    fprintf(pFile, "mov DS, AX\n");
+    fprintf(pFile, ".CODE\n");
+    fprintf(pFile, "mov AX,@DATA\n"); // Inicializa el segmento de datos
+    fprintf(pFile, "mov DS,AX\n");
     fprintf(pFile, "mov es,ax\n\n");
 }
 
@@ -38,7 +38,25 @@ void imprimir_footer_assembler(FILE* pFile) {
 }
 
 void imprimir_tabla_simbolos(FILE* pFile) {
+    fprintf(pFile, ".DATA\n");
+    for(int i=0; i<=fin_tabla; i++){
+        fprintf(pFile, "%s ", tabla_simbolo[i].nombre);
+        switch(tabla_simbolo[i].tipo_dato){
+        case ENUM_CTE_INTEGER:
+            fprintf(pFile, "dd %d\n", tabla_simbolo[i].valor_i);
+            break;
+        case ENUM_CTE_FLOAT:
+            fprintf(pFile, "dd %f\n", tabla_simbolo[i].valor_f);
+            break;
+        case ENUM_CTE_STRING:
+            fprintf(pFile, "db \"%s\", '$'\n", tabla_simbolo[i].valor_s);
+            break;
+        default: // Variable
+            fprintf(pFile, "dd ?\n");
+        }
+    }
 
+    fprintf(pFile, "\n");
 }
 
 void imprimir_codigo_assembler(FILE* pFile) {
