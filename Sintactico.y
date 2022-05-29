@@ -7,6 +7,7 @@
 #include "libs/tabla_simbolos/tabla_simbolos.h"
 #include "libs/sentencias_control/sentencias_control.h"
 #include "libs/funciones_especiales/funciones_especiales.h"
+#include "libs/generacion_assembler/generacion_assembler.h"
 
 simbolo tabla_simbolo[TAM_TABLA];
 int fin_tabla = -1;
@@ -123,6 +124,7 @@ start: seccion_declaracion programa                                         {
 																				printf("\n Regla 0: <start> --> <seccion_declaracion> <programa> \n"); 
 																				guardar_tabla(); 
 																				guardar_tercetos();
+																				genera_assembler();
 																			}
 ;
 
