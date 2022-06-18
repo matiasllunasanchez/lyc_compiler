@@ -60,5 +60,8 @@ void imprimir_tabla_simbolos(FILE* pFile) {
 }
 
 void imprimir_codigo_assembler(FILE* pFile) {
-
+    // Los tercetos deben estar optimizados
+    // Cantidad de tercetos  es igual a la cantidad de variables @aux -1 a escribir.
+    // SI tengo 7 tercetos, necesito 6 auxiliares ooo...
+    // Las variables auxiliares para ir guardando los resultados operados en los registros
 }
