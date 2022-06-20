@@ -141,7 +141,7 @@ void guardar_tercetos(int optimizar) {
                 fprintf(arch, "_BETWEEN_CMP");
                 break;
             case TAKE:
-                fprintf(arch, "TAKE");
+                fprintf(arch, "_TAKE");
                 break;
             case COMA:
                 fprintf(arch, "\',\'");
