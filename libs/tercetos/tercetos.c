@@ -63,31 +63,31 @@ void guardar_tercetos(int optimizar) {
                 fprintf(arch, "_");
                 break;
             case PROG: // Revisar
-                fprintf(arch, "PROGRAMA");
+                fprintf(arch, "_PROGRAMA");
                 break;
             case DECVAR:
-                fprintf(arch, "DECVAR");
+                fprintf(arch, "_DECVAR");
                 break;
             case ENDDEC:
-                fprintf(arch, "ENDDEC");
+                fprintf(arch, "_ENDDEC");
                 break;
             case IF:
-                fprintf(arch, "IF");
+                fprintf(arch, "_IF");
                 break;
             case THEN:
-				fprintf(arch, "THEN");
+				fprintf(arch, "_THEN");
 				break;
             case ELSE:
-                fprintf(arch, "ELSE");
+                fprintf(arch, "_ELSE");
                 break;
             case ENDIF:
-                fprintf(arch, "ENDIF");
+                fprintf(arch, "_ENDIF");
                 break;
             case WHILE:
-                fprintf(arch, "WHILE");
+                fprintf(arch, "_WHILE");
                 break;
             case ENDWHILE:
-                fprintf(arch, "ENDWHILE");
+                fprintf(arch, "_ENDWHILE");
                 break;
             case OP_ASIG:
                 fprintf(arch, ":=");
@@ -132,13 +132,13 @@ void guardar_tercetos(int optimizar) {
                 fprintf(arch, "!=");
                 break;
             case BETWEEN:
-                fprintf(arch, "BETWEEN");
+                fprintf(arch, "_BETWEEN");
                 break;
             case BETWEEN_FALSE:
-                fprintf(arch, "BETWEEN_FALSE");
+                fprintf(arch, "_BETWEEN_FALSE");
                 break;
             case BETWEEN_CMP:
-                fprintf(arch, "BETWEEN_CMP");
+                fprintf(arch, "_BETWEEN_CMP");
                 break;
             case TAKE:
                 fprintf(arch, "TAKE");
@@ -150,10 +150,10 @@ void guardar_tercetos(int optimizar) {
                 fprintf(arch,  "\';\'");
                 break;
             case READ:
-                fprintf(arch, "READ");
+                fprintf(arch, "_READ");
                 break;
             case WRITE:
-                fprintf(arch, "WRITE");
+                fprintf(arch, "_WRITE");
                 break;
             case CMP:
 				fprintf(arch, "CMP");
@@ -180,7 +180,7 @@ void guardar_tercetos(int optimizar) {
 				fprintf(arch, "JMP");
 				break;
             default:
-                fprintf(arch, "Error. Etiqueta u operando no reconocido");
+                fprintf(arch, "_Error:Etiqueta u operando no reconocido");
                 break;
 		}
 
