@@ -4,5 +4,7 @@ del y.output
 del y.tab.h
 del ts.txt
 del intermedia.txt
+del Primera.exe
 del Segunda.exe
+del Tercera.exe
 del Final.asm

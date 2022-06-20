@@ -1,10 +1,10 @@
 # Compilador TP - Lenguajes y Compiladores UNLaM 2022
 
- ## GRUPO 11 - SEGUNDA ENTREGA COMPILADOR
+ ## GRUPO 11 - TERCERA ENTREGA COMPILADOR
 [Consignas del TP click acá](https://docs.google.com/document/d/1eBz35sM1iTpzqPLFCftL9yCo6Ex4psi-/edit)
 
  1. Para ejecutarlo, cambiar las rutas en el archivo "**Ejecutar.bat**" a los directorios de flex, bison y gcc y luego ejecutar el bat.
-> ***Archivos generados:** lex.yy.c , Segunda.exe, y.tab.c, y.tab.h, y.output , ts.txt e intermedia.txt*
+> ***Archivos generados:** lex.yy.c , Tercera.exe, y.tab.c, y.tab.h, y.output, ts.txt, Final.asm e intermedia.txt*
 
  2. Para eliminar los archivos generados se debe ejecutar el archivo "**EliminarResto.bat**" 
 
