@@ -369,7 +369,7 @@ expresion_booleana:
 															idx_expresion_booleana = idx_termino_booleano;
 															idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 														}
-    | NOT termino_booleano                              {
+    | NOT PAR_A termino_booleano PAR_C                  {
 															printf("\n Regla 36: <expresion_booleana> --> NOT <termino_booleano>\n");
 															idx_expresion_booleana = idx_termino_booleano;
 															idx_condicion_izq = crear_terceto(obtener_salto_condicion(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
@@ -413,7 +413,7 @@ comparador:
 															printf("\n Regla 44: <comparador> --> OP_IGUAL \n"); 
 															comp_bool_actual = OP_IGUAL; 
 														} 
-	| OP_NO_IGUAL                                           { 
+	| OP_NO_IGUAL                                       { 
 															printf("\n Regla 45: <comparador> --> OP_NO_IGUAL \n");
 															comp_bool_actual = OP_NO_IGUAL; 
 														}
@@ -421,44 +421,44 @@ comparador:
 
 // Lectura y escritura
 entrada:
-    READ ID                                                                 { 
-																				printf("\n Regla 46: <entrada> --> READ ID \n"); 
-																				validar_var_en_tabla(yylval.str_val);
-																			}
+    READ ID                                             { 
+															printf("\n Regla 46: <entrada> --> READ ID \n"); 
+															validar_var_en_tabla(yylval.str_val);
+														}
 ;
 
 salida:
-    WRITE CONST_STR                                                         { 
-																				printf("\n Regla 46: <salida> -->  WRITE CONST_STR  \n"); 
-																				int idx = agregar_cte_string_a_tabla(yylval.str_val); 
-																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
-																			}
-    | WRITE ID                                                              { 
-																				printf("\n Regla 47: <salida> -->  WRITE ID  \n"); 
-																				validar_var_en_tabla(yylval.str_val); 
-																				int idx = buscar_en_tabla($2);
-																				idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
-																			}
+    WRITE CONST_STR                                     { 
+															printf("\n Regla 46: <salida> -->  WRITE CONST_STR  \n"); 
+															int idx = agregar_cte_string_a_tabla(yylval.str_val); 
+															idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+														}
+	| WRITE ID                                          { 
+															printf("\n Regla 47: <salida> -->  WRITE ID  \n"); 
+															validar_var_en_tabla(yylval.str_val); 
+															int idx = buscar_en_tabla($2);
+															idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
+														}
 ;
 
 funcion_expresion_cota_inferior:
-	expresion													{
-																	printf("\n Regla 48: <funcion_expresion_cota_inferior> -->  <expresion>  \n"); 
-																	idx_cota_inferior = idx_expresion;
-																	comp_bool_actual = OP_MAYOR_IGUAL; // Salta por BLT
-																	int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_inferior);
-																	idx_salto_a_fin_between_cota_inf=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
-																}
+	expresion											{
+															printf("\n Regla 48: <funcion_expresion_cota_inferior> -->  <expresion>  \n"); 
+															idx_cota_inferior = idx_expresion;
+															comp_bool_actual = OP_MAYOR_IGUAL; // Salta por BLT
+															int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_inferior);
+															idx_salto_a_fin_between_cota_inf=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
+														}
 ;
 
 funcion_expresion_cota_superior:
-	expresion													{
-																	printf("\n Regla 49: <funcion_expresion_cota_superior> -->  <expresion>  \n");
-																	idx_cota_superior = idx_expresion;	
-																	int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_superior);
-																	comp_bool_actual = OP_MENOR_IGUAL;  // Salta por BGT
-																	idx_salto_a_fin_between_cota_sup=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
-																}
+	expresion											{
+															printf("\n Regla 49: <funcion_expresion_cota_superior> -->  <expresion>  \n");
+															idx_cota_superior = idx_expresion;	
+															int idx_aux= crear_terceto(CMP,idx_valor_a_comparar,idx_cota_superior);
+															comp_bool_actual = OP_MENOR_IGUAL;  // Salta por BGT
+															idx_salto_a_fin_between_cota_sup=crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_aux, PARTE_VACIA);
+														}
 ;
 
 // Funciones Especiales
