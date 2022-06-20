@@ -4,14 +4,27 @@
 #include "tabla_simbolos.h"
 
 int buscar_en_tabla(char * name) {
-   int i=0;
-   while(i<=fin_tabla){
-	   if(strcmp(tabla_simbolo[i].nombre,name) == 0){
-		   return i;
-	   }
-	   i++;
-   }
-   return -1;
+	int i=0;
+	while(i<=fin_tabla){
+		if(strcmp(tabla_simbolo[i].nombre,name) == 0){
+			return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+int buscar_y_validar_en_tabla(char *name){
+	int i=0;
+	while(i<=fin_tabla){
+		if(strcmp(tabla_simbolo[i].nombre,name) == 0){
+			return i;
+		}
+		i++;
+	}
+	printf("ERR- No se encontró declarada la variable'%s'\n",name); 
+	system("Pause");
+	exit(2);
 }
 
 void escribir_nombre_en_tabla(char* nombre, int pos) {
@@ -171,6 +184,8 @@ int validar_var_en_tabla(char* nombre) {
 		char msg[100];
 		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
 		printf(msg);
+		system("Pause");
+		exit(2);
 	}
 	return tabla_simbolo[variable].tipo_dato;
 }
