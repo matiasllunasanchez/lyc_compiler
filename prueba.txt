@@ -1,8 +1,8 @@
 
 DECVAR
 a : FLOAT
-b,c,d,e,f : STRING
-p1, p2, p3 : FLOAT
+b,c,e,f : STRING
+p1, d, p2, p3 : FLOAT
 ab : INTEGER
 ENDDEC
 

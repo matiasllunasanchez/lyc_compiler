@@ -1,0 +1,10 @@
+DECVAR
+a : FLOAT
+c,e : STRING
+ENDDEC
+
+IF (a <= 30)
+THEN
+e := "hola mundo"
+e := c
+ENDIF

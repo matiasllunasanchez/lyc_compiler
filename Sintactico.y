@@ -34,6 +34,10 @@ int idx_terceto_leido;
 elemento_terceto pila_tercetos[MAX_ANIDAMIENTOS];
 terceto vector_tercetos[CANT_MAX_TERCETOS];
 
+
+// Asignaciones
+char id_asignacion[TAM_NOMBRE];
+
 int idx_ultimo_terceto = -1;
 // Cosas para comparadores booleanos
 int comp_bool_actual;
@@ -210,9 +214,12 @@ sentencia:
 
 // General
 asignacion:
-    ID OP_ASIG expresion_general                                            { 	
-																				printf("\n Regla 16: <asignacion> --> ID OP_ASIG <expresion> \n"); 	
-																				int idx = buscar_y_validar_en_tabla($1);
+    ID OP_ASIG {strcpy(id_asignacion, $1);} expresion_general               { 	
+																				printf("\n Regla 16: <asignacion> --> ID OP_ASIG <expresion> %s \n", id_asignacion); 	
+																				int tipo_dato = validar_var_en_tabla(id_asignacion);
+																				tipo_dato_actual = validar_tipo_dato(tipo_dato, tipo_dato_actual);
+																				reset_tipo_dato();
+																				int idx = buscar_y_validar_en_tabla(id_asignacion);
 																				idx_asignacion = crear_terceto(OP_ASIG, idx, idx_expresion_general);
 																			}
 ;
@@ -220,6 +227,7 @@ asignacion:
 expresion_general:
 	CONST_STR																{
 																				printf("\n Regla 17: <expresion_general> --> CTE_STRING \n");
+																				tipo_dato_actual = ENUM_STRING;
 																				int idx = agregar_cte_string_a_tabla(yylval.str_val);
 																				idx_expresion_general = crear_terceto(PARTE_VACIA,idx,PARTE_VACIA);
 																			}
@@ -266,22 +274,27 @@ factor:
 																			} 
     | CONST_REAL                                                            { 
 																				printf("\n Regla 26: <factor> --> CONST_REAL \n");
+																				tipo_dato_actual = ENUM_FLOAT;
 																				int idx = agregar_cte_real_a_tabla(yylval.real_val);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
     | ID                                                                    { 
 																				printf("\n Regla 27: <factor> --> ID \n"); 
+																				reset_tipo_dato();
+																				int tipo_dato = validar_var_en_tabla($1);
+																				tipo_dato_actual = validar_tipo_dato(tipo_dato, tipo_dato_actual);
 																				int idx = buscar_y_validar_en_tabla($1);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			} 
     | CONST_ENT                                                             { 
 																				printf("\n Regla 28: <factor> --> CONST_ENT \n"); 
+																				tipo_dato_actual = ENUM_INTEGER;
 																				int idx = agregar_cte_int_a_tabla(yylval.int_val);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
 	| take                                           						{
 																				printf("\n Regla 29: <factor> --> <take> \n");
-																				// validar_tipo_dato(ENUM_FLOAT);
+																				tipo_dato_actual = ENUM_FLOAT;
 																				idx_factor = idx_take;
 																			}
 ;
@@ -307,12 +320,14 @@ iteracion:
 
 inicio_if:
 	IF PAR_A											{
+															reset_tipo_dato();
 															idx_if=crear_terceto(IF, PARTE_VACIA, PARTE_VACIA);
 															apilar_terceto();
 														};
 
 inicio_then:
 	PAR_C THEN											{	
+															reset_tipo_dato();
 															idx_then=crear_terceto(THEN,PARTE_VACIA,PARTE_VACIA);
 	  														actualizar_terceto_pos_then();
 														};
@@ -348,7 +363,8 @@ seleccion:
 
 expresion_booleana:
     termino_booleano 									{ 	
-															idx_termino_booleano_izq = idx_termino_booleano;	
+															idx_termino_booleano_izq = idx_termino_booleano;
+															reset_tipo_dato();	
 														} 
 	AND 												{ 	idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);		}
 	termino_booleano 									{
@@ -357,7 +373,9 @@ expresion_booleana:
 															idx_expresion_booleana = crear_terceto(AND, idx_termino_booleano_izq, idx_termino_booleano);
 														}
 	| termino_booleano									{ 	
-															idx_termino_booleano_izq = idx_termino_booleano;	} 
+															idx_termino_booleano_izq = idx_termino_booleano;
+															reset_tipo_dato();	
+														} 
 	OR 													{ 	has_or = crear_terceto(obtener_salto_condicion(comp_bool_actual), idx_termino_booleano, PARTE_VACIA); 	}
 	termino_booleano									{
 															printf("\n Regla 34: <expresion_booleana> --> <termino_booleano> OR <termino_booleano>\n");
@@ -376,6 +394,8 @@ expresion_booleana:
 														}
 	| between                       			        {
 															printf("\n Regla 37: <expresion_booleana> --> <between>\n");
+															reset_tipo_dato();
+															tipo_dato_actual = ENUM_FLOAT;
 															idx_expresion_booleana = idx_between;
 														}
 ;
@@ -476,7 +496,7 @@ between:
 																printf("\n Regla 50: <between> --> BETWEEN PAR_A ID COMA COR_A <expresion> PYC <expresion> COR_C PAR_C \n"); 
 																// Se debe verificar que el ID que se ingresa sea variable DEL TIPO NUMERICA UNICAMENTE.
 
-																reset_tipo_dato(); // Revisar
+																reset_tipo_dato();
 																int idx_var_between = buscar_o_insertar_var_en_tabla("@between",ENUM_INTEGER);
 																int valor_verdadero = agregar_cte_int_a_tabla(1);
 																crear_terceto(OP_ASIG, idx_var_between, valor_verdadero); 
@@ -537,7 +557,8 @@ operador_take:
 numeros_a_tomar:
 	CONST_ENT																	{
 																					printf("\n Regla 57: <numeros_a_tomar> --> CONST_ENT \n"); 
-																					// reset_tipo_dato(); // Revisar
+																					// reset_tipo_dato();
+																					// tipo_dato_actual = ENUM_INTEGER;
 																					cantidad_a_tomar = $1;
 																					agregar_cte_int_a_tabla(cantidad_a_tomar);
 
@@ -550,6 +571,8 @@ lista_take_ctes:
 	CONST_ENT                                                                	{ 
 																					printf("\n Regla 58: <lista_take_ctes> --> CONST_ENT \n");
 																					// int idx = agregar_cte_int_a_tabla(yylval.int_val);
+																					// reset_tipo_dato();
+																					// tipo_dato_actual = ENUM_INTEGER;
 																					int idx = agregar_cte_int_a_tabla($1);
 																					if(cantidad_a_tomar > 0) {
 																						int idx_primer_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
@@ -565,6 +588,8 @@ lista_take_ctes:
 																				}
 	| lista_take_ctes PYC CONST_ENT                                          	{
 																					printf("\n Regla 59: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n");
+																					// reset_tipo_dato();
+																					// tipo_dato_actual = ENUM_INTEGER;
 																					int idx = agregar_cte_int_a_tabla($3);
 																					if(cantidad_a_tomar > 0) {
 																						int idx_siguiente_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA); // Crea terceto para sig
