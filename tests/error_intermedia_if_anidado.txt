@@ -1,0 +1,17 @@
+
+DECVAR
+a, b : FLOAT
+c,e,f : STRING
+p1, d, p2, p3 : FLOAT
+ab : INTEGER
+ENDDEC
+
+IF (a > 30)
+THEN
+    e := "correcto"
+ELSE    
+    IF (NOT (a > b))
+    THEN
+        READ ab
+    ENDIF
+ENDIF
