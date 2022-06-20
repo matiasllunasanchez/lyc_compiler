@@ -30,8 +30,10 @@ int agregar_var_declarada_a_tabla(char* nombre) {
 		escribir_nombre_en_tabla(nombre, fin_tabla);
 		return idx;
 	}
-	else{
+	else {
 		printf("ERR- Se encontraron dos declaraciones de variables identicas\n"); 
+		system("Pause");
+		exit(2);
 	} 
 }
 
@@ -60,11 +62,16 @@ void agregar_tipos_datos_a_tabla() {
 }
 
 void guardar_tabla() {
-	if(fin_tabla == -1)
+	if(fin_tabla == -1){
 		printf("ERR- No se encontró la tabla de simbolos");
+		system("Pause");
+		exit(2);
+	}
 	FILE* arch = fopen("ts.txt", "w+");
 	if(!arch){
 		printf("ERR- No se ha podido crear el archivo ts.txt\n");
+		system("Pause");
+		exit(2);
 		return;
 	}
     int i;
@@ -175,7 +182,8 @@ int validar_tipo_dato(int cte_tipo, int cte_tipo_leido){
 	if(cte_tipo_leido != cte_tipo)
 	{
 		printf("ERR- Tipo de dato asignado incompatible. Asegurarse de que los tipos de datos son correctos.");
-		exit(1);
+		system("Pause");
+		exit(2);
 	}
 	return -1;
 }

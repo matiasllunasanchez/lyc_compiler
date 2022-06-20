@@ -198,7 +198,6 @@ void guardar_tercetos(int optimizar) {
 		fprintf(arch, ")\n");
 
 	}
-	
     fclose(arch);
 }
 

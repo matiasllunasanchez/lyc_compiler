@@ -1,0 +1,7 @@
+DECVAR
+a : FLOAT
+a : FLOAT
+b,c,d,e,f : STRING
+p1, p2, p3 : FLOAT
+ab : INTEGER
+ENDDEC
