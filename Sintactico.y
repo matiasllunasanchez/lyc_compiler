@@ -212,7 +212,7 @@ sentencia:
 asignacion:
     ID OP_ASIG expresion_general                                            { 	
 																				printf("\n Regla 16: <asignacion> --> ID OP_ASIG <expresion> \n"); 	
-																				int idx = buscar_en_tabla($1);
+																				int idx = buscar_y_validar_en_tabla($1);
 																				idx_asignacion = crear_terceto(OP_ASIG, idx, idx_expresion_general);
 																			}
 ;
@@ -271,7 +271,7 @@ factor:
 																			}
     | ID                                                                    { 
 																				printf("\n Regla 27: <factor> --> ID \n"); 
-																				int idx = buscar_en_tabla($1);
+																				int idx = buscar_y_validar_en_tabla($1);
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			} 
     | CONST_ENT                                                             { 
@@ -436,7 +436,7 @@ salida:
 	| WRITE ID                                          { 
 															printf("\n Regla 47: <salida> -->  WRITE ID  \n"); 
 															validar_var_en_tabla(yylval.str_val); 
-															int idx = buscar_en_tabla($2);
+															int idx = buscar_y_validar_en_tabla($2);
 															idx_salida = crear_terceto(WRITE, idx, PARTE_VACIA); 
 														}
 ;
@@ -467,7 +467,7 @@ between:
     BETWEEN PAR_A ID										{ 
 																int tipo_dato = validar_var_en_tabla($3);
 																tipo_dato_actual = validar_tipo_dato(tipo_dato, tipo_dato_actual);
-																int idx = buscar_en_tabla($3);
+																int idx = buscar_y_validar_en_tabla($3);
 																idx_valor_a_comparar = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 															} 
 	COMA COR_A funcion_expresion_cota_inferior PYC 
