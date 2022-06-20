@@ -105,13 +105,13 @@ void guardar_tercetos(int optimizar) {
                 fprintf(arch, "/");
                 break;
             case AND:
-                fprintf(arch, "AND");
+                fprintf(arch, "_AND");
                 break;
             case OR:
-                fprintf(arch, "OR");
+                fprintf(arch, "_OR");
                 break;
             case NOT:
-                fprintf(arch, "NOT");
+                fprintf(arch, "_NOT");
                 break;
             case OP_MENOR:
                 fprintf(arch, "<");
