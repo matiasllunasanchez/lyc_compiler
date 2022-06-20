@@ -203,3 +203,10 @@ int validar_tipo_dato(int cte_tipo, int cte_tipo_leido){
 	return -1;
 }
 
+int validar_var_numerica(int cte_tipo_leido){
+	if(cte_tipo_leido == ENUM_STRING){
+		printf("ERR- Tipo de dato incompatible para operar. Verficar el uso correcto de strings.");
+		system("Pause");
+		exit(2);
+	}
+}

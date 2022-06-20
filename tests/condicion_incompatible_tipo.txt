@@ -1,0 +1,12 @@
+
+DECVAR
+a : FLOAT
+b,c,e,f : STRING
+p1, d, p2, p3 : FLOAT
+ab : INTEGER
+ENDDEC
+
+IF( 1 > b )
+THEN
+f:= "ok between 2"
+ENDIF

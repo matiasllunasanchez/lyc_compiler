@@ -29,6 +29,9 @@ void guardar_tabla(void);
 // Valida que los tipos de datos recibidos sean iguales y sino lanza error.
 int validar_tipo_dato(int cte_tipo, int cte_tipo_leido);
 
+// Valida que el tipo de dato pasado por parametro NO sea string
+// Si lo es, lanza error
+int validar_var_numerica(int cte_tipo);
 
 typedef struct {
     char nombre[TAM_NOMBRE];

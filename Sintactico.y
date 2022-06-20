@@ -404,9 +404,13 @@ termino_booleano:
 	PAR_A expresion_booleana PAR_C 						{
 															printf("\n Regla 38: <expresion_booleana> --> PAR_A <termino_booleano> PAR_C\n");
 														}
-    | expresion 										{ 	idx_expresion_izq = idx_expresion;	}
+    | expresion 										{ 	idx_expresion_izq = idx_expresion;
+															validar_var_numerica(tipo_dato_actual);
+															reset_tipo_dato();
+														}
 	comparador expresion		 						{
 															printf("\n Regla 39: <termino_booleano> --> <expresion> <comparador> <expresion>\n");
+															validar_var_numerica(tipo_dato_actual);
 															reset_tipo_dato();
 															idx_termino_booleano = crear_terceto(CMP, idx_expresion_izq, idx_expresion);
 														}
