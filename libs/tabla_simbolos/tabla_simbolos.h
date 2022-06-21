@@ -19,6 +19,7 @@ void agregar_tipos_datos_a_tabla(void);
 int agregar_cte_string_a_tabla(char* nombre);
 int agregar_cte_int_a_tabla(int valor);
 int agregar_cte_real_a_tabla(float valor);
+void poner_nombre_float(char nombre[], float valor);
 int buscar_en_tabla(char * name);
 int buscar_y_validar_en_tabla(char* name);
 void escribir_nombre_en_tabla(char* nombre, int pos);

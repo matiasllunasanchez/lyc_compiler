@@ -46,6 +46,8 @@ void imprimir_footer_assembler(FILE* pFile) {
 
 void imprimir_tabla_simbolos(FILE* pFile) {
     fprintf(pFile, ".DATA\n");
+    fprintf(pFile, "NEW_LINE DB 0AH,0DH,'$'\n");
+	fprintf(pFile, "CWanterior DW ?\n");
     for(int i=0; i<=fin_tabla; i++) {
         fprintf(pFile, "%s ", tabla_simbolo[i].nombre);
         switch(tabla_simbolo[i].tipo_dato) {
@@ -200,15 +202,15 @@ void imprimir_salto(FILE* pFile, char* salto, int tercetoDestino){
 }
 
 void realizar_asignacion(FILE* pFile, int ind){
-	int destino = vector_tercetos[ind].parte_b;
-	int origen = vector_tercetos[ind].parte_c;
+	int destino = vector_tercetos[ind].parte_b;    //parce_b
+	int origen = vector_tercetos[ind].parte_c; //parte_c
 	switch(tabla_simbolo[destino].tipo_dato) {
         case ENUM_INTEGER:
             if(origen < OFFSET) 
                 fprintf(pFile, "FILD %s\n", tabla_simbolo[origen].nombre);
             else 
                 fprintf(pFile, "FSTCW CWanterior\nOR CWanterior, 0400h\nFLDCW CWanterior \n");
-            fprintf(pFile, "FISTP %s", tabla_simbolo[destino].nombre);
+                fprintf(pFile, "FISTP %s", tabla_simbolo[destino].nombre);
             break;
         case ENUM_FLOAT:
             fprintf(pFile, "FLD %s\n", tabla_simbolo[origen].nombre);

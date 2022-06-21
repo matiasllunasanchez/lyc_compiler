@@ -17,8 +17,10 @@ int buscar_en_tabla(char * name) {
 
 int buscar_y_validar_en_tabla(char *name){
 	int i=0;
+	char newNombre[strlen(name)+2];
+ 	sprintf(newNombre, "_%s",name);
 	while(i<=fin_tabla){
-		if(strcmp(tabla_simbolo[i].nombre,name) == 0){
+		if(strcmp(tabla_simbolo[i].nombre,newNombre) == 0){
 			return i;
 		}
 		i++;
@@ -39,16 +41,21 @@ int agregar_var_declarada_a_tabla(char* nombre) {
 		exit(2);
 	}
 
-	if(buscar_en_tabla(nombre) == -1){     
-		int idx = ++fin_tabla;
-		escribir_nombre_en_tabla(nombre, fin_tabla);
-		return idx;
-	}
-	else {
+	char newNombre[strlen(nombre)+2];
+ 	sprintf(newNombre, "_%s",nombre);
+
+
+	if(buscar_en_tabla(newNombre) == -1){
+	 //Agregar a tabla
+	 int idx = ++fin_tabla;
+	 escribir_nombre_en_tabla(newNombre, fin_tabla);
+	 return idx;
+ 	}else {
 		printf("ERR- Se encontraron dos declaraciones de variables identicas\n"); 
 		system("Pause");
 		exit(2);
 	} 
+
 }
 
 int buscar_o_insertar_var_en_tabla(char* nombre, int tipo) {
@@ -128,7 +135,7 @@ int agregar_cte_string_a_tabla(char* nombre) {
 	sprintf(nuevoNombre, "_cadena_%d", contador_cadenas);
 	contador_cadenas++;
 
-	int idx = buscar_en_tabla(nombre);
+	int idx = buscar_en_tabla(nuevoNombre);
 	if( idx == -1){
 		idx = ++fin_tabla;
 		escribir_nombre_en_tabla(nuevoNombre, fin_tabla);
@@ -150,7 +157,12 @@ int agregar_cte_real_a_tabla(float valor) {
 	
 	char nombre[15];
 	sprintf(nombre, "_%f", valor);
+
+	poner_nombre_float(nombre, valor);
+
 	int idx = buscar_en_tabla(nombre);
+	
+
 
 	if(idx == -1) {
 		idx = ++fin_tabla;
@@ -160,6 +172,13 @@ int agregar_cte_real_a_tabla(float valor) {
 		idx=fin_tabla;
 	}
 	return idx;
+}
+
+void poner_nombre_float(char nombre[], float valor){
+	sprintf(nombre, "_%f", valor);
+	for(int i=0;i<strlen(nombre);i++)
+		if(nombre[i]=='.')
+			nombre[i]='_';
 }
 
 int agregar_cte_int_a_tabla(int valor) {
@@ -184,10 +203,12 @@ int agregar_cte_int_a_tabla(int valor) {
 }
 
 int validar_var_en_tabla(char* nombre) {
-	int variable = buscar_en_tabla(nombre);
+	char newNombre[strlen(nombre)+2];
+ 	sprintf(newNombre, "_%s",nombre);
+	int variable = buscar_en_tabla(newNombre);
 	if( variable== -1){
 		char msg[100];
-		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", nombre);
+		sprintf(msg,"%s? ERR-Variable declarada fuera del bloque de declaracion", newNombre);
 		printf(msg);
 		system("Pause");
 		exit(2);
