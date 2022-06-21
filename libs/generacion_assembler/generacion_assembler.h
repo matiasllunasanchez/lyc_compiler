@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../tercetos/tercetos.h"
 
-// Genera el archivo assembler final.asm
+// Genera el archivo assembler Final.asm
 // El recorrido comienza desde el primer terceto
 void genera_assembler();
 void imprimir_header_assembler(FILE* pFile);
