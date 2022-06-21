@@ -7,4 +7,4 @@ del intermedia.txt
 del Primera.exe
 del Segunda.exe
 del Tercera.exe
-del Final.asm
+del assembler\Final.asm

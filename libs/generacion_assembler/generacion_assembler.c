@@ -6,9 +6,9 @@
 #include "../../y.tab.h"
 
 void genera_assembler() {
-    FILE* pFile = fopen("Final.asm", "w");
+    FILE* pFile = fopen("./assembler/Final.asm", "w");
     if(!pFile) {
-        printf("Error al crear el pFileivo Final.asm\n");
+        printf("Error al crear el archivo Final.asm\n");
         return;
     }
     
@@ -19,7 +19,7 @@ void genera_assembler() {
 }
 
 void imprimir_header_assembler(FILE* pFile) {
-    // Inicio del pFileivo
+    // Inicio del archivo
     fprintf(pFile, "include macros2.asm\n");
     fprintf(pFile, "include number.asm\n\n");
     fprintf(pFile, ".MODEL LARGE\n"); // Modelo de memoria
