@@ -125,6 +125,12 @@ void imprimir_codigo_assembler(FILE* pFile) {
             case BETWEEN:
                 imprimir_etiqueta(pFile, "BETWEEN", i);
                 break;
+            case BETWEEN_FALSE:
+                imprimir_etiqueta(pFile, "BETWEEN_FALSE", i);
+                break;
+            case BETWEEN_CMP:
+                imprimir_etiqueta(pFile, "BETWEEN_CMP", i);
+                break;
 
             // OPERADORES
             case OP_SUM:

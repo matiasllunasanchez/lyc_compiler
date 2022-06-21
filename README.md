@@ -6,9 +6,9 @@
 
 1. Para ejecutarlo, cambiar las rutas en el archivo "**Ejecutar.bat**" a los directorios de flex, bison y gcc y luego ejecutar el bat.
 
->  ***Archivos generados al ejecutar el .bat:** lex.yy.c , Tercera.exe, y.tab.c, y.tab.h, y.output, ts.txt,  intermedia.txt y ./assembler/Final.asm*
+>  ***Archivos generados al ejecutar el Ejecutar.bat:** lex.yy.c , Tercera.exe, y.tab.c, y.tab.h, y.output, ts.txt,  intermedia.txt y ./assembler/Final.asm *
 
-- Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**"
+- Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**" y tambien todo lo que borra el EliminarRestoAssembler.bat de la carpeta assembler.
 
 3. Para ejecutar el archivo assembler se debe haber realizado el **paso 1**. 
 4. Luego se debe abrir el **DOSBox**  (Instalarlo en caso de no tenerlo)
@@ -19,6 +19,7 @@
 7. Y finalmente ejecutar dir para verificar si efectivamente nos encontramos parados en la carpeta **\assembler** correspondiente.
 > dir
 8. Por último, ejecutar el archivo **Grupo11.bat**
+>  ***Archivos generados al ejecutar el Grupo11.bat: Final.obj, numbers.obj, Final.exe y Final.map***
  - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarRestoAssembler.bat**"
 
 >  **Nota:** El branch correspondiente a la entrega actual siempre estará ubicado en el branch principal (main)
