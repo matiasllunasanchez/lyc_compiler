@@ -101,27 +101,27 @@ void imprimir_codigo_assembler(FILE* pFile) {
 
             // ETIQUETAS
             case THEN:
-                imprimir_etiiqueta(pFile, "then", i);
+                imprimir_etiqueta(pFile, "then", i);
                 break;
             case ELSE:
-                imprimir_etiiqueta(pFile, "else", i);
+                imprimir_etiqueta(pFile, "else", i);
                 break;
             case ENDIF:
-                imprimir_etiiqueta(pFile, "endif", i);
+                imprimir_etiqueta(pFile, "endif", i);
                 break;
             case WHILE:
-                imprimir_etiiqueta(pFile, "while", i);
+                imprimir_etiqueta(pFile, "while", i);
                 break;
             case ENDWHILE:
-                imprimir_etiiqueta(pFile, "endwhile", i);
+                imprimir_etiqueta(pFile, "endwhile", i);
                 break;
 
             // ETIQUETAS ESPECIALES
             case TAKE:
-                imprimir_etiiqueta(pFile, "TAKE", i);
+                imprimir_etiqueta(pFile, "TAKE", i);
                 break;
             case BETWEEN:
-                imprimir_etiiqueta(pFile, "BETWEEN", i);
+                imprimir_etiqueta(pFile, "BETWEEN", i);
                 break;
 
             // OPERADORES
@@ -150,7 +150,7 @@ void imprimir_codigo_assembler(FILE* pFile) {
 
 }
 
-void imprimir_etiiqueta(FILE* pFile, char* etiqueta, int n){
+void imprimir_etiqueta(FILE* pFile, char* etiqueta, int n){
     fprintf(pFile, "%s%d:\n", etiqueta, n+OFFSET);
 }
 
