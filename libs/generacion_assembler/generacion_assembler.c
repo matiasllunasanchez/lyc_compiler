@@ -196,8 +196,7 @@ void asignacion(FILE* pFile, int ind){
 	switch(tabla_simbolo[destino].tipo_dato){
 	case ENUM_INTEGER:
         if(origen < OFFSET) 
-           
-			fprintf(pFile, "FILD %s\n", tabla_simbolo[origen].nombre);
+            fprintf(pFile, "FILD %s\n", tabla_simbolo[origen].nombre);
 		else 
 			fprintf(pFile, "FSTCW CWanterior\nOR CWanterior, 0400h\nFLDCW CWanterior \n");
 		fprintf(pFile, "FISTP %s", tabla_simbolo[destino].nombre);
