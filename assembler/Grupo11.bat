@@ -1,4 +1,4 @@
-PATH="%~d0%~p0\TASM"
+PATH=C:\TASM;
 
 tasm numbers.asm
 tasm Final.asm
