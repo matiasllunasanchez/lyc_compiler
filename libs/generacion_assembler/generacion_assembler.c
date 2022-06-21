@@ -69,7 +69,7 @@ void imprimir_tabla_simbolos(FILE* pFile) {
 void imprimir_codigo_assembler(FILE* pFile) {
 
     for(int i=0; i<= idx_ultimo_terceto; i++) {
-        switch(vector_tercetos[i].parte_a){
+        switch(vector_tercetos[i].parte_a) {
             // ASIG & COMP
             case OP_ASIG:
                 realizar_asignacion(pFile, i);

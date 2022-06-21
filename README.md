@@ -19,6 +19,6 @@
 7. Y finalmente ejecutar dir para verificar si efectivamente nos encontramos parados en la carpeta **\assembler** correspondiente.
 > dir
 8. Por último, ejecutar el archivo **Grupo11.bat**
- - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**"
+ - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarRestoAssembler.bat**"
 
 >  **Nota:** El branch correspondiente a la entrega actual siempre estará ubicado en el branch principal (main)
