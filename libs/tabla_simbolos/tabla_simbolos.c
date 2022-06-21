@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tabla_simbolos.h"
+int contador_cadenas=1;
 
 int buscar_en_tabla(char * name) {
 	int i=0;
@@ -123,10 +124,14 @@ int agregar_cte_string_a_tabla(char* nombre) {
 		system("Pause");
 		exit(2);
 	}
+	char nuevoNombre[10]={'\0'}; //10 porque EL maximo tamaño que puede tener está dado por "StringXXX" mas el fin de linea
+	sprintf(nuevoNombre, "_cadena_%d", contador_cadenas);
+	contador_cadenas++;
+
 	int idx = buscar_en_tabla(nombre);
 	if( idx == -1){
 		idx = ++fin_tabla;
-		escribir_nombre_en_tabla(nombre, fin_tabla);
+		escribir_nombre_en_tabla(nuevoNombre, fin_tabla);
 		tabla_simbolo[fin_tabla].tipo_dato = ENUM_CTE_STRING;		
 		strcpy(tabla_simbolo[fin_tabla].valor_s, nombre+1); 		
 		tabla_simbolo[fin_tabla].longitud = strlen(nombre) - 1;
@@ -192,7 +197,7 @@ int validar_var_en_tabla(char* nombre) {
 
 int validar_tipo_dato(int cte_tipo, int cte_tipo_leido){
 	if(cte_tipo_leido == SIN_TIPO){
-		 return cte_tipo;
+		return cte_tipo;
 	}
 	if(cte_tipo_leido != cte_tipo)
 	{
@@ -209,4 +214,15 @@ int validar_var_numerica(int cte_tipo_leido){
 		system("Pause");
 		exit(2);
 	}
+}
+
+char* reemplazar_espacios(char* str) {
+	char find = ' ';
+	char replace = '_';
+    char *current_pos = strchr(str,find);
+    while (current_pos) {
+        *current_pos = replace;
+        current_pos = strchr(current_pos,find);
+    }
+    return str;
 }

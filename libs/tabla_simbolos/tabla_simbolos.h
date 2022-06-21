@@ -24,7 +24,8 @@ int buscar_y_validar_en_tabla(char* name);
 void escribir_nombre_en_tabla(char* nombre, int pos);
 int validar_var_en_tabla(char* nombre);
 void guardar_tabla(void);
-
+// Reemplaza char en blanco de un string
+char* reemplazar_espacios(char* str);
 // Funcion auxiliar Auxiliares
 // Valida que los tipos de datos recibidos sean iguales y sino lanza error.
 int validar_tipo_dato(int cte_tipo, int cte_tipo_leido);
@@ -47,5 +48,4 @@ extern int fin_tabla; // Es un indice o valor numerico que apunta al ultimo regi
 extern int varADeclarar1;
 extern int cantVarsADeclarar; // Refiere a la cantidad de variables declaradas en el bloque del programador
 extern int tipoDatoADeclarar; // Maneja / guarda los valores CONSTANTES que refieren a los tipos de datos posibles que puede definir el programador
-
 #endif // PRIMITIVAS_H_INCLUDED
