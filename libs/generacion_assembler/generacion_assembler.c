@@ -18,6 +18,8 @@ void genera_assembler() {
     fclose(pFile);
 }
 
+// Funciones generales de generacion de assembler
+
 void imprimir_header_assembler(FILE* pFile) {
     // Inicio del archivo
     fprintf(pFile, "include macros2.asm\n");
@@ -149,6 +151,8 @@ void imprimir_codigo_assembler(FILE* pFile) {
     }
 
 }
+
+// Subfunciones de generacion de assembler
 
 void imprimir_etiqueta(FILE* pFile, char* etiqueta, int n){
     fprintf(pFile, "%s%d:\n", etiqueta, n+OFFSET);
