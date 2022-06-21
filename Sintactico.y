@@ -372,6 +372,16 @@ expresion_booleana:
 															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 															idx_expresion_booleana = crear_terceto(AND, idx_termino_booleano_izq, idx_termino_booleano);
 														}
+	| PAR_A termino_booleano PAR_C						{ 	
+															idx_termino_booleano_izq = idx_termino_booleano;
+															reset_tipo_dato();	
+														} 
+	AND 												{ 	idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);		}
+	PAR_A termino_booleano PAR_C 						{
+															printf("\n Regla 33.2: <expresion_booleana> --> <termino_booleano> AND <termino_booleano>\n");
+															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
+															idx_expresion_booleana = crear_terceto(AND, idx_termino_booleano_izq, idx_termino_booleano);
+														}
 	| termino_booleano									{ 	
 															idx_termino_booleano_izq = idx_termino_booleano;
 															reset_tipo_dato();	
@@ -382,8 +392,23 @@ expresion_booleana:
 															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 															idx_expresion_booleana = crear_terceto(OR, idx_termino_booleano_izq, idx_termino_booleano);
 														}
+	| PAR_A termino_booleano PAR_C									{ 	
+															idx_termino_booleano_izq = idx_termino_booleano;
+															reset_tipo_dato();	
+														} 
+	OR 													{ 	has_or = crear_terceto(obtener_salto_condicion(comp_bool_actual), idx_termino_booleano, PARTE_VACIA); 	}
+	PAR_A termino_booleano PAR_C 						{
+															printf("\n Regla 34.2: <expresion_booleana> --> <termino_booleano> OR <termino_booleano>\n");
+															idx_condicion_der =  crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
+															idx_expresion_booleana = crear_terceto(OR, idx_termino_booleano_izq, idx_termino_booleano);
+														}
     | termino_booleano                                  {
 															printf("\n Regla 35: <expresion_booleana> --> <termino_booleano>\n");
+															idx_expresion_booleana = idx_termino_booleano;
+															idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
+														}
+	| PAR_A termino_booleano PAR_C                      {
+															printf("\n Regla 35.2: <expresion_booleana> --> <termino_booleano>\n");
 															idx_expresion_booleana = idx_termino_booleano;
 															idx_condicion_izq = crear_terceto(obtener_salto_condicion_negada(comp_bool_actual), idx_termino_booleano, PARTE_VACIA);
 														}
@@ -401,9 +426,10 @@ expresion_booleana:
 ;
 
 termino_booleano:
-	PAR_A expresion_booleana PAR_C 						{
-															printf("\n Regla 38: <expresion_booleana> --> PAR_A <termino_booleano> PAR_C\n");
-														}
+	/* PAR_A expresion_booleana PAR_C 						{
+															printf("\n Regla 38: <termino_booleano> --> PAR_A <expresion_booleana> PAR_C\n");
+															idx_termino_booleano = idx_expresion_booleana;
+														} */
     | expresion 										{ 	idx_expresion_izq = idx_expresion;
 															validar_var_numerica(tipo_dato_actual);
 															reset_tipo_dato();
