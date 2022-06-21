@@ -44,20 +44,20 @@ void imprimir_footer_assembler(FILE* pFile) {
 
 void imprimir_tabla_simbolos(FILE* pFile) {
     fprintf(pFile, ".DATA\n");
-    for(int i=0; i<=fin_tabla; i++){
+    for(int i=0; i<=fin_tabla; i++) {
         fprintf(pFile, "%s ", tabla_simbolo[i].nombre);
-        switch(tabla_simbolo[i].tipo_dato){
-        case ENUM_CTE_INTEGER:
-            fprintf(pFile, "dd %d\n", tabla_simbolo[i].valor_i);
-            break;
-        case ENUM_CTE_FLOAT:
-            fprintf(pFile, "dd %f\n", tabla_simbolo[i].valor_f);
-            break;
-        case ENUM_CTE_STRING:
-            fprintf(pFile, "db \"%s\", '$'\n", tabla_simbolo[i].valor_s);
-            break;
-        default: // Variable
-            fprintf(pFile, "dd ?\n");
+        switch(tabla_simbolo[i].tipo_dato) {
+            case ENUM_CTE_INTEGER:
+                fprintf(pFile, "dd %d\n", tabla_simbolo[i].valor_i);
+                break;
+            case ENUM_CTE_FLOAT:
+                fprintf(pFile, "dd %f\n", tabla_simbolo[i].valor_f);
+                break;
+            case ENUM_CTE_STRING:
+                fprintf(pFile, "db \"%s\", '$'\n", tabla_simbolo[i].valor_s);
+                break;
+            default: // Variable
+                fprintf(pFile, "dd ?\n");
         }
     }
 
@@ -65,97 +65,96 @@ void imprimir_tabla_simbolos(FILE* pFile) {
 }
 
 void imprimir_codigo_assembler(FILE* pFile) {
-    // Los tercetos deben estar optimizados
-    // Cantidad de tercetos  es igual a la cantidad de variables @aux -1 a escribir.
-    // SI tengo 7 tercetos, necesito 6 auxiliares ooo...
-    // Las variables auxiliares para ir guardando los resultados operados en los registros
-    
-  for(int i=0; i<= idx_ultimo_terceto; i++){
-    switch(vector_tercetos[i].parte_a){
-      case OP_ASIG:
-	  	asignacion(pFile, i);
-        break;
-      case CMP:
-		comparacion(pFile, i);
-        break;
 
-      case BGT:
-        escribirSalto(pFile, "JA", vector_tercetos[i].parte_b);
-        break;
-      case BGE:
-        escribirSalto(pFile, "JAE", vector_tercetos[i].parte_b);
-        break;
-      case BLT:
-        escribirSalto(pFile, "JB", vector_tercetos[i].parte_b);
-        break;
-      case BLE:
-        escribirSalto(pFile, "JBE", vector_tercetos[i].parte_b);
-        break;
-      case BNE:
-        escribirSalto(pFile, "JNE", vector_tercetos[i].parte_b);
-        break;
-      case BEQ:
-        escribirSalto(pFile, "JE", vector_tercetos[i].parte_b);
-        break;
-      case JMP:
-        escribirSalto(pFile, "JMP", vector_tercetos[i].parte_b);
-        break;
+    for(int i=0; i<= idx_ultimo_terceto; i++) {
+        switch(vector_tercetos[i].parte_a){
+            // ASIG & COMP
+            case OP_ASIG:
+                realizar_asignacion(pFile, i);
+                break;
+            case CMP:
+                realizar_comparacion(pFile, i);
+                break;
 
-      case THEN:
-        escribirEtiqueta(pFile, "then", i);
-        break;
-      case ELSE:
-        escribirEtiqueta(pFile, "else", i);
-        break;
-      case ENDIF:
-        escribirEtiqueta(pFile, "endif", i);
-        break;
+            // BRANCHES
+            case BGT:
+                imprimir_salto(pFile, "JA", vector_tercetos[i].parte_b);
+                break;
+            case BGE:
+                imprimir_salto(pFile, "JAE", vector_tercetos[i].parte_b);
+                break;
+            case BLT:
+                imprimir_salto(pFile, "JB", vector_tercetos[i].parte_b);
+                break;
+            case BLE:
+                imprimir_salto(pFile, "JBE", vector_tercetos[i].parte_b);
+                break;
+            case BNE:
+                imprimir_salto(pFile, "JNE", vector_tercetos[i].parte_b);
+                break;
+            case BEQ:
+                imprimir_salto(pFile, "JE", vector_tercetos[i].parte_b);
+                break;
+            case JMP:
+                imprimir_salto(pFile, "JMP", vector_tercetos[i].parte_b);
+                break;
 
-      case WHILE:
-        escribirEtiqueta(pFile, "while", i);
-        break;
+            // ETIQUETAS
+            case THEN:
+                imprimir_etiiqueta(pFile, "then", i);
+                break;
+            case ELSE:
+                imprimir_etiiqueta(pFile, "else", i);
+                break;
+            case ENDIF:
+                imprimir_etiiqueta(pFile, "endif", i);
+                break;
+            case WHILE:
+                imprimir_etiiqueta(pFile, "while", i);
+                break;
+            case ENDWHILE:
+                imprimir_etiiqueta(pFile, "endwhile", i);
+                break;
 
-      case ENDWHILE:
-        escribirEtiqueta(pFile, "endwhile", i);
-        break;
+            // ETIQUETAS ESPECIALES
+            case TAKE:
+                imprimir_etiiqueta(pFile, "TAKE", i);
+                break;
+            case BETWEEN:
+                imprimir_etiiqueta(pFile, "BETWEEN", i);
+                break;
 
-	
-    case TAKE:
-		escribirEtiqueta(pFile, "TAKE", i);
-		break;
+            // OPERADORES
+            case OP_SUM:
+                realizar_suma(pFile,i);
+                break;
+            case OP_RES:
+                realizar_resta(pFile,i);
+                break;
+            case OP_MUL:
+                realizar_multiplicacion(pFile,i);
+                break;
+            case OP_DIV:
+                realizar_division(pFile,i);
+                break;
 
-	case BETWEEN:
-		escribirEtiqueta(pFile, "BETWEEN", i);
-		break;
-
-      case OP_SUM:
-		suma(pFile,i);
-        break;
-      case OP_RES:
-		resta(pFile,i);
-        break;
-      case OP_MUL:
-		multiplicacion(pFile,i);
-        break;
-      case OP_DIV:
-		division(pFile,i);
-        break;
-
-      case READ: read (pFile,i);
-        break;
-      case WRITE:
-	  	write(pFile, i);
-        break;
+            // READ & WRITE
+            case READ: 
+                realizar_lectura(pFile,i);
+                break;
+            case WRITE:
+                realizar_escritura(pFile, i);
+                break;
+        }
     }
-  }
 
 }
 
-void escribirEtiqueta(FILE* pFile, char* etiqueta, int n){
+void imprimir_etiiqueta(FILE* pFile, char* etiqueta, int n){
     fprintf(pFile, "%s%d:\n", etiqueta, n+OFFSET);
 }
 
-void escribirSalto(FILE* pFile, char* salto, int tercetoDestino){
+void imprimir_salto(FILE* pFile, char* salto, int tercetoDestino){
     fprintf(pFile, "%s ", salto);
 
     if(tercetoDestino == PARTE_VACIA){
@@ -164,67 +163,67 @@ void escribirSalto(FILE* pFile, char* salto, int tercetoDestino){
         exit(10);
     }
 
-    switch( vector_tercetos[tercetoDestino - OFFSET].parte_a){
-    case THEN:
-        fprintf(pFile, "then");
-        break;
-    case ELSE:
-        fprintf(pFile, "else");
-        break;
-    case ENDIF:
-        fprintf(pFile, "endif");
-        break;
-    case WHILE:
-        fprintf(pFile, "while");
-        break;
-    case ENDWHILE:
-        fprintf(pFile, "endwhile");
-		break;
-	case BETWEEN_FALSE:
-        fprintf(pFile, "between_false");
-		break;
-	case BETWEEN_CMP:
-        fprintf(pFile, "between_cmp");
+    switch( vector_tercetos[tercetoDestino - OFFSET].parte_a) {
+        case THEN:
+            fprintf(pFile, "then");
+            break;
+        case ELSE:
+            fprintf(pFile, "else");
+            break;
+        case ENDIF:
+            fprintf(pFile, "endif");
+            break;
+        case WHILE:
+            fprintf(pFile, "while");
+            break;
+        case ENDWHILE:
+            fprintf(pFile, "endwhile");
+            break;
+        case BETWEEN_FALSE:
+            fprintf(pFile, "between_false");
+            break;
+        case BETWEEN_CMP:
+            fprintf(pFile, "between_cmp");
     }
 
     fprintf(pFile, "%d\n", tercetoDestino);
 }
 
-void asignacion(FILE* pFile, int ind){
+void realizar_asignacion(FILE* pFile, int ind){
 	int destino = vector_tercetos[ind].parte_b;
 	int origen = vector_tercetos[ind].parte_c;
-	switch(tabla_simbolo[destino].tipo_dato){
-	case ENUM_INTEGER:
-        if(origen < OFFSET) 
-            fprintf(pFile, "FILD %s\n", tabla_simbolo[origen].nombre);
-		else 
-			fprintf(pFile, "FSTCW CWanterior\nOR CWanterior, 0400h\nFLDCW CWanterior \n");
-		fprintf(pFile, "FISTP %s", tabla_simbolo[destino].nombre);
-		break;
-	case ENUM_FLOAT:
-			fprintf(pFile, "FLD %s\n", tabla_simbolo[origen].nombre);
-		fprintf(pFile, "FSTP %s", tabla_simbolo[destino].nombre);
-		break;
-	case ENUM_STRING:
-		fprintf(pFile, "LEA EAX, %s\nMOV %s, EAX", tabla_simbolo[origen].nombre, tabla_simbolo[destino].nombre);
+	switch(tabla_simbolo[destino].tipo_dato) {
+        case ENUM_INTEGER:
+            if(origen < OFFSET) 
+                fprintf(pFile, "FILD %s\n", tabla_simbolo[origen].nombre);
+            else 
+                fprintf(pFile, "FSTCW CWanterior\nOR CWanterior, 0400h\nFLDCW CWanterior \n");
+            fprintf(pFile, "FISTP %s", tabla_simbolo[destino].nombre);
+            break;
+        case ENUM_FLOAT:
+            fprintf(pFile, "FLD %s\n", tabla_simbolo[origen].nombre);
+            fprintf(pFile, "FSTP %s", tabla_simbolo[destino].nombre);
+            break;
+        case ENUM_STRING:
+            fprintf(pFile, "LEA EAX, %s\nMOV %s, EAX", tabla_simbolo[origen].nombre, tabla_simbolo[destino].nombre);
 	}
 
 	fprintf(pFile, "\n");
 }
 
 
-void comparacion(FILE* pFile, int ind){
-	levantarEnPila(pFile, ind);
+void realizar_comparacion(FILE* pFile, int ind){
+	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FXCH\nFCOMP\nFSTSW AX\nSAHF\n");
 
 }
 
-void suma(FILE* pFile, int ind){
-	levantarEnPila(pFile, ind);
+void realizar_suma(FILE* pFile, int ind){
+	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FADD\n");
 }
 
-void resta(FILE* pFile, int ind){
+void realizar_resta(FILE* pFile, int ind){
 	if(vector_tercetos[ind].parte_c==PARTE_VACIA){
 		int aux;
 		if((aux = vector_tercetos[ind].parte_b) < OFFSET){ 
@@ -246,90 +245,94 @@ void resta(FILE* pFile, int ind){
 		fprintf(pFile, "FCHS\n");
 	}
 	else{
-		levantarEnPila(pFile, ind);
+		levantar_en_pila(pFile, ind);
 		fprintf(pFile, "FSUB\n");
 	}
 }
 
-void multiplicacion(FILE* pFile, int ind){
-	levantarEnPila(pFile, ind);
+void realizar_multiplicacion(FILE* pFile, int ind){
+	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FMUL\n");
 }
 
-void division(FILE* pFile, int ind){ 
-	levantarEnPila(pFile, ind);
+void realizar_division(FILE* pFile, int ind){ 
+	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FDIV\n");
 }
 
 
-void levantarEnPila(FILE* pFile, const int ind){
-	int elemIzq = vector_tercetos[ind].parte_b;
-	int elemDer = vector_tercetos[ind].parte_c;
-	int izqLevantado = 0;
+void levantar_en_pila(FILE* pFile, const int ind){
+	int elemento_izquierdo = vector_tercetos[ind].parte_b;
+	int elemento_derecho = vector_tercetos[ind].parte_c;
+	int izq_up = 0;
 
-	if(elemIzq < OFFSET){
-		switch(tabla_simbolo[elemIzq].tipo_dato){
-		case ENUM_INTEGER:
-			fprintf(pFile, "FILD %s\n", tabla_simbolo[elemIzq].nombre);
-			break;
-		case ENUM_FLOAT:
-			fprintf(pFile, "FLD %s\n", tabla_simbolo[elemIzq].nombre);
-			break;
-		case ENUM_CTE_INTEGER:
-			fprintf(pFile, "FILD %s\n", tabla_simbolo[elemIzq].nombre);
-			break;
-		case ENUM_CTE_FLOAT:
-			fprintf(pFile, "FLD %s\n", tabla_simbolo[elemIzq].nombre);
-			break;
+	if(elemento_izquierdo < OFFSET) {
+		switch(tabla_simbolo[elemento_izquierdo].tipo_dato) {
+            case ENUM_INTEGER:
+                fprintf(pFile, "FILD %s\n", tabla_simbolo[elemento_izquierdo].nombre);
+                break;
+            case ENUM_FLOAT:
+                fprintf(pFile, "FLD %s\n", tabla_simbolo[elemento_izquierdo].nombre);
+                break;
+            case ENUM_CTE_INTEGER:
+                fprintf(pFile, "FILD %s\n", tabla_simbolo[elemento_izquierdo].nombre);
+                break;
+            case ENUM_CTE_FLOAT:
+                fprintf(pFile, "FLD %s\n", tabla_simbolo[elemento_izquierdo].nombre);
+                break;
 		}
-		izqLevantado=1;
+		izq_up=1;
 	}
-	if(elemDer < OFFSET){
-		switch(tabla_simbolo[elemDer].tipo_dato){
-		case ENUM_INTEGER:
-			fprintf(pFile, "FILD %s\n", tabla_simbolo[elemDer].nombre);
-			break;
-		case ENUM_FLOAT:
-			fprintf(pFile, "FLD %s\n", tabla_simbolo[elemDer].nombre);
-			break;
-		case ENUM_CTE_INTEGER:
-			fprintf(pFile, "FILD %s\n", tabla_simbolo[elemDer].nombre);
-			break;
-		case ENUM_CTE_FLOAT:
-			fprintf(pFile, "FLD %s\n", tabla_simbolo[elemDer].nombre);
-			break;
+
+	if(elemento_derecho < OFFSET) {
+        
+		switch(tabla_simbolo[elemento_derecho].tipo_dato) {
+            case ENUM_INTEGER:
+                fprintf(pFile, "FILD %s\n", tabla_simbolo[elemento_derecho].nombre);
+                break;
+            case ENUM_FLOAT:
+                fprintf(pFile, "FLD %s\n", tabla_simbolo[elemento_derecho].nombre);
+                break;
+            case ENUM_CTE_INTEGER:
+                fprintf(pFile, "FILD %s\n", tabla_simbolo[elemento_derecho].nombre);
+                break;
+            case ENUM_CTE_FLOAT:
+                fprintf(pFile, "FLD %s\n", tabla_simbolo[elemento_derecho].nombre);
+                break;
 		}
-		izqLevantado=0;
+
+		izq_up=0;
 	}
-	if(izqLevantado){
+
+	if(izq_up) {
 		fprintf(pFile, "FXCH\n");
 	}
 }
 
-void write(FILE* pFile, int terceto){
+void realizar_escritura(FILE* pFile, int terceto){
 	int ind = vector_tercetos[terceto].parte_b; 
-	switch(tabla_simbolo[ind].tipo_dato){
-	case ENUM_INTEGER:
-		fprintf(pFile, "DisplayInteger %s\n", tabla_simbolo[ind].nombre);
-		fprintf(pFile, "displayString NEW_LINE\n");
-		break;
-	case ENUM_FLOAT:
-		fprintf(pFile, "DisplayFloat %s,2\n", tabla_simbolo[ind].nombre);
-		fprintf(pFile, "displayString NEW_LINE\n");
-		break;
-	case ENUM_STRING:
-		fprintf(pFile, "MOV EBX, %s\ndisplayString [EBX]\n", tabla_simbolo[ind].nombre);
-		fprintf(pFile, "displayString NEW_LINE\n");
-		break;
-	case ENUM_CTE_STRING:
-		fprintf(pFile, "displayString %s\n", tabla_simbolo[ind].nombre);
-		fprintf(pFile, "displayString NEW_LINE\n");
-		break;
+	switch(tabla_simbolo[ind].tipo_dato) {
+        case ENUM_INTEGER:
+            fprintf(pFile, "DisplayInteger %s\n", tabla_simbolo[ind].nombre);
+            fprintf(pFile, "displayString NEW_LINE\n");
+            break;
+        case ENUM_FLOAT:
+            fprintf(pFile, "DisplayFloat %s,2\n", tabla_simbolo[ind].nombre);
+            fprintf(pFile, "displayString NEW_LINE\n");
+            break;
+        case ENUM_STRING:
+            fprintf(pFile, "MOV EBX, %s\ndisplayString [EBX]\n", tabla_simbolo[ind].nombre);
+            fprintf(pFile, "displayString NEW_LINE\n");
+            break;
+        case ENUM_CTE_STRING:
+            fprintf(pFile, "displayString %s\n", tabla_simbolo[ind].nombre);
+            fprintf(pFile, "displayString NEW_LINE\n");
+            break;
 	}
 	fprintf(pFile, "\n");
 }
 
-void read(FILE* pFile, int terceto){
+void realizar_lectura(FILE* pFile, int terceto){
 	int ind = vector_tercetos[terceto].parte_b;
 	switch(tabla_simbolo[ind].tipo_dato){
 	case ENUM_INTEGER:

@@ -12,17 +12,17 @@ void imprimir_tabla_simbolos(FILE* pFile);
 void imprimir_footer_assembler(FILE* pFile);
 void imprimir_codigo_assembler(FILE* pFile);
 
-void escribirEtiqueta(FILE* arch, char* etiqueta, int n);
-void escribirSalto(FILE* arch, char* salto, int tercetoDestino);
-void asignacion(FILE* arch, int terceto);
-void comparacion(FILE* arch, int terceto);
-void suma(FILE* arch, int terceto);
-void resta(FILE* arch, int terceto);
-void multiplicacion(FILE* arch, int terceto);
-void division(FILE* arch, int terceto);
-void levantarEnPila(FILE* arch, const int ind);
-void write(FILE* arch, int ind);
-void read(FILE* arch, int ind);
+void imprimir_etiqueta(FILE* arch, char* etiqueta, int n);
+void imprimir_salto(FILE* arch, char* salto, int tercetoDestino);
+void realizar_asignacion(FILE* arch, int terceto);
+void realizar_comparacion(FILE* arch, int terceto);
+void realizar_suma(FILE* arch, int terceto);
+void realizar_resta(FILE* arch, int terceto);
+void realizar_multiplicacion(FILE* arch, int terceto);
+void realizar_division(FILE* arch, int terceto);
+void levantar_en_pila(FILE* arch, const int ind);
+void realizar_escritura(FILE* arch, int ind);
+void realizar_lectura(FILE* arch, int ind);
 
 extern simbolo tabla_simbolo[TAM_TABLA];
 extern int fin_tabla;
