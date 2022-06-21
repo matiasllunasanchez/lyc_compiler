@@ -211,7 +211,6 @@ void realizar_asignacion(FILE* pFile, int ind){
 	fprintf(pFile, "\n");
 }
 
-
 void realizar_comparacion(FILE* pFile, int ind){
 	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FXCH\nFCOMP\nFSTSW AX\nSAHF\n");
@@ -259,7 +258,6 @@ void realizar_division(FILE* pFile, int ind){
 	levantar_en_pila(pFile, ind);
 	fprintf(pFile, "FDIV\n");
 }
-
 
 void levantar_en_pila(FILE* pFile, const int ind){
 	int elemento_izquierdo = vector_tercetos[ind].parte_b;
