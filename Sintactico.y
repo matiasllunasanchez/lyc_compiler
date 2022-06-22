@@ -295,7 +295,7 @@ factor:
 	| take                                           						{
 																				printf("\n Regla 29: <factor> --> <take> \n");
 																				tipo_dato_actual = ENUM_FLOAT;
-																				idx_factor = idx_take;
+																				idx_factor = crear_terceto(PARTE_VACIA, idx_var_take, PARTE_VACIA);
 																			}
 ;
 
