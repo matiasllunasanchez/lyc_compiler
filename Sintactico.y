@@ -82,6 +82,7 @@ int idx_constante_take;
 int idx_var_take; // Donde va la variable auxiliar que acumula
 int idx_var_take_aux; // Variable auxiliar para asignar valor antes de operar el take
 int idx_resultado_take;
+int take_accu = 0;
 // Indices para BETWEEN
 int idx_between;
 int idx_salto_between;
@@ -293,9 +294,10 @@ factor:
 																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
 	| take                                           						{
-																				printf("\n Regla 29: <factor> --> <take> \n");
-																				tipo_dato_actual = ENUM_FLOAT;
-																				idx_factor = crear_terceto(PARTE_VACIA, idx_var_take, PARTE_VACIA);
+																				printf("\n Regla 29: <factor> --> <take> %d\n", take_accu);
+																				tipo_dato_actual = ENUM_INTEGER;
+																				int idx = agregar_cte_int_a_tabla(take_accu); // Podria ser el idx_take pero lo usaba para otra cosa asi que lo dejo con idx
+																				idx_factor = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
 																			}
 ;
 
@@ -553,15 +555,21 @@ take:
     TAKE PAR_A operador_take PYC numeros_a_tomar PYC 
 	COR_A lista_take_ctes COR_C PAR_C 											{ 
 																					printf("\n Regla 51: <take> --> TAKE PAR_A <operador_take> PYC numeros_a_tomar PYC COR_A <lista_take_ctes> COR_C PAR_C \n"); 
+																					/*
+																					* Se quita para delegar la operacion en compilacion
 																					idx_take = idx_resultado_take;
+																					*/
 																					validar_cantidad_take(cantidad_a_tomar);
 																				}
     |  TAKE PAR_A operador_take PYC numeros_a_tomar PYC 
 	COR_A COR_C PAR_C			  	 											{ 
-																					printf("\n Regla 52: <take> --> TAKE PAR_A <operador_take> PYC numeros_a_tomar PYC COR_A COR_C PAR_C \n"); 
+																					printf("\n Regla 52: <take> --> TAKE PAR_A <operador_take> PYC numeros_a_tomar PYC COR_A COR_C PAR_C \n");
+																					/*
+																					* Se quita para delegar la operacion en compilacion 
 																					int valor_cero = agregar_cte_int_a_tabla(0);\
 																					int idx_cero = crear_terceto(PARTE_VACIA,valor_cero,PARTE_VACIA);
 																					idx_take = crear_terceto(OP_ASIG, idx_var_take, idx_cero);
+																					*/
 																				}
 ;
 
@@ -587,45 +595,64 @@ operador_take:
 numeros_a_tomar:
 	CONST_ENT																	{
 																					printf("\n Regla 57: <numeros_a_tomar> --> CONST_ENT \n"); 
+																			
+																					take_accu = 0;
+																					cantidad_a_tomar = $1;
+																					// Me parece que no es necesario porque no pasa a la intermedia, operas el valor nomas
 																					// reset_tipo_dato();
 																					// tipo_dato_actual = ENUM_INTEGER;
-																					cantidad_a_tomar = $1;
-																					agregar_cte_int_a_tabla(cantidad_a_tomar);
+																					// agregar_cte_int_a_tabla(cantidad_a_tomar);
 
-																					idx_var_take = buscar_o_insertar_var_en_tabla("@take_accu",ENUM_INTEGER);
-																					idx_var_take_aux = buscar_o_insertar_var_en_tabla("@take_accu_aux",ENUM_INTEGER);
+																					/*
+																					* Se quitan para delegarle la operacion del take en tiempo de compilacion.
+																						idx_var_take = buscar_o_insertar_var_en_tabla("@take_accu",ENUM_INTEGER);
+																						idx_var_take_aux = buscar_o_insertar_var_en_tabla("@take_accu_aux",ENUM_INTEGER);
+																					*/
 																				}
 ;
 
 lista_take_ctes:
 	CONST_ENT                                                                	{ 
 																					printf("\n Regla 58: <lista_take_ctes> --> CONST_ENT \n");
-																					// int idx = agregar_cte_int_a_tabla(yylval.int_val);
+																					// Me parece que no es necesario porque no pasa a la intermedia, operas el valor nomas
 																					// reset_tipo_dato();
 																					// tipo_dato_actual = ENUM_INTEGER;
-																					int idx = agregar_cte_int_a_tabla($1);
+																					// int idx = agregar_cte_int_a_tabla($1);
 																					if(cantidad_a_tomar > 0) {
-																						int idx_primer_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
-																						idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_primer_constante);
+																						/*
+																						* Se quitan para delegarle la operacion del take en tiempo de compilacion.
+																							int idx_primer_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA);
+																							idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_primer_constante);
+																						*/
+																						take_accu =  $1;
 																						cantidad_a_tomar--;
 																					}
 																					else {
 																						// Por falta de definicion, se considera que se devuelve 0 cuando la cantidad a tomar es 0.
-																						int valor_cero = agregar_cte_int_a_tabla(0);\
-																						int idx_cero = crear_terceto(PARTE_VACIA,valor_cero,PARTE_VACIA);
-																						idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_cero);
+																						int valor_cero = agregar_cte_int_a_tabla(0);
+																						take_accu = 0;
+																						/*
+																						* Se quitan para delegarle la operacion del take en tiempo de compilacion.
+																							int idx_cero = crear_terceto(PARTE_VACIA,valor_cero,PARTE_VACIA);
+																							idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_cero);
+																						*/
 																					}
 																				}
 	| lista_take_ctes PYC CONST_ENT                                          	{
 																					printf("\n Regla 59: <lista_take_ctes> --> <lista_take_ctes> PYC <factor> \n");
+																					// Me parece que no es necesario porque no pasa a la intermedia, operas el valor nomas
 																					// reset_tipo_dato();
 																					// tipo_dato_actual = ENUM_INTEGER;
-																					int idx = agregar_cte_int_a_tabla($3);
+																					// int idx = agregar_cte_int_a_tabla($3);
 																					if(cantidad_a_tomar > 0) {
-																						int idx_siguiente_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA); // Crea terceto para sig
-																						crear_terceto(OP_ASIG, idx_var_take_aux, idx_siguiente_constante); // Crea terceto de igualacion entre var accu aux y var sig
-																						int idx_operacion_terceto = crear_terceto(operador_take, idx_var_take, idx_var_take_aux); // Crea un terceto operando los acumuladores con el operador take
-																						idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_operacion_terceto); // Vuelve a asignar al accu
+																						take_accu = resultado_acumulado_take(operador_take,take_accu,$3);
+																						/*
+																						* Se quitan para delegarle la operacion del take en tiempo de compilacion.
+																							int idx_siguiente_constante = crear_terceto(PARTE_VACIA, idx, PARTE_VACIA); // Crea terceto para sig
+																							crear_terceto(OP_ASIG, idx_var_take_aux, idx_siguiente_constante); // Crea terceto de igualacion entre var accu aux y var sig
+																							int idx_operacion_terceto = crear_terceto(operador_take, idx_var_take, idx_var_take_aux); // Crea un terceto operando los acumuladores con el operador take
+																							idx_resultado_take = crear_terceto(OP_ASIG, idx_var_take, idx_operacion_terceto); // Vuelve a asignar al accu
+																						*/
 																						cantidad_a_tomar--;
 																					}
 																				}

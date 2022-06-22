@@ -1,5 +1,6 @@
 #include "funciones_especiales.h"
 #include "../tercetos/tercetos.h"
+#include "../../y.tab.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,3 +19,26 @@ void validar_cantidad_take(int cant_a_tomar){
         exit(3);
 	}
 };
+
+int resultado_acumulado_take(int operador, int acumulado, int valorNuevo) {
+	int result;
+	switch(operador){
+		case OP_DIV:
+			return acumulado /= valorNuevo;
+			break;
+		case OP_MUL:
+			return acumulado *= valorNuevo;
+			break;
+		case OP_RES:
+			return acumulado -= valorNuevo;
+			break;
+		case OP_SUM:
+			return acumulado += valorNuevo;
+			break;
+		default:
+			printf("\n ERR- Operador no reconocido. No se puede operar el TAKE\n");
+			system("Pause");
+			exit(3);
+			break;
+	}
+}
