@@ -189,7 +189,13 @@ int agregar_cte_int_a_tabla(int valor) {
 	}
 
 	char nombre[30];
-	sprintf(nombre, "_%d", valor);
+	if(valor<0){
+			sprintf(nombre, "_neg_%d", valor*-1);
+	}
+	else{
+		sprintf(nombre, "_%d", valor);
+	}
+
 
 	int idx = buscar_en_tabla(nombre);
 	if(idx == -1){
