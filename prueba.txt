@@ -2,8 +2,8 @@
 DECVAR
 a : FLOAT
 b,c,e,f : STRING
-p1, d, p2, p3 : FLOAT
-ab : INTEGER
+p1, p2, p3 : FLOAT
+ab, d : INTEGER
 ENDDEC
 
 -/ Así son los comentarios de LyC/-
