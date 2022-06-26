@@ -33,6 +33,7 @@ void imprimir_header_assembler(FILE* pFile) {
 
     // Inicio del codigo
     fprintf(pFile, ".CODE\n");
+    fprintf(pFile, "START:\n");
     fprintf(pFile, "mov AX,@DATA\n"); // Inicializa el segmento de datos
     fprintf(pFile, "mov DS,AX\n");
     fprintf(pFile, "mov es,ax\n\n");
@@ -41,7 +42,7 @@ void imprimir_header_assembler(FILE* pFile) {
 void imprimir_footer_assembler(FILE* pFile) {
     fprintf(pFile, "\nmov ax,4c00h\n");
     fprintf(pFile, "Int 21h\n");
-    fprintf(pFile, "End\n");
+    fprintf(pFile, "End START\n");
 }
 
 void imprimir_tabla_simbolos(FILE* pFile) {
