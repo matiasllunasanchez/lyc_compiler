@@ -1,0 +1,5 @@
+DECVAR
+a : FLOAT
+ENDDEC
+
+c1 := 3

@@ -1,0 +1,7 @@
+
+DECVAR
+cadena, cadena2 : STRING
+int1, int2 : INTEGER
+ENDDEC
+
+int1:=cadena

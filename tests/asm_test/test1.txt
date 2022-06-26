@@ -1,0 +1,12 @@
+
+DECVAR
+a : INTEGER
+e : STRING
+ENDDEC
+
+a:=20
+
+IF (a <= 30)
+THEN
+e := "correcto" -/ asignación string /-
+ENDIF

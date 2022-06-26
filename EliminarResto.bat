@@ -4,4 +4,11 @@ del y.output
 del y.tab.h
 del ts.txt
 del intermedia.txt
+del Primera.exe
 del Segunda.exe
+del Tercera.exe
+del assembler\Final.asm
+del assembler\Final.obj 
+del assembler\numbers.obj 
+del assembler\Final.exe
+del assembler\Final.map

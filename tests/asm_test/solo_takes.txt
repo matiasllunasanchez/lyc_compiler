@@ -1,0 +1,12 @@
+DECVAR
+a : FLOAT
+b,c,e,f : STRING
+p1, d, p2, p3 : FLOAT
+ab : INTEGER
+ENDDEC
+
+d:=TAKE (* ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (+ ; 2 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (- ; 3 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [2 ; 12 ; 24 ; 48] )
+d:=TAKE (/ ; 4 ; [ ] )

@@ -1,0 +1,13 @@
+
+DECVAR
+a,b : INTEGER
+f : STRING
+ENDDEC
+
+a:=5
+b:=2
+
+IF(BETWEEN (a, [2 ; a*(b+4)]))
+THEN
+    f:= "okbetween"
+ENDIF

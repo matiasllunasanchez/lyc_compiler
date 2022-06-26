@@ -29,11 +29,14 @@ void grabar_parte(FILE** arch,int parte){
 			fprintf(*arch, "[%d]", parte); // Indice nuevo elemento
 }
 
-void guardar_tercetos() { 
+void guardar_tercetos(int optimizar) { 
     if(idx_ultimo_terceto == -1){
         printf("ERR- No existen tercetos cargados en el vector");
         exit(1);
     }
+
+    if(optimizar==OPTIMIZAR)
+        optimizar_tercetos();
 
 	FILE* arch = fopen("intermedia.txt", "w+");
 	if(!arch){
@@ -43,8 +46,13 @@ void guardar_tercetos() {
 	}
     int i;
     for(i = 0; i <= idx_ultimo_terceto; i++) {
+		 // Si se solicitó optimizar, y el terceto que se esta leyendo tiene la primer parte vacia
+         // Entonces estamos en presencia de un terceto de una CTE o ID
+         // Así que, ya se optimizó, por lo que salto al siguiente elemento del for
+        if((optimizar==OPTIMIZAR) && (vector_tercetos[i].parte_a == PARTE_VACIA))
+            continue;
 		
-		// Indice
+        // Indice
         // Result: [idx] (
 		fprintf(arch, "[%d] (", i + OFFSET); 
 
@@ -55,31 +63,31 @@ void guardar_tercetos() {
                 fprintf(arch, "_");
                 break;
             case PROG: // Revisar
-                fprintf(arch, "PROGRAMA");
+                fprintf(arch, "_PROGRAMA");
                 break;
             case DECVAR:
-                fprintf(arch, "DECVAR");
+                fprintf(arch, "_DECVAR");
                 break;
             case ENDDEC:
-                fprintf(arch, "ENDDEC");
+                fprintf(arch, "_ENDDEC");
                 break;
             case IF:
-                fprintf(arch, "IF");
+                fprintf(arch, "_IF");
                 break;
             case THEN:
-				fprintf(arch, "THEN");
+				fprintf(arch, "_THEN");
 				break;
             case ELSE:
-                fprintf(arch, "ELSE");
+                fprintf(arch, "_ELSE");
                 break;
             case ENDIF:
-                fprintf(arch, "ENDIF");
+                fprintf(arch, "_ENDIF");
                 break;
             case WHILE:
-                fprintf(arch, "WHILE");
+                fprintf(arch, "_WHILE");
                 break;
             case ENDWHILE:
-                fprintf(arch, "ENDWHILE");
+                fprintf(arch, "_ENDWHILE");
                 break;
             case OP_ASIG:
                 fprintf(arch, ":=");
@@ -97,13 +105,13 @@ void guardar_tercetos() {
                 fprintf(arch, "/");
                 break;
             case AND:
-                fprintf(arch, "AND");
+                fprintf(arch, "_AND");
                 break;
             case OR:
-                fprintf(arch, "OR");
+                fprintf(arch, "_OR");
                 break;
             case NOT:
-                fprintf(arch, "NOT");
+                fprintf(arch, "_NOT");
                 break;
             case OP_MENOR:
                 fprintf(arch, "<");
@@ -124,16 +132,16 @@ void guardar_tercetos() {
                 fprintf(arch, "!=");
                 break;
             case BETWEEN:
-                fprintf(arch, "BETWEEN");
+                fprintf(arch, "_BETWEEN");
                 break;
             case BETWEEN_FALSE:
-                fprintf(arch, "BETWEEN_FALSE");
+                fprintf(arch, "_BETWEEN_FALSE");
                 break;
             case BETWEEN_CMP:
-                fprintf(arch, "BETWEEN_CMP");
+                fprintf(arch, "_BETWEEN_CMP");
                 break;
             case TAKE:
-                fprintf(arch, "TAKE");
+                fprintf(arch, "_TAKE");
                 break;
             case COMA:
                 fprintf(arch, "\',\'");
@@ -142,10 +150,10 @@ void guardar_tercetos() {
                 fprintf(arch,  "\';\'");
                 break;
             case READ:
-                fprintf(arch, "READ");
+                fprintf(arch, "_READ");
                 break;
             case WRITE:
-                fprintf(arch, "WRITE");
+                fprintf(arch, "_WRITE");
                 break;
             case CMP:
 				fprintf(arch, "CMP");
@@ -172,7 +180,7 @@ void guardar_tercetos() {
 				fprintf(arch, "JMP");
 				break;
             default:
-                fprintf(arch, "Error. Etiqueta u operando no reconocido");
+                fprintf(arch, "_Error:Etiqueta u operando no reconocido");
                 break;
 		}
 
@@ -190,7 +198,6 @@ void guardar_tercetos() {
 		fprintf(arch, ")\n");
 
 	}
-	
     fclose(arch);
 }
 
@@ -212,5 +219,26 @@ void modificar_terceto(int indice, int parte_terceto, int valor) {
         case PARTE_C:
             vector_tercetos[indice - OFFSET].parte_c = valor;
             break;
+	}
+}
+
+void optimizar_tercetos() {
+	// Recorro todos los tercetos
+    // Por cada terceto, trabajo primero reduciendo el primer operando y luego el segundo. (Primero parte B y luego C)
+    // Reviso si la parte B del terceto refiere a otro, y si es el caso de que es un ID o CTE y lo optimizo reemplazando la referencia que apunta al terceto directamente por uan referencia al ID o CTE
+    // Lo mismo hago con la parte del segundo operando o parte c
+    // La referencia de la CTE o ID siempre esta en la parte b para que sea mas facil encontrarla
+	for(int i=0; i<CANT_MAX_TERCETOS; i++) {
+		if(vector_tercetos[i].parte_b >= OFFSET) {
+			int idx = vector_tercetos[i].parte_b - OFFSET;
+			if(vector_tercetos[idx].parte_a == PARTE_VACIA)
+				vector_tercetos[i].parte_b = vector_tercetos[idx].parte_b;
+		}
+		
+		if(vector_tercetos[i].parte_c >= OFFSET) {
+			int idx = vector_tercetos[i].parte_c - OFFSET;
+			if(vector_tercetos[idx].parte_a == PARTE_VACIA) 
+				vector_tercetos[i].parte_c = vector_tercetos[idx].parte_b;
+		}
 	}
 }

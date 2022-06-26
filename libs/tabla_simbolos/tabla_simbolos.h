@@ -19,15 +19,21 @@ void agregar_tipos_datos_a_tabla(void);
 int agregar_cte_string_a_tabla(char* nombre);
 int agregar_cte_int_a_tabla(int valor);
 int agregar_cte_real_a_tabla(float valor);
+void poner_nombre_float(char nombre[], float valor);
 int buscar_en_tabla(char * name);
+int buscar_y_validar_en_tabla(char* name);
 void escribir_nombre_en_tabla(char* nombre, int pos);
 int validar_var_en_tabla(char* nombre);
 void guardar_tabla(void);
-
+// Reemplaza char en blanco de un string
+char* reemplazar_espacios(char* str);
 // Funcion auxiliar Auxiliares
 // Valida que los tipos de datos recibidos sean iguales y sino lanza error.
 int validar_tipo_dato(int cte_tipo, int cte_tipo_leido);
 
+// Valida que el tipo de dato pasado por parametro NO sea string
+// Si lo es, lanza error
+int validar_var_numerica(int cte_tipo);
 
 typedef struct {
     char nombre[TAM_NOMBRE];
@@ -43,5 +49,4 @@ extern int fin_tabla; // Es un indice o valor numerico que apunta al ultimo regi
 extern int varADeclarar1;
 extern int cantVarsADeclarar; // Refiere a la cantidad de variables declaradas en el bloque del programador
 extern int tipoDatoADeclarar; // Maneja / guarda los valores CONSTANTES que refieren a los tipos de datos posibles que puede definir el programador
-
 #endif // PRIMITIVAS_H_INCLUDED

@@ -88,7 +88,7 @@ void actualizar_terceto_pos_else(){
 
 void actualizar_terceto_pos_end_if(){
 	if(idx_salto_implicito!=VALOR_NULO){
-		modificar_terceto(idx_salto_implicito, PARTE_A, idx_end_if);
+		modificar_terceto(idx_salto_implicito, PARTE_B, idx_end_if);
 	}
 }
 
