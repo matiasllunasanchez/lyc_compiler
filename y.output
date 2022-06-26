@@ -1,0 +1,1771 @@
+Gramática
+
+    0 $accept: start $end
+
+    1 start: seccion_declaracion programa
+
+    2 seccion_declaracion: DECVAR bloque_variables ENDDEC
+
+    3 bloque_variables: bloque_variables listavar OP_TIPO tipodato
+    4                 | listavar OP_TIPO tipodato
+
+    5 listavar: ID
+    6         | listavar COMA ID
+
+    7 tipodato: INTEGER
+    8         | FLOAT
+    9         | STRING
+
+   10 programa: sentencia
+   11         | programa sentencia
+
+   12 sentencia: asignacion
+   13          | iteracion
+   14          | seleccion
+   15          | salida
+   16          | entrada
+
+   17 $@1: /* vacío */
+
+   18 asignacion: ID OP_ASIG $@1 expresion_general
+
+   19 expresion_general: CONST_STR
+   20                  | expresion
+
+   21 expresion: expresion OP_SUM termino
+   22          | expresion OP_RES termino
+   23          | termino
+
+   24 termino: termino OP_MUL factor
+   25        | termino OP_DIV factor
+   26        | factor
+
+   27 factor: PAR_A expresion PAR_C
+   28       | CONST_REAL
+   29       | ID
+   30       | CONST_ENT
+   31       | take
+
+   32 $@2: /* vacío */
+
+   33 $@3: /* vacío */
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C THEN $@3 programa ENDWHILE
+
+   35 inicio_if: IF PAR_A
+
+   36 inicio_then: PAR_C THEN
+
+   37 seleccion: inicio_if expresion_booleana inicio_then programa ENDIF
+
+   38 $@4: /* vacío */
+
+   39 $@5: /* vacío */
+
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 ELSE $@5 programa ENDIF
+
+   41 $@6: /* vacío */
+
+   42 $@7: /* vacío */
+
+   43 expresion_booleana: termino_booleano $@6 AND $@7 termino_booleano
+
+   44 $@8: /* vacío */
+
+   45 $@9: /* vacío */
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND $@9 PAR_A termino_booleano PAR_C
+
+   47 $@10: /* vacío */
+
+   48 $@11: /* vacío */
+
+   49 expresion_booleana: termino_booleano $@10 OR $@11 termino_booleano
+
+   50 $@12: /* vacío */
+
+   51 $@13: /* vacío */
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR $@13 PAR_A termino_booleano PAR_C
+   53                   | termino_booleano
+   54                   | PAR_A termino_booleano PAR_C
+   55                   | NOT PAR_A termino_booleano PAR_C
+   56                   | between
+
+   57 termino_booleano: /* vacío */
+
+   58 $@14: /* vacío */
+
+   59 termino_booleano: expresion $@14 comparador expresion
+
+   60 comparador: OP_MAYOR
+   61           | OP_MENOR
+   62           | OP_MENOR_IGUAL
+   63           | OP_MAYOR_IGUAL
+   64           | OP_IGUAL
+   65           | OP_NO_IGUAL
+
+   66 entrada: READ ID
+
+   67 salida: WRITE CONST_STR
+   68       | WRITE ID
+
+   69 funcion_expresion_cota_inferior: expresion
+
+   70 funcion_expresion_cota_superior: expresion
+
+   71 $@15: /* vacío */
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A COR_C PAR_C
+
+   75 operador_take: OP_SUM
+   76              | OP_MUL
+   77              | OP_DIV
+   78              | OP_RES
+
+   79 numeros_a_tomar: CONST_ENT
+
+   80 lista_take_ctes: CONST_ENT
+   81                | lista_take_ctes PYC CONST_ENT
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+OP_ASIG (258) 18
+OP_RES (259) 22 78
+OP_SUM (260) 21 75
+OP_DIV (261) 25 77
+OP_MUL (262) 24 76
+OP_MAYOR (263) 60
+OP_MAYOR_IGUAL (264) 63
+OP_MENOR (265) 61
+OP_MENOR_IGUAL (266) 62
+OP_IGUAL (267) 64
+OP_NO_IGUAL (268) 65
+OP_TIPO (269) 3 4
+TAKE (270) 73 74
+BETWEEN (271) 72
+WHILE (272) 34
+IF (273) 35
+THEN (274) 34 36
+INTEGER (275) 7
+FLOAT (276) 8
+STRING (277) 9
+ELSE (278) 40
+DECVAR (279) 2
+ENDDEC (280) 2
+AND (281) 43 46
+OR (282) 49 52
+NOT (283) 55
+WRITE (284) 67 68
+READ (285) 66
+COMA (286) 6 72
+ENDIF (287) 37 40
+ENDWHILE (288) 34
+PAR_A (289) 27 34 35 46 52 54 55 72 73 74
+PAR_C (290) 27 34 36 46 52 54 55 72 73 74
+COR_A (291) 72 73 74
+COR_C (292) 72 73 74
+PYC (293) 72 73 74 81
+ID (294) 5 6 18 29 66 68 72
+CONST_ENT (295) 30 79 80 81
+CONST_REAL (296) 28
+CONST_STR (297) 19 67
+
+
+No terminales con las reglas donde aparecen
+
+$accept (43)
+    en la izquierda: 0
+start (44)
+    en la izquierda: 1, en la derecha: 0
+seccion_declaracion (45)
+    en la izquierda: 2, en la derecha: 1
+bloque_variables (46)
+    en la izquierda: 3 4, en la derecha: 2 3
+listavar (47)
+    en la izquierda: 5 6, en la derecha: 3 4 6
+tipodato (48)
+    en la izquierda: 7 8 9, en la derecha: 3 4
+programa (49)
+    en la izquierda: 10 11, en la derecha: 1 11 34 37 40
+sentencia (50)
+    en la izquierda: 12 13 14 15 16, en la derecha: 10 11
+asignacion (51)
+    en la izquierda: 18, en la derecha: 12
+$@1 (52)
+    en la izquierda: 17, en la derecha: 18
+expresion_general (53)
+    en la izquierda: 19 20, en la derecha: 18
+expresion (54)
+    en la izquierda: 21 22 23, en la derecha: 20 21 22 27 59 69 70
+termino (55)
+    en la izquierda: 24 25 26, en la derecha: 21 22 23 24 25
+factor (56)
+    en la izquierda: 27 28 29 30 31, en la derecha: 24 25 26
+iteracion (57)
+    en la izquierda: 34, en la derecha: 13
+$@2 (58)
+    en la izquierda: 32, en la derecha: 34
+$@3 (59)
+    en la izquierda: 33, en la derecha: 34
+inicio_if (60)
+    en la izquierda: 35, en la derecha: 37 40
+inicio_then (61)
+    en la izquierda: 36, en la derecha: 37 40
+seleccion (62)
+    en la izquierda: 37 40, en la derecha: 14
+$@4 (63)
+    en la izquierda: 38, en la derecha: 40
+$@5 (64)
+    en la izquierda: 39, en la derecha: 40
+expresion_booleana (65)
+    en la izquierda: 43 46 49 52 53 54 55 56, en la derecha: 34 37
+    40
+$@6 (66)
+    en la izquierda: 41, en la derecha: 43
+$@7 (67)
+    en la izquierda: 42, en la derecha: 43
+$@8 (68)
+    en la izquierda: 44, en la derecha: 46
+$@9 (69)
+    en la izquierda: 45, en la derecha: 46
+$@10 (70)
+    en la izquierda: 47, en la derecha: 49
+$@11 (71)
+    en la izquierda: 48, en la derecha: 49
+$@12 (72)
+    en la izquierda: 50, en la derecha: 52
+$@13 (73)
+    en la izquierda: 51, en la derecha: 52
+termino_booleano (74)
+    en la izquierda: 57 59, en la derecha: 43 46 49 52 53 54 55
+$@14 (75)
+    en la izquierda: 58, en la derecha: 59
+comparador (76)
+    en la izquierda: 60 61 62 63 64 65, en la derecha: 59
+entrada (77)
+    en la izquierda: 66, en la derecha: 16
+salida (78)
+    en la izquierda: 67 68, en la derecha: 15
+funcion_expresion_cota_inferior (79)
+    en la izquierda: 69, en la derecha: 72
+funcion_expresion_cota_superior (80)
+    en la izquierda: 70, en la derecha: 72
+between (81)
+    en la izquierda: 72, en la derecha: 56
+$@15 (82)
+    en la izquierda: 71, en la derecha: 72
+take (83)
+    en la izquierda: 73 74, en la derecha: 31
+operador_take (84)
+    en la izquierda: 75 76 77 78, en la derecha: 73 74
+numeros_a_tomar (85)
+    en la izquierda: 79, en la derecha: 73 74
+lista_take_ctes (86)
+    en la izquierda: 80 81, en la derecha: 73 81
+
+
+estado 0
+
+    0 $accept: . start $end
+
+    DECVAR  desplazar e ir al estado 1
+
+    start                ir al estado 2
+    seccion_declaracion  ir al estado 3
+
+
+estado 1
+
+    2 seccion_declaracion: DECVAR . bloque_variables ENDDEC
+
+    ID  desplazar e ir al estado 4
+
+    bloque_variables  ir al estado 5
+    listavar          ir al estado 6
+
+
+estado 2
+
+    0 $accept: start . $end
+
+    $end  desplazar e ir al estado 7
+
+
+estado 3
+
+    1 start: seccion_declaracion . programa
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ID     desplazar e ir al estado 12
+
+    programa    ir al estado 13
+    sentencia   ir al estado 14
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 4
+
+    5 listavar: ID .
+
+    $default  reduce usando la regla 5 (listavar)
+
+
+estado 5
+
+    2 seccion_declaracion: DECVAR bloque_variables . ENDDEC
+    3 bloque_variables: bloque_variables . listavar OP_TIPO tipodato
+
+    ENDDEC  desplazar e ir al estado 21
+    ID      desplazar e ir al estado 4
+
+    listavar  ir al estado 22
+
+
+estado 6
+
+    4 bloque_variables: listavar . OP_TIPO tipodato
+    6 listavar: listavar . COMA ID
+
+    OP_TIPO  desplazar e ir al estado 23
+    COMA     desplazar e ir al estado 24
+
+
+estado 7
+
+    0 $accept: start $end .
+
+    $default  aceptar
+
+
+estado 8
+
+   34 iteracion: WHILE . $@2 PAR_A expresion_booleana PAR_C THEN $@3 programa ENDWHILE
+
+    $default  reduce usando la regla 32 ($@2)
+
+    $@2  ir al estado 25
+
+
+estado 9
+
+   35 inicio_if: IF . PAR_A
+
+    PAR_A  desplazar e ir al estado 26
+
+
+estado 10
+
+   67 salida: WRITE . CONST_STR
+   68       | WRITE . ID
+
+    ID         desplazar e ir al estado 27
+    CONST_STR  desplazar e ir al estado 28
+
+
+estado 11
+
+   66 entrada: READ . ID
+
+    ID  desplazar e ir al estado 29
+
+
+estado 12
+
+   18 asignacion: ID . OP_ASIG $@1 expresion_general
+
+    OP_ASIG  desplazar e ir al estado 30
+
+
+estado 13
+
+    1 start: seccion_declaracion programa .
+   11 programa: programa . sentencia
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ID     desplazar e ir al estado 12
+
+    $default  reduce usando la regla 1 (start)
+
+    sentencia   ir al estado 31
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 14
+
+   10 programa: sentencia .
+
+    $default  reduce usando la regla 10 (programa)
+
+
+estado 15
+
+   12 sentencia: asignacion .
+
+    $default  reduce usando la regla 12 (sentencia)
+
+
+estado 16
+
+   13 sentencia: iteracion .
+
+    $default  reduce usando la regla 13 (sentencia)
+
+
+estado 17
+
+   37 seleccion: inicio_if . expresion_booleana inicio_then programa ENDIF
+   40          | inicio_if . expresion_booleana inicio_then programa $@4 ELSE $@5 programa ENDIF
+
+    TAKE        desplazar e ir al estado 32
+    BETWEEN     desplazar e ir al estado 33
+    NOT         desplazar e ir al estado 34
+    PAR_A       desplazar e ir al estado 35
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion           ir al estado 39
+    termino             ir al estado 40
+    factor              ir al estado 41
+    expresion_booleana  ir al estado 42
+    termino_booleano    ir al estado 43
+    between             ir al estado 44
+    take                ir al estado 45
+
+
+estado 18
+
+   14 sentencia: seleccion .
+
+    $default  reduce usando la regla 14 (sentencia)
+
+
+estado 19
+
+   16 sentencia: entrada .
+
+    $default  reduce usando la regla 16 (sentencia)
+
+
+estado 20
+
+   15 sentencia: salida .
+
+    $default  reduce usando la regla 15 (sentencia)
+
+
+estado 21
+
+    2 seccion_declaracion: DECVAR bloque_variables ENDDEC .
+
+    $default  reduce usando la regla 2 (seccion_declaracion)
+
+
+estado 22
+
+    3 bloque_variables: bloque_variables listavar . OP_TIPO tipodato
+    6 listavar: listavar . COMA ID
+
+    OP_TIPO  desplazar e ir al estado 46
+    COMA     desplazar e ir al estado 24
+
+
+estado 23
+
+    4 bloque_variables: listavar OP_TIPO . tipodato
+
+    INTEGER  desplazar e ir al estado 47
+    FLOAT    desplazar e ir al estado 48
+    STRING   desplazar e ir al estado 49
+
+    tipodato  ir al estado 50
+
+
+estado 24
+
+    6 listavar: listavar COMA . ID
+
+    ID  desplazar e ir al estado 51
+
+
+estado 25
+
+   34 iteracion: WHILE $@2 . PAR_A expresion_booleana PAR_C THEN $@3 programa ENDWHILE
+
+    PAR_A  desplazar e ir al estado 52
+
+
+estado 26
+
+   35 inicio_if: IF PAR_A .
+
+    $default  reduce usando la regla 35 (inicio_if)
+
+
+estado 27
+
+   68 salida: WRITE ID .
+
+    $default  reduce usando la regla 68 (salida)
+
+
+estado 28
+
+   67 salida: WRITE CONST_STR .
+
+    $default  reduce usando la regla 67 (salida)
+
+
+estado 29
+
+   66 entrada: READ ID .
+
+    $default  reduce usando la regla 66 (entrada)
+
+
+estado 30
+
+   18 asignacion: ID OP_ASIG . $@1 expresion_general
+
+    $default  reduce usando la regla 17 ($@1)
+
+    $@1  ir al estado 53
+
+
+estado 31
+
+   11 programa: programa sentencia .
+
+    $default  reduce usando la regla 11 (programa)
+
+
+estado 32
+
+   73 take: TAKE . PAR_A operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE . PAR_A operador_take PYC numeros_a_tomar PYC COR_A COR_C PAR_C
+
+    PAR_A  desplazar e ir al estado 54
+
+
+estado 33
+
+   72 between: BETWEEN . PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    PAR_A  desplazar e ir al estado 55
+
+
+estado 34
+
+   55 expresion_booleana: NOT . PAR_A termino_booleano PAR_C
+
+    PAR_A  desplazar e ir al estado 56
+
+
+estado 35
+
+   27 factor: PAR_A . expresion PAR_C
+   46 expresion_booleana: PAR_A . termino_booleano PAR_C $@8 AND $@9 PAR_A termino_booleano PAR_C
+   52                   | PAR_A . termino_booleano PAR_C $@12 OR $@13 PAR_A termino_booleano PAR_C
+   54                   | PAR_A . termino_booleano PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 58
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 59
+    take              ir al estado 45
+
+
+estado 36
+
+   29 factor: ID .
+
+    $default  reduce usando la regla 29 (factor)
+
+
+estado 37
+
+   30 factor: CONST_ENT .
+
+    $default  reduce usando la regla 30 (factor)
+
+
+estado 38
+
+   28 factor: CONST_REAL .
+
+    $default  reduce usando la regla 28 (factor)
+
+
+estado 39
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   59 termino_booleano: expresion . $@14 comparador expresion
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+
+    $default  reduce usando la regla 58 ($@14)
+
+    $@14  ir al estado 62
+
+
+estado 40
+
+   23 expresion: termino .
+   24 termino: termino . OP_MUL factor
+   25        | termino . OP_DIV factor
+
+    OP_DIV  desplazar e ir al estado 63
+    OP_MUL  desplazar e ir al estado 64
+
+    $default  reduce usando la regla 23 (expresion)
+
+
+estado 41
+
+   26 termino: factor .
+
+    $default  reduce usando la regla 26 (termino)
+
+
+estado 42
+
+   37 seleccion: inicio_if expresion_booleana . inicio_then programa ENDIF
+   40          | inicio_if expresion_booleana . inicio_then programa $@4 ELSE $@5 programa ENDIF
+
+    PAR_C  desplazar e ir al estado 65
+
+    inicio_then  ir al estado 66
+
+
+estado 43
+
+   43 expresion_booleana: termino_booleano . $@6 AND $@7 termino_booleano
+   49                   | termino_booleano . $@10 OR $@11 termino_booleano
+   53                   | termino_booleano .
+
+    OR        reduce usando la regla 47 ($@10)
+    PAR_C     reduce usando la regla 53 (expresion_booleana)
+    $default  reduce usando la regla 41 ($@6)
+
+    $@6   ir al estado 67
+    $@10  ir al estado 68
+
+
+estado 44
+
+   56 expresion_booleana: between .
+
+    $default  reduce usando la regla 56 (expresion_booleana)
+
+
+estado 45
+
+   31 factor: take .
+
+    $default  reduce usando la regla 31 (factor)
+
+
+estado 46
+
+    3 bloque_variables: bloque_variables listavar OP_TIPO . tipodato
+
+    INTEGER  desplazar e ir al estado 47
+    FLOAT    desplazar e ir al estado 48
+    STRING   desplazar e ir al estado 49
+
+    tipodato  ir al estado 69
+
+
+estado 47
+
+    7 tipodato: INTEGER .
+
+    $default  reduce usando la regla 7 (tipodato)
+
+
+estado 48
+
+    8 tipodato: FLOAT .
+
+    $default  reduce usando la regla 8 (tipodato)
+
+
+estado 49
+
+    9 tipodato: STRING .
+
+    $default  reduce usando la regla 9 (tipodato)
+
+
+estado 50
+
+    4 bloque_variables: listavar OP_TIPO tipodato .
+
+    $default  reduce usando la regla 4 (bloque_variables)
+
+
+estado 51
+
+    6 listavar: listavar COMA ID .
+
+    $default  reduce usando la regla 6 (listavar)
+
+
+estado 52
+
+   34 iteracion: WHILE $@2 PAR_A . expresion_booleana PAR_C THEN $@3 programa ENDWHILE
+
+    TAKE        desplazar e ir al estado 32
+    BETWEEN     desplazar e ir al estado 33
+    NOT         desplazar e ir al estado 34
+    PAR_A       desplazar e ir al estado 35
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion           ir al estado 39
+    termino             ir al estado 40
+    factor              ir al estado 41
+    expresion_booleana  ir al estado 70
+    termino_booleano    ir al estado 43
+    between             ir al estado 44
+    take                ir al estado 45
+
+
+estado 53
+
+   18 asignacion: ID OP_ASIG $@1 . expresion_general
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+    CONST_STR   desplazar e ir al estado 71
+
+    expresion_general  ir al estado 72
+    expresion          ir al estado 73
+    termino            ir al estado 40
+    factor             ir al estado 41
+    take               ir al estado 45
+
+
+estado 54
+
+   73 take: TAKE PAR_A . operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A . operador_take PYC numeros_a_tomar PYC COR_A COR_C PAR_C
+
+    OP_RES  desplazar e ir al estado 74
+    OP_SUM  desplazar e ir al estado 75
+    OP_DIV  desplazar e ir al estado 76
+    OP_MUL  desplazar e ir al estado 77
+
+    operador_take  ir al estado 78
+
+
+estado 55
+
+   72 between: BETWEEN PAR_A . ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    ID  desplazar e ir al estado 79
+
+
+estado 56
+
+   55 expresion_booleana: NOT PAR_A . termino_booleano PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 39
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 80
+    take              ir al estado 45
+
+
+estado 57
+
+   27 factor: PAR_A . expresion PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    expresion  ir al estado 81
+    termino    ir al estado 40
+    factor     ir al estado 41
+    take       ir al estado 45
+
+
+estado 58
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   27 factor: PAR_A expresion . PAR_C
+   59 termino_booleano: expresion . $@14 comparador expresion
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+    PAR_C   desplazar e ir al estado 82
+
+    $default  reduce usando la regla 58 ($@14)
+
+    $@14  ir al estado 62
+
+
+estado 59
+
+   46 expresion_booleana: PAR_A termino_booleano . PAR_C $@8 AND $@9 PAR_A termino_booleano PAR_C
+   52                   | PAR_A termino_booleano . PAR_C $@12 OR $@13 PAR_A termino_booleano PAR_C
+   54                   | PAR_A termino_booleano . PAR_C
+
+    PAR_C  desplazar e ir al estado 83
+
+
+estado 60
+
+   22 expresion: expresion OP_RES . termino
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    termino  ir al estado 84
+    factor   ir al estado 41
+    take     ir al estado 45
+
+
+estado 61
+
+   21 expresion: expresion OP_SUM . termino
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    termino  ir al estado 85
+    factor   ir al estado 41
+    take     ir al estado 45
+
+
+estado 62
+
+   59 termino_booleano: expresion $@14 . comparador expresion
+
+    OP_MAYOR        desplazar e ir al estado 86
+    OP_MAYOR_IGUAL  desplazar e ir al estado 87
+    OP_MENOR        desplazar e ir al estado 88
+    OP_MENOR_IGUAL  desplazar e ir al estado 89
+    OP_IGUAL        desplazar e ir al estado 90
+    OP_NO_IGUAL     desplazar e ir al estado 91
+
+    comparador  ir al estado 92
+
+
+estado 63
+
+   25 termino: termino OP_DIV . factor
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    factor  ir al estado 93
+    take    ir al estado 45
+
+
+estado 64
+
+   24 termino: termino OP_MUL . factor
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    factor  ir al estado 94
+    take    ir al estado 45
+
+
+estado 65
+
+   36 inicio_then: PAR_C . THEN
+
+    THEN  desplazar e ir al estado 95
+
+
+estado 66
+
+   37 seleccion: inicio_if expresion_booleana inicio_then . programa ENDIF
+   40          | inicio_if expresion_booleana inicio_then . programa $@4 ELSE $@5 programa ENDIF
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ID     desplazar e ir al estado 12
+
+    programa    ir al estado 96
+    sentencia   ir al estado 14
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 67
+
+   43 expresion_booleana: termino_booleano $@6 . AND $@7 termino_booleano
+
+    AND  desplazar e ir al estado 97
+
+
+estado 68
+
+   49 expresion_booleana: termino_booleano $@10 . OR $@11 termino_booleano
+
+    OR  desplazar e ir al estado 98
+
+
+estado 69
+
+    3 bloque_variables: bloque_variables listavar OP_TIPO tipodato .
+
+    $default  reduce usando la regla 3 (bloque_variables)
+
+
+estado 70
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana . PAR_C THEN $@3 programa ENDWHILE
+
+    PAR_C  desplazar e ir al estado 99
+
+
+estado 71
+
+   19 expresion_general: CONST_STR .
+
+    $default  reduce usando la regla 19 (expresion_general)
+
+
+estado 72
+
+   18 asignacion: ID OP_ASIG $@1 expresion_general .
+
+    $default  reduce usando la regla 18 (asignacion)
+
+
+estado 73
+
+   20 expresion_general: expresion .
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+
+    $default  reduce usando la regla 20 (expresion_general)
+
+
+estado 74
+
+   78 operador_take: OP_RES .
+
+    $default  reduce usando la regla 78 (operador_take)
+
+
+estado 75
+
+   75 operador_take: OP_SUM .
+
+    $default  reduce usando la regla 75 (operador_take)
+
+
+estado 76
+
+   77 operador_take: OP_DIV .
+
+    $default  reduce usando la regla 77 (operador_take)
+
+
+estado 77
+
+   76 operador_take: OP_MUL .
+
+    $default  reduce usando la regla 76 (operador_take)
+
+
+estado 78
+
+   73 take: TAKE PAR_A operador_take . PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take . PYC numeros_a_tomar PYC COR_A COR_C PAR_C
+
+    PYC  desplazar e ir al estado 100
+
+
+estado 79
+
+   72 between: BETWEEN PAR_A ID . $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    $default  reduce usando la regla 71 ($@15)
+
+    $@15  ir al estado 101
+
+
+estado 80
+
+   55 expresion_booleana: NOT PAR_A termino_booleano . PAR_C
+
+    PAR_C  desplazar e ir al estado 102
+
+
+estado 81
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   27 factor: PAR_A expresion . PAR_C
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+    PAR_C   desplazar e ir al estado 82
+
+
+estado 82
+
+   27 factor: PAR_A expresion PAR_C .
+
+    $default  reduce usando la regla 27 (factor)
+
+
+estado 83
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C . $@8 AND $@9 PAR_A termino_booleano PAR_C
+   52                   | PAR_A termino_booleano PAR_C . $@12 OR $@13 PAR_A termino_booleano PAR_C
+   54                   | PAR_A termino_booleano PAR_C .
+
+    OR        reduce usando la regla 50 ($@12)
+    PAR_C     reduce usando la regla 54 (expresion_booleana)
+    $default  reduce usando la regla 44 ($@8)
+
+    $@8   ir al estado 103
+    $@12  ir al estado 104
+
+
+estado 84
+
+   22 expresion: expresion OP_RES termino .
+   24 termino: termino . OP_MUL factor
+   25        | termino . OP_DIV factor
+
+    OP_DIV  desplazar e ir al estado 63
+    OP_MUL  desplazar e ir al estado 64
+
+    $default  reduce usando la regla 22 (expresion)
+
+
+estado 85
+
+   21 expresion: expresion OP_SUM termino .
+   24 termino: termino . OP_MUL factor
+   25        | termino . OP_DIV factor
+
+    OP_DIV  desplazar e ir al estado 63
+    OP_MUL  desplazar e ir al estado 64
+
+    $default  reduce usando la regla 21 (expresion)
+
+
+estado 86
+
+   60 comparador: OP_MAYOR .
+
+    $default  reduce usando la regla 60 (comparador)
+
+
+estado 87
+
+   63 comparador: OP_MAYOR_IGUAL .
+
+    $default  reduce usando la regla 63 (comparador)
+
+
+estado 88
+
+   61 comparador: OP_MENOR .
+
+    $default  reduce usando la regla 61 (comparador)
+
+
+estado 89
+
+   62 comparador: OP_MENOR_IGUAL .
+
+    $default  reduce usando la regla 62 (comparador)
+
+
+estado 90
+
+   64 comparador: OP_IGUAL .
+
+    $default  reduce usando la regla 64 (comparador)
+
+
+estado 91
+
+   65 comparador: OP_NO_IGUAL .
+
+    $default  reduce usando la regla 65 (comparador)
+
+
+estado 92
+
+   59 termino_booleano: expresion $@14 comparador . expresion
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    expresion  ir al estado 105
+    termino    ir al estado 40
+    factor     ir al estado 41
+    take       ir al estado 45
+
+
+estado 93
+
+   25 termino: termino OP_DIV factor .
+
+    $default  reduce usando la regla 25 (termino)
+
+
+estado 94
+
+   24 termino: termino OP_MUL factor .
+
+    $default  reduce usando la regla 24 (termino)
+
+
+estado 95
+
+   36 inicio_then: PAR_C THEN .
+
+    $default  reduce usando la regla 36 (inicio_then)
+
+
+estado 96
+
+   11 programa: programa . sentencia
+   37 seleccion: inicio_if expresion_booleana inicio_then programa . ENDIF
+   40          | inicio_if expresion_booleana inicio_then programa . $@4 ELSE $@5 programa ENDIF
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ENDIF  desplazar e ir al estado 106
+    ID     desplazar e ir al estado 12
+
+    $default  reduce usando la regla 38 ($@4)
+
+    sentencia   ir al estado 31
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    $@4         ir al estado 107
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 97
+
+   43 expresion_booleana: termino_booleano $@6 AND . $@7 termino_booleano
+
+    $default  reduce usando la regla 42 ($@7)
+
+    $@7  ir al estado 108
+
+
+estado 98
+
+   49 expresion_booleana: termino_booleano $@10 OR . $@11 termino_booleano
+
+    $default  reduce usando la regla 48 ($@11)
+
+    $@11  ir al estado 109
+
+
+estado 99
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C . THEN $@3 programa ENDWHILE
+
+    THEN  desplazar e ir al estado 110
+
+
+estado 100
+
+   73 take: TAKE PAR_A operador_take PYC . numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take PYC . numeros_a_tomar PYC COR_A COR_C PAR_C
+
+    CONST_ENT  desplazar e ir al estado 111
+
+    numeros_a_tomar  ir al estado 112
+
+
+estado 101
+
+   72 between: BETWEEN PAR_A ID $@15 . COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    COMA  desplazar e ir al estado 113
+
+
+estado 102
+
+   55 expresion_booleana: NOT PAR_A termino_booleano PAR_C .
+
+    $default  reduce usando la regla 55 (expresion_booleana)
+
+
+estado 103
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 . AND $@9 PAR_A termino_booleano PAR_C
+
+    AND  desplazar e ir al estado 114
+
+
+estado 104
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 . OR $@13 PAR_A termino_booleano PAR_C
+
+    OR  desplazar e ir al estado 115
+
+
+estado 105
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   59 termino_booleano: expresion $@14 comparador expresion .
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+
+    $default  reduce usando la regla 59 (termino_booleano)
+
+
+estado 106
+
+   37 seleccion: inicio_if expresion_booleana inicio_then programa ENDIF .
+
+    $default  reduce usando la regla 37 (seleccion)
+
+
+estado 107
+
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 . ELSE $@5 programa ENDIF
+
+    ELSE  desplazar e ir al estado 116
+
+
+estado 108
+
+   43 expresion_booleana: termino_booleano $@6 AND $@7 . termino_booleano
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 39
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 117
+    take              ir al estado 45
+
+
+estado 109
+
+   49 expresion_booleana: termino_booleano $@10 OR $@11 . termino_booleano
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 39
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 118
+    take              ir al estado 45
+
+
+estado 110
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C THEN . $@3 programa ENDWHILE
+
+    $default  reduce usando la regla 33 ($@3)
+
+    $@3  ir al estado 119
+
+
+estado 111
+
+   79 numeros_a_tomar: CONST_ENT .
+
+    $default  reduce usando la regla 79 (numeros_a_tomar)
+
+
+estado 112
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar . PYC COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take PYC numeros_a_tomar . PYC COR_A COR_C PAR_C
+
+    PYC  desplazar e ir al estado 120
+
+
+estado 113
+
+   72 between: BETWEEN PAR_A ID $@15 COMA . COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    COR_A  desplazar e ir al estado 121
+
+
+estado 114
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND . $@9 PAR_A termino_booleano PAR_C
+
+    $default  reduce usando la regla 45 ($@9)
+
+    $@9  ir al estado 122
+
+
+estado 115
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR . $@13 PAR_A termino_booleano PAR_C
+
+    $default  reduce usando la regla 51 ($@13)
+
+    $@13  ir al estado 123
+
+
+estado 116
+
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 ELSE . $@5 programa ENDIF
+
+    $default  reduce usando la regla 39 ($@5)
+
+    $@5  ir al estado 124
+
+
+estado 117
+
+   43 expresion_booleana: termino_booleano $@6 AND $@7 termino_booleano .
+
+    $default  reduce usando la regla 43 (expresion_booleana)
+
+
+estado 118
+
+   49 expresion_booleana: termino_booleano $@10 OR $@11 termino_booleano .
+
+    $default  reduce usando la regla 49 (expresion_booleana)
+
+
+estado 119
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C THEN $@3 . programa ENDWHILE
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ID     desplazar e ir al estado 12
+
+    programa    ir al estado 125
+    sentencia   ir al estado 14
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 120
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC . COR_A lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take PYC numeros_a_tomar PYC . COR_A COR_C PAR_C
+
+    COR_A  desplazar e ir al estado 126
+
+
+estado 121
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A . funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    expresion                        ir al estado 127
+    termino                          ir al estado 40
+    factor                           ir al estado 41
+    funcion_expresion_cota_inferior  ir al estado 128
+    take                             ir al estado 45
+
+
+estado 122
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND $@9 . PAR_A termino_booleano PAR_C
+
+    PAR_A  desplazar e ir al estado 129
+
+
+estado 123
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR $@13 . PAR_A termino_booleano PAR_C
+
+    PAR_A  desplazar e ir al estado 130
+
+
+estado 124
+
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 ELSE $@5 . programa ENDIF
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ID     desplazar e ir al estado 12
+
+    programa    ir al estado 131
+    sentencia   ir al estado 14
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 125
+
+   11 programa: programa . sentencia
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C THEN $@3 programa . ENDWHILE
+
+    WHILE     desplazar e ir al estado 8
+    IF        desplazar e ir al estado 9
+    WRITE     desplazar e ir al estado 10
+    READ      desplazar e ir al estado 11
+    ENDWHILE  desplazar e ir al estado 132
+    ID        desplazar e ir al estado 12
+
+    sentencia   ir al estado 31
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 126
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A . lista_take_ctes COR_C PAR_C
+   74     | TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A . COR_C PAR_C
+
+    COR_C      desplazar e ir al estado 133
+    CONST_ENT  desplazar e ir al estado 134
+
+    lista_take_ctes  ir al estado 135
+
+
+estado 127
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   69 funcion_expresion_cota_inferior: expresion .
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+
+    $default  reduce usando la regla 69 (funcion_expresion_cota_inferior)
+
+
+estado 128
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior . PYC funcion_expresion_cota_superior COR_C PAR_C
+
+    PYC  desplazar e ir al estado 136
+
+
+estado 129
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND $@9 PAR_A . termino_booleano PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 39
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 137
+    take              ir al estado 45
+
+
+estado 130
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR $@13 PAR_A . termino_booleano PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    $default  reduce usando la regla 57 (termino_booleano)
+
+    expresion         ir al estado 39
+    termino           ir al estado 40
+    factor            ir al estado 41
+    termino_booleano  ir al estado 138
+    take              ir al estado 45
+
+
+estado 131
+
+   11 programa: programa . sentencia
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 ELSE $@5 programa . ENDIF
+
+    WHILE  desplazar e ir al estado 8
+    IF     desplazar e ir al estado 9
+    WRITE  desplazar e ir al estado 10
+    READ   desplazar e ir al estado 11
+    ENDIF  desplazar e ir al estado 139
+    ID     desplazar e ir al estado 12
+
+    sentencia   ir al estado 31
+    asignacion  ir al estado 15
+    iteracion   ir al estado 16
+    inicio_if   ir al estado 17
+    seleccion   ir al estado 18
+    entrada     ir al estado 19
+    salida      ir al estado 20
+
+
+estado 132
+
+   34 iteracion: WHILE $@2 PAR_A expresion_booleana PAR_C THEN $@3 programa ENDWHILE .
+
+    $default  reduce usando la regla 34 (iteracion)
+
+
+estado 133
+
+   74 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A COR_C . PAR_C
+
+    PAR_C  desplazar e ir al estado 140
+
+
+estado 134
+
+   80 lista_take_ctes: CONST_ENT .
+
+    $default  reduce usando la regla 80 (lista_take_ctes)
+
+
+estado 135
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes . COR_C PAR_C
+   81 lista_take_ctes: lista_take_ctes . PYC CONST_ENT
+
+    COR_C  desplazar e ir al estado 141
+    PYC    desplazar e ir al estado 142
+
+
+estado 136
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC . funcion_expresion_cota_superior COR_C PAR_C
+
+    TAKE        desplazar e ir al estado 32
+    PAR_A       desplazar e ir al estado 57
+    ID          desplazar e ir al estado 36
+    CONST_ENT   desplazar e ir al estado 37
+    CONST_REAL  desplazar e ir al estado 38
+
+    expresion                        ir al estado 143
+    termino                          ir al estado 40
+    factor                           ir al estado 41
+    funcion_expresion_cota_superior  ir al estado 144
+    take                             ir al estado 45
+
+
+estado 137
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND $@9 PAR_A termino_booleano . PAR_C
+
+    PAR_C  desplazar e ir al estado 145
+
+
+estado 138
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR $@13 PAR_A termino_booleano . PAR_C
+
+    PAR_C  desplazar e ir al estado 146
+
+
+estado 139
+
+   40 seleccion: inicio_if expresion_booleana inicio_then programa $@4 ELSE $@5 programa ENDIF .
+
+    $default  reduce usando la regla 40 (seleccion)
+
+
+estado 140
+
+   74 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A COR_C PAR_C .
+
+    $default  reduce usando la regla 74 (take)
+
+
+estado 141
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C . PAR_C
+
+    PAR_C  desplazar e ir al estado 147
+
+
+estado 142
+
+   81 lista_take_ctes: lista_take_ctes PYC . CONST_ENT
+
+    CONST_ENT  desplazar e ir al estado 148
+
+
+estado 143
+
+   21 expresion: expresion . OP_SUM termino
+   22          | expresion . OP_RES termino
+   70 funcion_expresion_cota_superior: expresion .
+
+    OP_RES  desplazar e ir al estado 60
+    OP_SUM  desplazar e ir al estado 61
+
+    $default  reduce usando la regla 70 (funcion_expresion_cota_superior)
+
+
+estado 144
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior . COR_C PAR_C
+
+    COR_C  desplazar e ir al estado 149
+
+
+estado 145
+
+   46 expresion_booleana: PAR_A termino_booleano PAR_C $@8 AND $@9 PAR_A termino_booleano PAR_C .
+
+    $default  reduce usando la regla 46 (expresion_booleana)
+
+
+estado 146
+
+   52 expresion_booleana: PAR_A termino_booleano PAR_C $@12 OR $@13 PAR_A termino_booleano PAR_C .
+
+    $default  reduce usando la regla 52 (expresion_booleana)
+
+
+estado 147
+
+   73 take: TAKE PAR_A operador_take PYC numeros_a_tomar PYC COR_A lista_take_ctes COR_C PAR_C .
+
+    $default  reduce usando la regla 73 (take)
+
+
+estado 148
+
+   81 lista_take_ctes: lista_take_ctes PYC CONST_ENT .
+
+    $default  reduce usando la regla 81 (lista_take_ctes)
+
+
+estado 149
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C . PAR_C
+
+    PAR_C  desplazar e ir al estado 150
+
+
+estado 150
+
+   72 between: BETWEEN PAR_A ID $@15 COMA COR_A funcion_expresion_cota_inferior PYC funcion_expresion_cota_superior COR_C PAR_C .
+
+    $default  reduce usando la regla 72 (between)
