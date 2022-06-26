@@ -7,7 +7,7 @@
 
 1. Para ejecutarlo, cambiar las rutas en el archivo "**Ejecutar.bat**" a los directorios de flex, bison y gcc y luego ejecutar el bat.
 
->  ***Archivos generados al ejecutar el .bat:** lex.yy.c , Tercera.exe, y.tab.c, y.tab.h, y.output, ts.txt,  intermedia.txt y ./assembler/Final.asm*
+>  ***Archivos generados al ejecutar el .bat:** lex.yy.c , Grupo11.exe (anteriormente llamados Primera.exe y Segunda.exe), y.tab.c, y.tab.h, y.output, ts.txt,  intermedia.txt y ./assembler/Final.asm*
 
 - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**"
 
@@ -23,4 +23,4 @@
  - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**"
 
 >  **Nota:** El branch correspondiente a la entrega actual siempre estará ubicado en el branch principal (main)
->  **Nota2:** Todo lo referente a assembler que corresponde a la tercer entrega se encontrará en la carpeta assembler.
+>  **Nota2:** Todo lo referente a assembler que corresponde a la tercer entrega se encontrará en la carpeta assembler. Entiendase Final.asm y el Grupo11.bat correspondiente.

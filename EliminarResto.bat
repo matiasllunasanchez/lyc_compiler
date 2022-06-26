@@ -7,6 +7,7 @@ del intermedia.txt
 del Primera.exe
 del Segunda.exe
 del Tercera.exe
+del Grupo11.exe
 del assembler\Final.asm
 del assembler\Final.obj 
 del assembler\numbers.obj 
