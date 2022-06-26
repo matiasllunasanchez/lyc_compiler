@@ -23,4 +23,5 @@
  - Para eliminar los archivos generados en el paso anterior se debe ejecutar el archivo "**EliminarResto.bat**"
 
 >  **Nota:** El branch correspondiente a la entrega actual siempre estará ubicado en el branch principal (main)
+>  
 >  **Nota2:** Todo lo referente a assembler que corresponde a la tercer entrega se encontrará en la carpeta assembler. Entiendase Final.asm y el Grupo11.bat correspondiente.
